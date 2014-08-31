@@ -27,6 +27,7 @@ module.exports = function(grunt) {
                     'bower_components/underscore/underscore.js',
                     'bower_components/backbone/backbone.js',
                     'bower_components/handlebars/handlebars.js',
+                    'bower_components/momentjs/moment.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
                     'app/**/*.js'
