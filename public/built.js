@@ -17873,6 +17873,13 @@ App.Application = Backbone.View.extend({
     }
 
 });;;;
+namespace('App');
+
+// Глобальный объект - диспатчер событий
+// Необходимо для обмена событиями между модулями
+// приложения
+
+App.Dispatcher = _.clone(Backbone.Events);;
 namespace('App.Managers');
 
 App.Managers.FeedManager = Backbone.Model.extend({
