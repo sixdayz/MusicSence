@@ -15041,6 +15041,7 @@ App.Application = Backbone.View.extend({
         this.config         = new App.Models.Config(config);
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
+        this.suggestManager = new App.Managers.SuggestManager({ api_client: this.apiClient });
     },
 
     start: function() {
@@ -15056,6 +15057,28 @@ App.Application = Backbone.View.extend({
     }
 
 });;;;;
+namespace('App.Managers');
+
+App.Managers.SuggestManager = Backbone.Model.extend({
+
+    initialize: function(options) {
+        this.set('api_client', options.api_client);
+    },
+
+    search: function(query, type) {
+        return this.get('api_client').post('/musicfeed/suggest', {
+            q:      query,
+            type:   type
+        });
+    }
+
+});
+
+App.Managers.SuggestType = {
+    ARTIST: 'artist',
+    ALBUM:  'album',
+    GENRE:  'genre'
+};;
 namespace('App.Managers');
 
 App.Managers.UserManager = Backbone.Model.extend({
