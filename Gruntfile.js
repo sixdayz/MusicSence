@@ -12,7 +12,9 @@ module.exports = function(grunt) {
             ]
         },
 
-        clean: ['public'],
+        clean: [
+            'public/*.js'
+        ],
 
         concat: {
             options: {
