@@ -12,15 +12,16 @@ module.exports = function(grunt) {
             ]
         },
 
-        clean: [
-            'public/*.js'
-        ],
+        clean: {
+            pre_build:      [ 'public/*.js' ],
+            after_build:    ['public/app.js', 'public/templates.js']
+        },
 
         concat: {
             options: {
                 separator: ';'
             },
-            dist: {
+            app: {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/underscore/underscore.js',
@@ -28,11 +29,14 @@ module.exports = function(grunt) {
                     'bower_components/handlebars/handlebars.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
-                    'app/**/*.js',
-                    'app/*.js'
+                    'app/**/*.js'
                 ],
                 dest: 'public/app.js',
             },
+            templates: {
+                src:    ['public/app.js', 'public/templates.js'],
+                dest:   'public/built.js',
+            }
         },
 
         handlebars: {
@@ -40,12 +44,10 @@ module.exports = function(grunt) {
                 options: {
                     namespace: 'jst',
                     processContent: function(src) {
-                            return src.replace(/(^\s+|\s+$)/gm, '');
-                        }
+                        return src.replace(/(^\s+|\s+$)/gm, '');
+                    }
                 },
-                files: { 'public/templates.js': [
-                    'app/templates/*.hbs'
-                ]}
+                files: { 'public/templates.js': [ 'app/templates/**/*.hbs' ]}
             }
         },
 
@@ -53,10 +55,9 @@ module.exports = function(grunt) {
             options: {
                 mangle: false
             },
-            my_target: {
+            release: {
                 files: {
-                    'public/app.min.js': [ 'public/app.js' ],
-                    'public/templates.min.js': [ 'public/templates.js' ]
+                    'public/built.min.js': [ 'public/built.js' ]
                 }
             }
         },
@@ -64,13 +65,11 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: [
-                    'app/lib/*.js',
-                    'app/*.js',
                     'app/**/*.js',
                     'app/templates/*.hbs'
                 ],
                 tasks: [
-                    'build-prod'
+                    'build'
                 ]
             }
         }
@@ -83,19 +82,16 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('build-dev', [
+    grunt.registerTask('build', [
         'jshint',
-        'clean',
+        'clean:pre_build',
         'handlebars',
-        'concat'
-    ]);
-
-    // Задача на проверку и построение всего приложения
-    grunt.registerTask('build-prod', [
-        'build-dev',
+        'concat:app',
+        'concat:templates',
+        'clean:after_build',
         //'uglify'
     ]);
 
     //
-    grunt.registerTask('default', ['build-prod', 'watch']);
+    grunt.registerTask('default', ['build', 'watch']);
 };

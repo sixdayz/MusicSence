@@ -14980,44 +14980,49 @@ var namespace = function(namespace) {
 };;
 namespace('App.Lib');
 
-App.Lib.ApiClient = Backbone.Model.extend({
+App.Lib.ApiClient = function(options) {
 
-    initialize: function(options) {
-        this.set('api_host', options.api_host);
-    },
+    var private = $.extend({
+        api_host: null
+    }, options);
 
-    /**
-     * @param string httpMethod
-     * @param string apiMethod
-     * @param object params
-     * @return jQuery.Deferred
-     */
-    send: function(httpMethod, apiMethod, params) {
-        switch(httpMethod) {
-            case App.Lib.ApiClient.HTTP_METHOD_GET:
-            case App.Lib.ApiClient.HTTP_METHOD_POST:
-                break;
-            default:
-                throw new Error('HTTP method ' + httpMethod + ' not allowed');
+    return {
+
+        /**
+         * @param string httpMethod
+         * @param string apiMethod
+         * @param object params
+         * @return jQuery.Deferred
+         */
+        send: function(httpMethod, apiMethod, params) {
+            switch(httpMethod) {
+                case App.Lib.ApiClient.HTTP_METHOD_GET:
+                case App.Lib.ApiClient.HTTP_METHOD_POST:
+                    break;
+                default:
+                    throw new Error('HTTP method ' + httpMethod + ' not allowed');
+            }
+
+            var url = private.api_host + apiMethod;
+            return $.ajax({
+                url:    url,
+                type:   httpMethod,
+                async:  true,
+                cache:  false,
+                data:   params
+            });
+        },
+
+        get: function(apiMethod, params) {
+            return this.send(App.Lib.ApiClient.HTTP_METHOD_GET, apiMethod, params);
+        },
+
+        post: function(apiMethod, params) {
+            return this.send(App.Lib.ApiClient.HTTP_METHOD_POST, apiMethod, params);
         }
 
-        var url = this.get('api_host') + apiMethod;
-        return $.ajax({
-            async:  true,
-            cache:  false,
-            data:   params
-        });
-    },
-
-    get: function(apiMethod, params) {
-        return this.send(App.Lib.ApiClient.HTTP_METHOD_GET, apiMethod, params);
-    },
-
-    post: function(apiMethod, params) {
-        return this.send(App.Lib.ApiClient.HTTP_METHOD_POST, apiMethod, params);
-    }
-
-});
+    };
+};
 
 App.Lib.ApiClient.HTTP_METHOD_GET   = 'get';
 App.Lib.ApiClient.HTTP_METHOD_POST  = 'post';;
@@ -15026,12 +15031,65 @@ namespace('App');
 App.Application = Backbone.View.extend({
 
     initialize: function(config) {
-        this.config     = new App.Models.Config(config);
-        this.apiClient  = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
+        this.config         = new App.Models.Config(config);
+        this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
+        this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
     },
 
     start: function() {
 
+        // Авторизуем пользователя
+        this.userManager.authorize()
+            .done(function() {
+                // Рендерим шаблон для авторизованного пользователя
+            })
+            .fail(function() {
+                // Отправляем на авторизацию
+            });
+    }
+
+});;
+namespace('App.Managers');
+
+App.Managers.UserManager = Backbone.Model.extend({
+
+    initialize: function(options) {
+        this.set('api_client', options.api_client);
+        this.set('current_user', new App.Models.User({ is_authorized: false }));
+    },
+
+    authenticate: function(login, password) {
+
+        // При успешной авторизации в cookie пользователя
+        // запишется токен авторизации, и все последующие
+        // запросы уже можно отпаравлять, пока не появится 403
+        return this.get('api_client').post('/users/login', {
+            account: login,
+            password: password
+        });
+    },
+
+    register: function() {
+
+    },
+
+    authorize: function() {
+        var request = this.get('api_client').get('/users/info');
+
+        request.done(function(data) {
+            this.get('current_user').set(data);
+            this.get('current_user').set('is_authorized', true);
+        }.bind(this));
+
+        return request;
+    },
+
+    isAuthorized: function() {
+        return this.getUser().get('is_authorized');
+    },
+
+    getUser: function() {
+        return this.get('current_user');
     }
 
 });;
@@ -15039,4 +15097,23 @@ namespace('App.Models');
 
 App.Models.Config = Backbone.Model.extend({
 
-});
+});;
+namespace('App.Models');
+
+App.Models.User = Backbone.Model.extend({
+
+});;this["jst"] = this["jst"] || {};
+
+this["jst"]["app/templates/test.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<body>\n<p>\n<span>3321</span>\n<ul>\n<li>dsksdk</li>\n<li>";
+  if (helper = helpers.varname) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.varname); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</li>\n</ul>\n</p>\n</body>";
+  return buffer;
+  });
