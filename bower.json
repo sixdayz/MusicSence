@@ -1,0 +1,14 @@
+{
+  "name": "MusicSence",
+  "version": "0.0.1",
+  "homepage": "https://github.com/sixdayz/MusicSence",
+  "authors": [
+    "Andrey Goryachev <andrey@sixdays.ru>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "backbone": "~1.1.2"
+  }
+}
