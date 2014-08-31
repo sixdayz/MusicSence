@@ -15004,13 +15004,20 @@ App.Lib.ApiClient = function(options) {
             }
 
             var url = private.api_host + apiMethod;
-            return $.ajax({
+            var request = $.ajax({
                 url:    url,
                 type:   httpMethod,
                 async:  true,
                 cache:  false,
                 data:   params
             });
+
+            request.fail(function() {
+                // Обработать 403
+                // сгенерировать событие о необходимости аутентификации
+            });
+
+            return request;
         },
 
         get: function(apiMethod, params) {
@@ -15048,7 +15055,7 @@ App.Application = Backbone.View.extend({
             });
     }
 
-});;
+});;;;;
 namespace('App.Managers');
 
 App.Managers.UserManager = Backbone.Model.extend({
@@ -15101,7 +15108,7 @@ namespace('App.Models');
 
 App.Models.Config = Backbone.Model.extend({
 
-});;
+});;;;;
 namespace('App.Models');
 
 App.Models.User = Backbone.Model.extend({
