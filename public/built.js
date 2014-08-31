@@ -15064,13 +15064,17 @@ App.Managers.UserManager = Backbone.Model.extend({
         // запишется токен авторизации, и все последующие
         // запросы уже можно отпаравлять, пока не появится 403
         return this.get('api_client').post('/users/login', {
-            account: login,
-            password: password
+            account:    login,
+            password:   password
         });
     },
 
-    register: function() {
-
+    register: function(username, email, password) {
+        return this.get('api_client').post('/users/register', {
+            name:       username,
+            email:      email,
+            password:   password
+        });
     },
 
     authorize: function() {
