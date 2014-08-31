@@ -17857,6 +17857,7 @@ App.Application = Backbone.View.extend({
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
         this.suggestManager = new App.Managers.SuggestManager({ api_client: this.apiClient });
+        this.feedManager    = new App.Managers.FeedManager({ api_client: this.apiClient });
     },
 
     start: function() {
@@ -17871,7 +17872,40 @@ App.Application = Backbone.View.extend({
             });
     }
 
-});;;;;
+});;;;
+namespace('App.Managers');
+
+App.Managers.FeedManager = Backbone.Model.extend({
+
+    initialize: function(options) {
+        this.set('api_client', options.api_client);
+    },
+
+    generate: function(query, type, context) {
+
+    },
+
+    getSongs: function(feedId, limit, context) {
+
+    },
+
+    like: function() {
+
+    },
+
+    dislike: function() {
+
+    },
+
+    skip: function() {
+
+    },
+
+    played: function() {
+
+    }
+
+});;
 namespace('App.Managers');
 
 App.Managers.SuggestManager = Backbone.Model.extend({
@@ -17946,7 +17980,26 @@ namespace('App.Models');
 
 App.Models.Config = Backbone.Model.extend({
 
-});;;;;
+});;
+namespace('App.Models');
+
+App.Models.Context = Backbone.Model.extend({
+
+    defaults: function() {
+        return {
+            time:                   null,
+            location:               null,
+            speed:                  null,
+            audio_output:           null,
+            internet_connection:    null,
+            locale:                 null,
+            avg_step_count:         null,
+            device:                 null,
+            ip:                     null
+        };
+    }
+
+});;;;
 namespace('App.Models');
 
 App.Models.User = Backbone.Model.extend({
