@@ -24,19 +24,37 @@ module.exports = function(grunt) {
                 src: [
                     'bower_components/underscore/underscore.js',
                     'bower_components/backbone/backbone.js',
+                    'bower_components/handlebars/handlebars.js',
                     'app/lib/*.js',
                     'app/*.js',
                     'app/**/*.js'
                 ],
-                dest: 'public/app.<%= pkg.version %>.js',
+                dest: 'public/app.js',
             },
         },
 
         handlebars: {
             compile: {
-                files: { 'public/templates.<%= pkg.version %>.js': [
+                options: {
+                    namespace: 'jst',
+                    processContent: function(src) {
+                            return src.replace(/(^\s+|\s+$)/gm, '');
+                        }
+                },
+                files: { 'public/templates.js': [
                     'app/templates/*.hbs'
                 ]}
+            }
+        },
+
+        uglify: {
+            options: {
+                mangle: false
+            },
+            my_target: {
+                files: {
+                    'public/built.min.js': [ 'public/*.js' ]
+                }
             }
         },
 
@@ -45,12 +63,11 @@ module.exports = function(grunt) {
                 files: [
                     'app/lib/*.js',
                     'app/*.js',
-                    'app/**/*.js'
+                    'app/**/*.js',
+                    'app/templates/*.hbs'
                 ],
                 tasks: [
-                    'jshint',
-                    'handlebars',
-                    'concat'
+                    'build-prod'
                 ]
             }
         }
@@ -61,15 +78,21 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    // Задача на проверку и построение всего приложения
-    grunt.registerTask('build', [
+    grunt.registerTask('build-dev', [
         'jshint',
         'clean',
         'handlebars',
         'concat'
     ]);
 
+    // Задача на проверку и построение всего приложения
+    grunt.registerTask('build-prod', [
+        'build-dev',
+        'uglify'
+    ]);
+
     //
-    grunt.registerTask('default', ['build', 'watch']);
+    grunt.registerTask('default', ['build-prod', 'watch']);
 };
