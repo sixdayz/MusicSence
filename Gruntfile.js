@@ -22,12 +22,13 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: [
+                    'bower_components/jquery/dist/jquery.js',
                     'bower_components/underscore/underscore.js',
                     'bower_components/backbone/backbone.js',
                     'bower_components/handlebars/handlebars.js',
                     'app/lib/*.js',
-                    'app/*.js',
-                    'app/**/*.js'
+                    'app/**/*.js',
+                    'app/*.js'
                 ],
                 dest: 'public/app.js',
             },
@@ -53,7 +54,8 @@ module.exports = function(grunt) {
             },
             my_target: {
                 files: {
-                    'public/built.min.js': [ 'public/*.js' ]
+                    'public/app.min.js': [ 'public/app.js' ],
+                    'public/templates.min.js': [ 'public/templates.js' ]
                 }
             }
         },
@@ -90,7 +92,7 @@ module.exports = function(grunt) {
     // Задача на проверку и построение всего приложения
     grunt.registerTask('build-prod', [
         'build-dev',
-        'uglify'
+        //'uglify'
     ]);
 
     //

@@ -4,6 +4,19 @@
         <title>Music Sence</title>
     </head>
     <body>
-        <script type="text/javascript" src="built.min.js"></script>
+        <script type="text/javascript" src="app.js"></script>
+        <script type="text/javascript" src="templates.js"></script>
+        <script type="text/javascript">
+            $(function() {
+
+                // Инициализация приложения
+                window.app = new App.Application({
+                    'api_host': 'https://10tracks.com/api'
+                });
+
+                // Запуск приложения
+                window.app.start();
+            });
+        </script>
     </body>
 </html>
