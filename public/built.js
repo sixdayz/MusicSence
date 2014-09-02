@@ -24192,6 +24192,14 @@ namespace('App');
 // приложения
 
 App.Dispatcher = _.clone(Backbone.Events);;
+namespace('App.Enums');
+
+App.Enums.SuggestType = {
+    ARTIST: 'artist',
+    ALBUM:  'album',
+    GENRE:  'genre',
+    SONG:   'song'
+};;
 namespace('App.Managers');
 
 App.Managers.FeedManager = Backbone.Model.extend({
@@ -24240,13 +24248,7 @@ App.Managers.SuggestManager = Backbone.Model.extend({
         });
     }
 
-});
-
-App.Managers.SuggestType = {
-    ARTIST: 'artist',
-    ALBUM:  'album',
-    GENRE:  'genre'
-};;
+});;
 namespace('App.Managers');
 
 App.Managers.UserManager = Backbone.Model.extend({

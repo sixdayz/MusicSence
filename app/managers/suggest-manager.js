@@ -15,9 +15,3 @@ App.Managers.SuggestManager = Backbone.Model.extend({
     }
 
 });
-
-App.Managers.SuggestType = {
-    ARTIST: 'artist',
-    ALBUM:  'album',
-    GENRE:  'genre'
-};
