@@ -29,6 +29,7 @@ module.exports = function(grunt) {
                     'bower_components/handlebars/handlebars.js',
                     'bower_components/momentjs/moment.js',
                     'bower_components/soundmanager/script/soundmanager2.js',
+                    'bower_components/backbone.soundmanager2/backbone.soundmanager2.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
                     'app/**/*.js'
