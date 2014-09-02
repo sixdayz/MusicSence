@@ -8,7 +8,12 @@ App.Application = Backbone.View.extend({
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
         this.suggestManager = new App.Managers.SuggestManager({ api_client: this.apiClient });
-        this.feedManager    = new App.Managers.FeedManager({ api_client: this.apiClient });
+
+        this.contextManager = new App.Managers.ContextManager();
+        this.feedManager    = new App.Managers.FeedManager({
+            api_client:         this.apiClient,
+            context_manager:    this.contextManager
+        });
     },
 
     start: function() {

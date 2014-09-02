@@ -24169,7 +24169,12 @@ App.Application = Backbone.View.extend({
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
         this.suggestManager = new App.Managers.SuggestManager({ api_client: this.apiClient });
-        this.feedManager    = new App.Managers.FeedManager({ api_client: this.apiClient });
+
+        this.contextManager = new App.Managers.ContextManager();
+        this.feedManager    = new App.Managers.FeedManager({
+            api_client:         this.apiClient,
+            context_manager:    this.contextManager
+        });
     },
 
     start: function() {
@@ -24202,10 +24207,56 @@ App.Enums.SuggestType = {
 };;
 namespace('App.Managers');
 
+App.Managers.ContextManager = Backbone.Model.extend({
+
+    createContext: function() {
+        this.set('create_deferred', new $.Deferred());
+        this.set('context', new App.Models.Context());
+
+        this._setIp(this.get('context')).then(function() {
+            this._setLocation(this.get('context'));
+        }.bind(this));
+
+        return this.get('create_deferred').promise();
+    },
+
+    _setIp: function(context) {
+        return $.ajax({
+            url: 'http://ipinfo.io',
+            type: 'GET',
+            dataType: 'jsonp',
+            success: function(data) {
+                context.set('ip', data.ip);
+            }
+        });
+    },
+
+    _setLocation: function(context) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                if (position) {
+                    context.set(
+                        'location',
+                        position.coords.latitude + ';' + position.coords.longitude
+                    );
+                } else {
+                    // Пользователь не одобрил
+                    context.set('location', 'disabled');
+                }
+
+                this.get('create_deferred').resolve(context);
+            }.bind(this));
+        }
+    }
+
+});;
+namespace('App.Managers');
+
 App.Managers.FeedManager = Backbone.Model.extend({
 
     initialize: function(options) {
         this.set('api_client', options.api_client);
+        this.set('context_manager', options.context_manager);
     },
 
     generate: function(query, type, context) {
@@ -24308,12 +24359,12 @@ App.Models.Context = Backbone.Model.extend({
 
     defaults: function() {
         return {
-            time:                   null,
+            time:                   moment().format('YYYY-MM-DD HH:mm:ss'),
             location:               null,
             speed:                  null,
             audio_output:           null,
             internet_connection:    null,
-            locale:                 null,
+            locale:                 navigator.language,
             avg_step_count:         null,
             device:                 null,
             ip:                     null
