@@ -24278,7 +24278,9 @@ App.Managers.FeedManager = Backbone.Model.extend({
     },
 
     getSongs: function(feedId, limit) {
-
+        return this.get('api_client').post('/musicfeed/' + feedId + '/songs', {
+            limit: limit
+        });
     },
 
     like: function() {
