@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                     'bower_components/backbone.soundmanager2/backbone.soundmanager2.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
+                    'app/models/*.js',
                     'app/**/*.js'
                 ],
                 dest: 'public/app.js',

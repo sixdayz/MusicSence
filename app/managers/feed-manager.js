@@ -27,9 +27,16 @@ App.Managers.FeedManager = Backbone.Model.extend({
     },
 
     getSongs: function(feedId, limit) {
-        return this.get('api_client').post('/musicfeed/' + feedId + '/songs', {
-            limit: limit
-        });
+        var deferred = new $.Deferred();
+
+        this.get('api_client')
+            .post('/musicfeed/' + feedId + '/songs', { limit: limit })
+            .done(function(response) {
+                var songs = new App.Collections.Songs(response.items);
+                deferred.resolve(songs);
+            });
+
+        return deferred;
     },
 
     like: function() {

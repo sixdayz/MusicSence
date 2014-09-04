@@ -24160,6 +24160,42 @@ App.Lib.ApiClient = function(options) {
 
 App.Lib.ApiClient.HTTP_METHOD_GET   = 'get';
 App.Lib.ApiClient.HTTP_METHOD_POST  = 'post';;
+namespace('App.Models');
+
+App.Models.Config = Backbone.Model.extend({
+
+});;
+namespace('App.Models');
+
+App.Models.Context = Backbone.Model.extend({
+
+    defaults: function() {
+        return {
+            time:                   moment().format('YYYY-MM-DD HH:mm:ss'),
+            location:               null,
+            speed:                  null,
+            audio_output:           null,
+            internet_connection:    null,
+            locale:                 navigator.language,
+            avg_step_count:         null,
+            device:                 null,
+            ip:                     null
+        };
+    }
+
+});;
+namespace('App.Models');
+
+App.Models.Song = Backbone.Model.extend({
+
+    idAttribute: 'soundTrackId'
+
+});;;
+namespace('App.Models');
+
+App.Models.User = Backbone.Model.extend({
+
+});;
 namespace('App');
 
 App.Application = Backbone.View.extend({
@@ -24189,7 +24225,14 @@ App.Application = Backbone.View.extend({
             });
     }
 
-});;;;
+});;
+namespace('App.Collections');
+
+App.Collections.Songs = Backbone.Collection.extend({
+
+    model: App.Models.Song
+
+});;;
 namespace('App');
 
 // Глобальный объект - диспатчер событий
@@ -24278,9 +24321,16 @@ App.Managers.FeedManager = Backbone.Model.extend({
     },
 
     getSongs: function(feedId, limit) {
-        return this.get('api_client').post('/musicfeed/' + feedId + '/songs', {
-            limit: limit
-        });
+        var deferred = new $.Deferred();
+
+        this.get('api_client')
+            .post('/musicfeed/' + feedId + '/songs', { limit: limit })
+            .done(function(response) {
+                var songs = new App.Collections.Songs(response.items);
+                deferred.resolve(songs);
+            });
+
+        return deferred;
     },
 
     like: function() {
@@ -24362,35 +24412,6 @@ App.Managers.UserManager = Backbone.Model.extend({
     getUser: function() {
         return this.get('current_user');
     }
-
-});;
-namespace('App.Models');
-
-App.Models.Config = Backbone.Model.extend({
-
-});;
-namespace('App.Models');
-
-App.Models.Context = Backbone.Model.extend({
-
-    defaults: function() {
-        return {
-            time:                   moment().format('YYYY-MM-DD HH:mm:ss'),
-            location:               null,
-            speed:                  null,
-            audio_output:           null,
-            internet_connection:    null,
-            locale:                 navigator.language,
-            avg_step_count:         null,
-            device:                 null,
-            ip:                     null
-        };
-    }
-
-});;;;
-namespace('App.Models');
-
-App.Models.User = Backbone.Model.extend({
 
 });;this["jst"] = this["jst"] || {};
 
