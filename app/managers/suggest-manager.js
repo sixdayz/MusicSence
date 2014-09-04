@@ -8,10 +8,21 @@ App.Managers.SuggestManager = Backbone.Model.extend({
     },
 
     search: function(query, type) {
-        return this.get('api_client').post('/musicfeed/suggest', {
-            q:      query,
-            type:   type
-        });
+        var deferred = new $.Deferred();
+
+        this.get('api_client')
+            .post('/musicfeed/suggest', {
+                q:      query,
+                type:   type
+            })
+            .done(function(response) {
+                if (response.items) {
+                    var items = new App.Collections.SuggestItems(response.items);
+                    deferred.resolve(items);
+                }
+            });
+
+        return deferred;
     }
 
 });

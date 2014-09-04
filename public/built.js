@@ -24190,7 +24190,14 @@ App.Models.Song = Backbone.Model.extend({
 
     idAttribute: 'soundTrackId'
 
-});;;
+});;
+namespace('App.Models');
+
+App.Models.SuggestItem = Backbone.Model.extend({
+
+    idAttribute: 'name'
+
+});;
 namespace('App.Models');
 
 App.Models.User = Backbone.Model.extend({
@@ -24232,7 +24239,14 @@ App.Collections.Songs = Backbone.Collection.extend({
 
     model: App.Models.Song
 
-});;;
+});;
+namespace('App.Collections');
+
+App.Collections.SuggestItems = Backbone.Collection.extend({
+
+    model: App.Models.SuggestItem
+
+});;
 namespace('App');
 
 // Глобальный объект - диспатчер событий
@@ -24359,10 +24373,21 @@ App.Managers.SuggestManager = Backbone.Model.extend({
     },
 
     search: function(query, type) {
-        return this.get('api_client').post('/musicfeed/suggest', {
-            q:      query,
-            type:   type
-        });
+        var deferred = new $.Deferred();
+
+        this.get('api_client')
+            .post('/musicfeed/suggest', {
+                q:      query,
+                type:   type
+            })
+            .done(function(response) {
+                if (response.items) {
+                    var items = new App.Collections.SuggestItems(response.items);
+                    deferred.resolve(items);
+                }
+            });
+
+        return deferred;
     }
 
 });;
