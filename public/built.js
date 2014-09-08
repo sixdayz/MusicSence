@@ -25155,13 +25155,30 @@ App.Views.Enter.Login = Backbone.View.extend({
     tagName: 'div',
     className: 'modal_login',
 
-    initialize: function() {
-        this.template = jst['app/templates/enter/login.hbs'];
+    events: {
+        'click [data-role=reg-btn]':    'showRegistrationView',
+        'click [data-role=cancel-btn]': 'hide'
+    },
+
+    initialize: function(options) {
+        this.layout     = options.layout;
+        this.template   = jst['app/templates/enter/login.hbs'];
     },
 
     render: function() {
         this.$el.html(this.template);
+        this.delegateEvents();
         return this;
+    },
+
+    showRegistrationView: function(event) {
+        event.preventDefault();
+        this.layout.showRegistrationView(event);
+    },
+
+    hide: function(event) {
+        event.preventDefault();
+        this.$el.fadeOut();
     }
 
 });;
@@ -25172,13 +25189,30 @@ App.Views.Enter.Registration = Backbone.View.extend({
     tagName: 'div',
     className: 'modal_reg',
 
-    initialize: function() {
-        this.template = jst['app/templates/enter/registration.hbs'];
+    events: {
+        'click [data-role=login-btn]':  'showLoginView',
+        'click [data-role=cancel-btn]': 'hide'
+    },
+
+    initialize: function(options) {
+        this.layout     = options.layout;
+        this.template   = jst['app/templates/enter/registration.hbs'];
     },
 
     render: function() {
         this.$el.html(this.template);
+        this.delegateEvents();
         return this;
+    },
+
+    showLoginView: function(event) {
+        event.preventDefault();
+        this.layout.showLoginView(event);
+    },
+
+    hide: function(event) {
+        event.preventDefault();
+        this.$el.fadeOut();
     }
 
 });;this["jst"] = this["jst"] || {};
@@ -25195,10 +25229,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 this["jst"]["app/templates/enter/login.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+  var buffer = "";
 
 
-  return "<div class=\"register_div\">\n<p>Login</p>\n<p>If you don't have an account you can <a href=\"#\">Register</a> </p>\n<div class=\"form\">\n<form action=\"\" method=\"\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login or email\"><br><input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<a href=\"#\" class=\"remember\">Remember password</a>\n<div class=\"events\">\n<a class=\"cancel\">Cancel</a>\n<input type=\"submit\" value=\"Complete\">\n</div>\n</form></div>\n</div>";
+  buffer += "<div class=\"register_div\">\n<p>Login</p>\n<p>If you don't have an account you can <a href=\"#\" data-role=\"reg-btn\">Register</a> </p>\n<div class=\"form\">\n<form action=\"\" method=\"\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login or email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\">\n</div>\n</form></div>\n</div>";
+  return buffer;
   });
 
 this["jst"]["app/templates/enter/registration.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -25207,5 +25242,5 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\">Cancel</a>\n<input type=\"submit\" value=\"Complete\">\n</div>\n</form>\n</div>\n</div>";
+  return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\" data-role=\"login-btn\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\">\n</div>\n</form>\n</div>\n</div>";
   });
