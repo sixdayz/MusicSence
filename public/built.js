@@ -26873,6 +26873,27 @@ App.Models.Context = Backbone.Model.extend({
     }
 
 });;
+namespace('App.Models.Enter');
+
+App.Models.Enter.Login = Backbone.Model.extend({
+
+    defaults: {
+        login: null,
+        password: null
+    }
+
+});;
+namespace('App.Models.Enter');
+
+App.Models.Enter.Registration = Backbone.Model.extend({
+
+    defaults: {
+        login: null,
+        email: null,
+        password: null
+    }
+
+});;
 namespace('App.Models');
 
 App.Models.Song = Backbone.Model.extend({
@@ -26911,6 +26932,7 @@ App.Application = Backbone.View.extend({
         });
 
         this.router         = new App.Routers.Main({ app: this });
+        this.suggestView    = new App.Views.Suggest();
     },
 
     navigate: function(fragment) {
@@ -26923,8 +26945,11 @@ App.Application = Backbone.View.extend({
     render: function() {
 
         // Инициализируем ссылки на контейнеры
-        this.$header    = this.$('[data-role=header]');
+        this.$header    = this.$('[data-role=page-header]');
         this.$content   = this.$('[data-role=page-content]');
+
+        // Добавим представления
+        this.$header.append(this.suggestView.render().$el.hide());
 
         return this;
     },
@@ -27204,27 +27229,6 @@ App.Managers.UserManager = Backbone.Model.extend({
     }
 
 });;
-namespace('App.Models.Enter');
-
-App.Models.Enter.Login = Backbone.Model.extend({
-
-    defaults: {
-        login: null,
-        password: null
-    }
-
-});;
-namespace('App.Models.Enter');
-
-App.Models.Enter.Registration = Backbone.Model.extend({
-
-    defaults: {
-        login: null,
-        email: null,
-        password: null
-    }
-
-});;
 namespace('App.Routers');
 
 App.Routers.Main = Backbone.Router.extend({
@@ -27267,10 +27271,9 @@ App.Routers.Main = Backbone.Router.extend({
     player: function() {
         if ( ! this.app.userManager.isAuthorized()) {
             this.app.navigate('enter');
+        } else {
+            console.log('player!!!');
         }
-
-        //
-        console.log('player!!!');
     }
 
 });;
@@ -27463,6 +27466,53 @@ App.Views.Enter.Registration = Backbone.View.extend({
         }.bind(this));
     }
 
+});;
+namespace('App.Views');
+
+App.Views.Suggest = Backbone.View.extend({
+
+    tagName: 'div',
+    id: 'search',
+
+    events: {
+        'click [data-role=open-btn]':   'openInput',
+        'click [data-role=search-btn]': 'search'
+    },
+
+    initialize: function(options) {
+        this.template   = jst['app/templates/suggest.hbs'];
+
+        App.Dispatcher.on(App.Events.authenticate, this.show, this);
+        App.Dispatcher.on(App.Events.authorize, this.show, this);
+        App.Dispatcher.on(App.Events.registration, this.show, this);
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+
+        this.$openBtn       = this.$('[data-role=open-btn]');
+        this.$searchBtn     = this.$('[data-role=search-btn]').hide();
+        this.$searchInput   = this.$('[name=search]');
+
+        this.delegateEvents();
+        return this;
+    },
+
+    show: function() {
+        this.$el.show();
+    },
+
+    openInput: function(event) {
+        event.preventDefault();
+        this.$openBtn.hide();
+        this.$searchBtn.show();
+        this.$searchInput.animate({ 'width': 285, 'marginLeft': 25 });
+    },
+
+    search: function() {
+        event.preventDefault();
+    }
+
 });;this["jst"] = this["jst"] || {};
 
 this["jst"]["app/templates/enter/layout.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -27491,4 +27541,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 
   return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\" data-role=\"login-btn\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\" data-role=\"registration-form\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\" data-role=\"complete-btn\" data-loading-text=\"Loading...\" />\n</div>\n</form>\n</div>\n</div>";
+  });
+
+this["jst"]["app/templates/suggest.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"search-btn\"></i>\n</span>";
   });

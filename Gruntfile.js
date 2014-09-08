@@ -34,7 +34,7 @@ module.exports = function(grunt) {
                     'bower_components/backbone.stickit/backbone.stickit.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
-                    'app/models/*.js',
+                    'app/models/**/*.js',
                     'app/**/*.js'
                 ],
                 dest: 'public/app.js',

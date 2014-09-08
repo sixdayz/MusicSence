@@ -41,10 +41,9 @@ App.Routers.Main = Backbone.Router.extend({
     player: function() {
         if ( ! this.app.userManager.isAuthorized()) {
             this.app.navigate('enter');
+        } else {
+            console.log('player!!!');
         }
-
-        //
-        console.log('player!!!');
     }
 
 });

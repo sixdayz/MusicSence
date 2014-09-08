@@ -18,6 +18,7 @@ App.Application = Backbone.View.extend({
         });
 
         this.router         = new App.Routers.Main({ app: this });
+        this.suggestView    = new App.Views.Suggest();
     },
 
     navigate: function(fragment) {
@@ -30,8 +31,11 @@ App.Application = Backbone.View.extend({
     render: function() {
 
         // Инициализируем ссылки на контейнеры
-        this.$header    = this.$('[data-role=header]');
+        this.$header    = this.$('[data-role=page-header]');
         this.$content   = this.$('[data-role=page-content]');
+
+        // Добавим представления
+        this.$header.append(this.suggestView.render().$el.hide());
 
         return this;
     },
