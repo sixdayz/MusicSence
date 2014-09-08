@@ -27,18 +27,42 @@ App.Managers.UserManager = Backbone.Model.extend({
     },
 
     register: function(username, email, password) {
-        var request = this.get('api_client').post('/users/register', {
+        var deferred    = new $.Deferred();
+        var request     = this.get('api_client').post('/users/register', { user: JSON.stringify({
             name:       username,
             email:      email,
             password:   password
-        });
+        }) });
 
-        request.done(function() {
+        request.done(function(response) {
             // Сгенерируем событие об успешной регистрации
             App.Dispatcher.trigger(App.Events.registration);
+            deferred.resolve(response);
         });
 
-        return request;
+        request.fail(function(data) {
+            var response    = data.responseJSON;
+            var errorText   = null;
+
+            switch (response.error) {
+
+                case 'duplicate-login':
+                    errorText = 'Login already exists';
+                    break;
+
+                case 'duplicate-email':
+                    errorText = 'Email already exists.';
+                    break;
+
+                default:
+                    errorText = 'Registration not available now :(';
+                    break;
+            }
+
+            deferred.reject(errorText);
+        });
+
+        return deferred;
     },
 
     authorize: function() {

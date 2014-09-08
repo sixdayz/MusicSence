@@ -27142,18 +27142,42 @@ App.Managers.UserManager = Backbone.Model.extend({
     },
 
     register: function(username, email, password) {
-        var request = this.get('api_client').post('/users/register', {
+        var deferred    = new $.Deferred();
+        var request     = this.get('api_client').post('/users/register', { user: JSON.stringify({
             name:       username,
             email:      email,
             password:   password
-        });
+        }) });
 
-        request.done(function() {
+        request.done(function(response) {
             // Сгенерируем событие об успешной регистрации
             App.Dispatcher.trigger(App.Events.registration);
+            deferred.resolve(response);
         });
 
-        return request;
+        request.fail(function(data) {
+            var response    = data.responseJSON;
+            var errorText   = null;
+
+            switch (response.error) {
+
+                case 'duplicate-login':
+                    errorText = 'Login already exists';
+                    break;
+
+                case 'duplicate-email':
+                    errorText = 'Email already exists.';
+                    break;
+
+                default:
+                    errorText = 'Registration not available now :(';
+                    break;
+            }
+
+            deferred.reject(errorText);
+        });
+
+        return deferred;
     },
 
     authorize: function() {
@@ -27186,6 +27210,17 @@ App.Models.Enter.Login = Backbone.Model.extend({
 
     defaults: {
         login: null,
+        password: null
+    }
+
+});;
+namespace('App.Models.Enter');
+
+App.Models.Enter.Registration = Backbone.Model.extend({
+
+    defaults: {
+        login: null,
+        email: null,
         password: null
     }
 
@@ -27366,17 +27401,30 @@ App.Views.Enter.Registration = Backbone.View.extend({
     className: 'modal_reg',
 
     events: {
-        'click [data-role=login-btn]':  'showLoginView',
-        'click [data-role=cancel-btn]': 'hide'
+        'click [data-role=login-btn]':          'showLoginView',
+        'click [data-role=cancel-btn]':         'hide',
+        'submit [data-role=registration-form]': 'registration'
+    },
+
+    bindings: {
+        '[name=login]':     'login',
+        '[name=email]':     'email',
+        '[name=password]':  'password'
     },
 
     initialize: function(options) {
+        this.model      = new App.Models.Enter.Registration();
+        this.app        = options.app;
         this.layout     = options.layout;
         this.template   = jst['app/templates/enter/registration.hbs'];
     },
 
     render: function() {
         this.$el.html(this.template);
+
+        this.$regBtn = this.$('[data-role=complete-btn]');
+
+        this.stickit();
         this.delegateEvents();
         return this;
     },
@@ -27389,6 +27437,30 @@ App.Views.Enter.Registration = Backbone.View.extend({
     hide: function(event) {
         event.preventDefault();
         this.$el.fadeOut();
+    },
+
+    registration: function(event) {
+        event.preventDefault();
+        this.$regBtn.button('loading');
+
+        this.app.userManager.register(
+            this.model.get('login'),
+            this.model.get('email'),
+            this.model.get('password')
+        )
+
+        .done(function() {
+            this.$el.hide();
+            this.app.navigate('/');
+        }.bind(this))
+
+        .fail(function(errorText) {
+            alert(errorText);
+        }.bind(this))
+
+        .always(function() {
+            this.$regBtn.button('reset');
+        }.bind(this));
     }
 
 });;this["jst"] = this["jst"] || {};
@@ -27418,5 +27490,5 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\" data-role=\"login-btn\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\">\n</div>\n</form>\n</div>\n</div>";
+  return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\" data-role=\"login-btn\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\" data-role=\"registration-form\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\" data-role=\"complete-btn\" data-loading-text=\"Loading...\" />\n</div>\n</form>\n</div>\n</div>";
   });
