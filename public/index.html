@@ -20,92 +20,52 @@
             </div>
             <p class="sense"><img src="images/music_sense.png" alt=""/></p>
         </div>
-        <div data-role="page-content">
-            <div class="center">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-4">
-                            <p class="welcome">Welcome to</p>
-                            <p class="music">Music Sense</p>
+
+        <div data-role="page-content"></div>
+
+        <div class="modal_reg">
+            <div class="register_div">
+                <p>Registration</p>
+                <p>You'll create your 10tracks account. You can <a href="#">Login</a> instead</p>
+                <div class="form">
+                    <form action="" method="">
+                        <input type="text" name="login" placeholder="Type your login"><br>
+                        <input type="email" name="email" placeholder="Type your email"><br>
+                        <input type="password" name="password" placeholder="Type your password"><br>
+                        <div class="events">
+                            <a class="cancel">Cancel</a>
+                            <input type="submit" value="Complete">
                         </div>
-                    </div>
-                    <div id="social">
-                        <div class="row">
-                            <div class="col-md-4 col-md-offset-4">
-                                <span class="social"><i class="fa fa-facebook"></i></span>
-                                <span class="social"><i class="fa fa-google-plus"></i></span>
-                                <span class="social"><i class="fa fa-vk"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="register">
-                        <div class="row">
-                            <div class="col-md-4 col-md-offset-4">
-                                <button type="button" class="register_btn">Register</button>
-                                <br />
-                                <button type="button" class="login_btn">Login</button>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-            <div class="modal_reg">
-                <div class="register_div">
-                    <p>Registration</p>
-                    <p>You'll create your 10tracks account. You can <a href="#">Login</a> instead</p>
-                    <div class="form">
-                        <form action="" method="">
-                            <input type="text" name="login" placeholder="Type your login"><br>
-                            <input type="email" name="email" placeholder="Type your email"><br>
-                            <input type="password" name="password" placeholder="Type your password"><br>
-                            <div class="events">
-                                <a class="cancel">Cancel</a>
-                                <input type="submit" value="Complete">
-                            </div>
-                        </form>
+        </div>
+        <div class="modal_login">
+            <div class="register_div">
+                <p>Login</p>
+                <p>If you don't have an account you can <a href="#">Register</a> </p>
+                <div class="form">
+                    <form action="" method="">
+                        <input type="text" name="login" placeholder="Type your login or email"><br>
 
-                    </div>
+                        <input type="password" name="password" placeholder="Type your password"><br>
+                        <a href="#" class="remember">Remember password</a>
+                        <div class="events">
+                            <a class="cancel">Cancel</a>
+                            <input type="submit" value="Complete">
+                        </div>
+                    </form>
+
                 </div>
-
-            </div>
-            <div class="modal_login">
-                <div class="register_div">
-                    <p>Login</p>
-                    <p>If you don't have an account you can <a href="#">Register</a> </p>
-                    <div class="form">
-                        <form action="" method="">
-                            <input type="text" name="login" placeholder="Type your login or email"><br>
-
-                            <input type="password" name="password" placeholder="Type your password"><br>
-                            <a href="#" class="remember">Remember password</a>
-                            <div class="events">
-                                <a class="cancel">Cancel</a>
-                                <input type="submit" value="Complete">
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-
             </div>
         </div>
         <script src="built.js" type="text/javascript"></script>
         <script src="js/script.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(function() {
-
-                // Инициализация приложения
-                window.app = new App.Application({
+                new App.Application({
                     'api_host': 'http://10tracks.ru:8000/api'
-                });
-
-                // Запуск приложения
-                window.app.start();
-
-                // Тестирование
-                // if ( ! window.app.userManager.isAuthorized()) {
-                //     window.app.userManager.authenticate('andrey@sixdays.ru', '2BhL9OiN');
-                // }
+                }).start();
             });
         </script>
     </body>

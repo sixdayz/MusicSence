@@ -3,6 +3,8 @@ namespace('App');
 
 App.Application = Backbone.View.extend({
 
+    el: 'body',
+
     initialize: function(config) {
         this.config         = new App.Models.Config(config);
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
@@ -14,18 +16,39 @@ App.Application = Backbone.View.extend({
             api_client:         this.apiClient,
             context_manager:    this.contextManager
         });
+
+        this.router         = new App.Routers.Main({ app: this });
+    },
+
+    navigate: function(fragment) {
+        this.router.navigate(
+            fragment,
+            { trigger: true }
+        );
+    },
+
+    render: function() {
+
+        // Инициализируем ссылки на контейнеры
+        this.$header    = this.$('[data-role=header]');
+        this.$content   = this.$('[data-role=page-content]');
+
+        return this;
+    },
+
+    // Возвращает ссылку на блок контента страницы
+    getContent: function() {
+        return this.$content;
     },
 
     start: function() {
+        this.render();
 
-        // Авторизуем пользователя
-        this.userManager.authorize()
-            .done(function() {
-                // Рендерим шаблон для авторизованного пользователя
-            })
-            .fail(function() {
-                // Отправляем на авторизацию
-            });
+        // Инициализация роутинга
+        Backbone.history.start({ pushState: false });
+
+        // Идем на главную
+        this.navigate('');
     }
 
 });

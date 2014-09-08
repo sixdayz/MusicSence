@@ -10,7 +10,7 @@ var httpProxy = require('http-proxy'),
 
 var proxy = new httpProxy.createProxyServer();
 var app = connect()
-  .use(serveStatic(__dirname + '/public'))
+  .use(serveStatic(__dirname + '/public/'))
   .use(function(req, res) {
     if (req.url.indexOf(endpoint.prefix) === 0) {
       proxy.web(req, res, { target: 'https://10tracks.com' });

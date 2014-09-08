@@ -24782,6 +24782,8 @@ namespace('App');
 
 App.Application = Backbone.View.extend({
 
+    el: 'body',
+
     initialize: function(config) {
         this.config         = new App.Models.Config(config);
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
@@ -24793,18 +24795,39 @@ App.Application = Backbone.View.extend({
             api_client:         this.apiClient,
             context_manager:    this.contextManager
         });
+
+        this.router         = new App.Routers.Main({ app: this });
+    },
+
+    navigate: function(fragment) {
+        this.router.navigate(
+            fragment,
+            { trigger: true }
+        );
+    },
+
+    render: function() {
+
+        // Инициализируем ссылки на контейнеры
+        this.$header    = this.$('[data-role=header]');
+        this.$content   = this.$('[data-role=page-content]');
+
+        return this;
+    },
+
+    // Возвращает ссылку на блок контента страницы
+    getContent: function() {
+        return this.$content;
     },
 
     start: function() {
+        this.render();
 
-        // Авторизуем пользователя
-        this.userManager.authorize()
-            .done(function() {
-                // Рендерим шаблон для авторизованного пользователя
-            })
-            .fail(function() {
-                // Отправляем на авторизацию
-            });
+        // Инициализация роутинга
+        Backbone.history.start({ pushState: false });
+
+        // Идем на главную
+        this.navigate('');
     }
 
 });;
@@ -24828,7 +24851,16 @@ namespace('App');
 // Необходимо для обмена событиями между модулями
 // приложения
 
-App.Dispatcher = _.clone(Backbone.Events);;
+App.Dispatcher = _.clone(Backbone.Events);
+
+// Далее перечислим все доступные
+// коды глобальных событий,
+// чтобы использовать константы вместо строк
+// в модулях приложения
+
+App.Events = {
+
+};;
 namespace('App.Enums');
 
 App.Enums.SuggestType = {
@@ -25013,7 +25045,86 @@ App.Managers.UserManager = Backbone.Model.extend({
         return this.get('current_user');
     }
 
+});;
+namespace('App.Routers');
+
+App.Routers.Main = Backbone.Router.extend({
+
+    initialize: function(options) {
+        this.app        = options.app;
+        this.enterView  = new App.Views.Enter();
+    },
+
+    routes: {
+        '':         'start',
+        'enter':    'enter',
+        'player':   'player'
+    },
+
+    start: function() {
+
+        // Нарисуем стартовый вид
+        this.app.getContent().html(this.enterView.render().$el);
+
+        // Авторизуем пользователя
+        this.app.userManager.authorize()
+
+            // В случае успеха - показываем основной интерфейс
+            .done(function() {
+                this.app.navigate('player');
+            }.bind(this))
+
+            // А если не удалось - страницу входа
+            .fail(function() {
+                this.app.navigate('enter');
+            }.bind(this));
+    },
+
+    enter: function() {
+        this.app.getContent().html(this.enterView.render().$el);
+        this.enterView.showEnterControls();
+    },
+
+    player: function() {
+        if ( ! this.app.userManager.isAuthorized()) {
+            this.app.navigate('enter');
+        }
+    }
+
+});;
+namespace('App.Views');
+
+App.Views.Enter = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'center',
+
+    initialize: function() {
+        this.template = jst['app/templates/enter.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+        this.$loading   = this.$('[data-role=loading]');
+        this.$enterBtns = this.$('[data-role=enter-btns]').hide();
+        return this;
+    },
+
+    showEnterControls: function() {
+        this.$loading.hide();
+        this.$enterBtns.show();
+    }
+
 });;this["jst"] = this["jst"] || {};
+
+this["jst"]["app/templates/enter.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<p class=\"welcome\">Welcome to</p>\n<p class=\"music\">Music Sense</p>\n</div>\n</div>\n<div id=\"social\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<span class=\"social\"><i class=\"fa fa-facebook\"></i></span>\n<span class=\"social\"><i class=\"fa fa-google-plus\"></i></span>\n<span class=\"social\"><i class=\"fa fa-vk\"></i></span>\n</div>\n</div>\n</div>\n<div data-role=\"loading\">\n<p>Загрузка...</p>\n</div>\n<div id=\"register\" data-role=\"enter-btns\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<button type=\"button\" class=\"register_btn\">Register</button>\n<br />\n<button type=\"button\" class=\"login_btn\">Login</button>\n</div>\n</div>\n</div>\n</div>";
+  });
 
 this["jst"]["app/templates/test.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
