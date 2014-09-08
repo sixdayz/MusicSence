@@ -27272,7 +27272,7 @@ App.Routers.Main = Backbone.Router.extend({
         if ( ! this.app.userManager.isAuthorized()) {
             this.app.navigate('enter');
         } else {
-            console.log('player!!!');
+            this.app.getContent().html('');
         }
     }
 
@@ -27467,6 +27467,83 @@ App.Views.Enter.Registration = Backbone.View.extend({
     }
 
 });;
+namespace('App.Views.Player');
+
+App.Views.Player.Artist = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'artist',
+
+    initialize: function(options) {
+        this.template   = jst['app/templates/player/artist.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+        this.delegateEvents();
+        return this;
+    }
+});;
+namespace('App.Views.Player');
+
+App.Views.Player.Layout = Backbone.View.extend({
+
+    initialize: function(options) {
+
+    }
+
+});;
+namespace('App.Views.Player');
+
+App.Views.Player.Player = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'player',
+
+    initialize: function(options) {
+        this.template   = jst['app/templates/player/player.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+        this.delegateEvents();
+        return this;
+    }
+});;
+namespace('App.Views.Player');
+
+App.Views.Player.Playlist = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'playlist',
+
+    initialize: function(options) {
+        this.template   = jst['app/templates/player/playlist.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+        this.delegateEvents();
+        return this;
+    }
+});;
+namespace('App.Views.Player');
+
+App.Views.Player.Song = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'row border',
+
+    initialize: function(options) {
+        this.template   = jst['app/templates/player/song.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+        this.delegateEvents();
+        return this;
+    }
+});;
 namespace('App.Views');
 
 App.Views.Suggest = Backbone.View.extend({
@@ -27541,6 +27618,42 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 
   return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\" data-role=\"login-btn\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\" data-role=\"registration-form\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\" data-role=\"complete-btn\" data-loading-text=\"Loading...\" />\n</div>\n</form>\n</div>\n</div>";
+  });
+
+this["jst"]["app/templates/player/artist.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<h3>Breacking the Silence</h3>\n<h4>Linkin Park</h4>\n</div>\n</div>\n</div>";
+  });
+
+this["jst"]["app/templates/player/player.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<span class=\"heart\" id=\"disable\">\n<i class=\"fa fa-heart\"></i>\n</span>\n<div class=\"circle\">\n<span class=\"play\"><i class=\"fa fa-play\"></i></span>\n</div>\n<span class=\"forward\"><i class=\"fa fa-forward\"></i></span>\n</div>\n</div>\n</div>";
+  });
+
+this["jst"]["app/templates/player/playlist.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3\">\n<span class=\"timer\">1.58</span>\n<div class=\"progress_bar\">\n<div class=\"progress_bar_in\">\n<span class=\"progress_current\"></span>\n</div>\n</div>\n<span class=\"timer\">3.16</span>\n</div>\n</div>\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4 rating\">\n<div>\n<span class=\"like\"><i class=\"fa fa-thumbs-o-up\"></i></span>\n<p class=\"rate\">Rate this song</p>\n<span class=\"dislike\"><i class=\"fa fa-thumbs-o-down\"></i></span>\n</div>\n</div>\n</div>\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3 margin\">\n<p class=\"playing_next\">Playing next:</p>\n<a class=\"new_list\">Generate new list</a>\n<div class=\"col-md-12 padding\" data-role=\"songs-container\"></div>\n</div>\n</div>\n</div>";
+  });
+
+this["jst"]["app/templates/player/song.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"col-md-12 padding_ten\">\n<div class=\"row\">\n<div class=\"col-md-2\">\n<span><i class=\"fa fa-circle circlei\"></i></span>\n</div>\n<div class=\"col-md-6 name_artist\">\n<h4>SHI</h4>\n<h4>Linkin sad</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
   });
 
 this["jst"]["app/templates/suggest.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {

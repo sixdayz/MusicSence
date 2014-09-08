@@ -42,7 +42,7 @@ App.Routers.Main = Backbone.Router.extend({
         if ( ! this.app.userManager.isAuthorized()) {
             this.app.navigate('enter');
         } else {
-            console.log('player!!!');
+            this.app.getContent().html('');
         }
     }
 
