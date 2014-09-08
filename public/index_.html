@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Music Sence</title>
+    </head>
+    <body>
+        <div data-role="page-container">
+            ...
+        </div>
+
+        <script type="text/javascript" src="built.js"></script>
+        <script type="text/javascript">
+            $(function() {
+
+                // Инициализация приложения
+                window.app = new App.Application({
+                    'api_host': 'http://10tracks.ru:8000/api'
+                });
+
+                // Запуск приложения
+                window.app.start();
+
+                // Тестирование
+                // if ( ! window.app.userManager.isAuthorized()) {
+                //     window.app.userManager.authenticate('andrey@sixdays.ru', '2BhL9OiN');
+                // }
+            });
+        </script>
+    </body>
+</html>
