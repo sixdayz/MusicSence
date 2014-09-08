@@ -10,21 +10,35 @@ App.Managers.UserManager = Backbone.Model.extend({
 
     authenticate: function(login, password) {
 
-        // При успешной авторизации в cookie пользователя
+        // При успешной аутентификации в cookie пользователя
         // запишется токен авторизации, и все последующие
         // запросы уже можно отпаравлять, пока не появится 403
-        return this.get('api_client').post('/users/login', {
+        var request = this.get('api_client').post('/users/login', {
             account:    login,
             password:   password
         });
+
+        request.done(function() {
+            // Сгенерируем событие об успешной аутентификации
+            App.Dispatcher.trigger(App.Events.authenticate);
+        });
+
+        return request;
     },
 
     register: function(username, email, password) {
-        return this.get('api_client').post('/users/register', {
+        var request = this.get('api_client').post('/users/register', {
             name:       username,
             email:      email,
             password:   password
         });
+
+        request.done(function() {
+            // Сгенерируем событие об успешной регистрации
+            App.Dispatcher.trigger(App.Events.registration);
+        });
+
+        return request;
     },
 
     authorize: function() {
@@ -33,6 +47,10 @@ App.Managers.UserManager = Backbone.Model.extend({
         request.done(function(data) {
             this.get('current_user').set(data);
             this.get('current_user').set('is_authorized', true);
+
+            // Сгенерируем событие об успешной авторизации
+            App.Dispatcher.trigger(App.Events.authorize);
+
         }.bind(this));
 
         return request;

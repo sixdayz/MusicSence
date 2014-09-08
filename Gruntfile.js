@@ -30,7 +30,7 @@ module.exports = function(grunt) {
                     'bower_components/momentjs/moment.js',
                     'bower_components/soundmanager/script/soundmanager2.js',
                     'bower_components/backbone.soundmanager2/backbone.soundmanager2.js',
-                    'bower_components/bootstrap/js/bootstrap.js',
+                    'bower_components/bootstrap/dist/js/bootstrap.js',
                     'bower_components/backbone.stickit/backbone.stickit.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
             scripts: {
                 files: [
                     'app/**/*.js',
-                    'app/templates/*.hbs'
+                    'app/templates/**/*.hbs'
                 ],
                 tasks: [
                     'build'

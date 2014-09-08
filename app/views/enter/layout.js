@@ -14,8 +14,8 @@ App.Views.Enter.Layout = Backbone.View.extend({
     initialize: function(options) {
         this.app        = options.app;
         this.template   = jst['app/templates/enter/layout.hbs'];
-        this.loginView  = new App.Views.Enter.Login({ layout: this });
-        this.regView    = new App.Views.Enter.Registration({ layout: this });
+        this.loginView  = new App.Views.Enter.Login({ layout: this, app: this.app });
+        this.regView    = new App.Views.Enter.Registration({ layout: this, app: this.app });
     },
 
     render: function() {

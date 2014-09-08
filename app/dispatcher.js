@@ -13,5 +13,7 @@ App.Dispatcher = _.clone(Backbone.Events);
 // в модулях приложения
 
 App.Events = {
-
+    authenticate:   'login', // Успешный вход
+    authorize:      'authorize', // Успешная авторизация (вход уже был)
+    registration:   'registration' // Успешная регистрация
 };

@@ -2,13 +2,13 @@
     <p>Login</p>
     <p>If you don't have an account you can <a href="#" data-role="reg-btn">Register</a> </p>
     <div class="form">
-        <form action="" method="">
+        <form action="" method="" data-role="login-form">
             <input type="text" name="login" placeholder="Type your login or email"><br>
             <input type="password" name="password" placeholder="Type your password"><br>
             {{!-- <a href="#" class="remember">Remember password</a> --}}
             <div class="events">
                 <a class="cancel" data-role="cancel-btn">Cancel</a>
-                <input type="submit" value="Complete">
+                <input type="submit" value="Complete" data-loading-text="Loading..." data-role="complete-btn" />
             </div>
         </form>
 
