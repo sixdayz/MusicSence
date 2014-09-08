@@ -25052,7 +25052,7 @@ App.Routers.Main = Backbone.Router.extend({
 
     initialize: function(options) {
         this.app        = options.app;
-        this.enterView  = new App.Views.Enter();
+        this.enterView  = new App.Views.Enter.Layout({ app: this.app });
     },
 
     routes: {
@@ -25089,53 +25089,123 @@ App.Routers.Main = Backbone.Router.extend({
         if ( ! this.app.userManager.isAuthorized()) {
             this.app.navigate('enter');
         }
+
+        //
+        console.log('player!!!');
     }
 
 });;
-namespace('App.Views');
+namespace('App.Views.Enter');
 
-App.Views.Enter = Backbone.View.extend({
+App.Views.Enter.Layout = Backbone.View.extend({
 
     tagName: 'div',
     className: 'center',
 
-    initialize: function() {
-        this.template = jst['app/templates/enter.hbs'];
+    events: {
+        'click [data-role=reg-btn]':    'showRegistrationView',
+        'click [data-role=login-btn]':  'showLoginView'
+    },
+
+    initialize: function(options) {
+        this.app        = options.app;
+        this.template   = jst['app/templates/enter/layout.hbs'];
+        this.loginView  = new App.Views.Enter.Login({ layout: this });
+        this.regView    = new App.Views.Enter.Registration({ layout: this });
     },
 
     render: function() {
         this.$el.html(this.template);
+
         this.$loading   = this.$('[data-role=loading]');
         this.$enterBtns = this.$('[data-role=enter-btns]').hide();
+        this.$loginView = this.loginView.render().$el.hide();
+        this.$regView   = this.regView.render().$el.hide();
+
+        this.app.getContent().after(this.$loginView);
+        this.app.getContent().after(this.$regView);
+
+        this.delegateEvents();
         return this;
     },
 
     showEnterControls: function() {
         this.$loading.hide();
         this.$enterBtns.show();
+        this.delegateEvents();
+    },
+
+    showRegistrationView: function(event) {
+        event.preventDefault();
+        this.$loginView.hide();
+        this.$regView.fadeIn();
+    },
+
+    showLoginView: function(event) {
+        event.preventDefault();
+        this.$regView.hide();
+        this.$loginView.fadeIn();
+    }
+
+});;
+namespace('App.Views.Enter');
+
+App.Views.Enter.Login = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'modal_login',
+
+    initialize: function() {
+        this.template = jst['app/templates/enter/login.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+        return this;
+    }
+
+});;
+namespace('App.Views.Enter');
+
+App.Views.Enter.Registration = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'modal_reg',
+
+    initialize: function() {
+        this.template = jst['app/templates/enter/registration.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template);
+        return this;
     }
 
 });;this["jst"] = this["jst"] || {};
 
-this["jst"]["app/templates/enter.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["jst"]["app/templates/enter/layout.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<p class=\"welcome\">Welcome to</p>\n<p class=\"music\">Music Sense</p>\n</div>\n</div>\n<div id=\"social\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<span class=\"social\"><i class=\"fa fa-facebook\"></i></span>\n<span class=\"social\"><i class=\"fa fa-google-plus\"></i></span>\n<span class=\"social\"><i class=\"fa fa-vk\"></i></span>\n</div>\n</div>\n</div>\n<div data-role=\"loading\">\n<p>Загрузка...</p>\n</div>\n<div id=\"register\" data-role=\"enter-btns\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<button type=\"button\" class=\"register_btn\">Register</button>\n<br />\n<button type=\"button\" class=\"login_btn\">Login</button>\n</div>\n</div>\n</div>\n</div>";
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<p class=\"welcome\">Welcome to</p>\n<p class=\"music\">Music Sense</p>\n</div>\n</div>\n<div id=\"social\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<span class=\"social\"><i class=\"fa fa-facebook\"></i></span>\n<span class=\"social\"><i class=\"fa fa-google-plus\"></i></span>\n<span class=\"social\"><i class=\"fa fa-vk\"></i></span>\n</div>\n</div>\n</div>\n<div data-role=\"loading\">\n<p>Загрузка...</p>\n</div>\n<div id=\"register\" data-role=\"enter-btns\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<button type=\"button\" class=\"register_btn\" data-role=\"reg-btn\">Register</button>\n<br />\n<button type=\"button\" class=\"login_btn\" data-role=\"login-btn\">Login</button>\n</div>\n</div>\n</div>\n</div>";
   });
 
-this["jst"]["app/templates/test.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["jst"]["app/templates/enter/login.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+  
 
 
-  buffer += "<body>\n<p>\n<span>3321</span>\n<ul>\n<li>dsksdk</li>\n<li>";
-  if (helper = helpers.varname) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.varname); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</li>\n</ul>\n</p>\n</body>";
-  return buffer;
+  return "<div class=\"register_div\">\n<p>Login</p>\n<p>If you don't have an account you can <a href=\"#\">Register</a> </p>\n<div class=\"form\">\n<form action=\"\" method=\"\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login or email\"><br><input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<a href=\"#\" class=\"remember\">Remember password</a>\n<div class=\"events\">\n<a class=\"cancel\">Cancel</a>\n<input type=\"submit\" value=\"Complete\">\n</div>\n</form></div>\n</div>";
+  });
+
+this["jst"]["app/templates/enter/registration.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\">Cancel</a>\n<input type=\"submit\" value=\"Complete\">\n</div>\n</form>\n</div>\n</div>";
   });
