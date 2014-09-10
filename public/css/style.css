@@ -1,83 +1,83 @@
 *{
     margin:0;
     padding: 0;
-     
-    
+
+
 }
 body{
-    
+
     text-align: center;
     font-family: 'Open Sans',sans-serif;
     background: #fff;
 }
 a{
-    
+
     text-decoration: none;
     cursor: pointer;
 }
 a:hover{
-    
+
     text-decoration: none;
 }
 /* HEADER */
 #header{
-    
+
     border-bottom: 1px solid rgb(204,204,204);
     height: 80px;
     padding-top: 25px;
 }
 #logo{
-    
+
     width: 120px;
     float: left;
 }
 .logo img{
-    
+
     width: 80%;
-   
-     
+
+
 }
 .sense img{
-    
-   
-    
+
+
+
     position: absolute;
-    top:30px; 
+    top:30px;
     left:50%;
     margin-left: -90px;
-    
-    
-    
-   
+
+
+
+
 }
 /* WELCOME TO MUSIC SENSE */
 .center{
-    
+
     margin-top:5%;
-    
+
 }
 .welcome,.music{
-    
+
     font-family: 'Open Sans',sans-serif;
     font-weight: 300;
     font-size: 60px;
     color: #000;
     letter-spacing: 1px;
-    
+
 }
 .music{
-    
+
     color: rgb(249,139,118);
-    
-    
+
+
 }
 /* SOCIAL BUTTONS */
 #social{
-    
+
     margin-top:5%;
 }
 .social i{
-    
+
     color: rgb(249,139,118);
     font-size: 30px;
     height:55px;
@@ -86,30 +86,30 @@ a:hover{
     border:1px solid rgb(249,139,118);
     border-radius: 50%;
     margin-left: 20px;
-        
+
 }
 .social:first-child i{
-    
+
     margin-left: 0;
     padding-left: 10px;
 }
 .social:nth-child(2) i{
-    
-    
+
+
     padding-left: 14px;
 }
 .social:last-child i{
-    
+
      padding-left: 9px;
-    
+
 }
 /* REGISTER / LOGIN */
 #register{
-    
+
     margin-top: 40px;
 }
 .register_btn,.login_btn{
-    
+
     width: 240px;
     height: 60px;
     color:#fff;
@@ -118,18 +118,18 @@ a:hover{
     border-radius: 30px;
      font-family: 'Open Sans',sans-serif;
     font-weight: 400;
-    
+
 }
 .login_btn{
-    
+
     color: rgb(249,139,118);
     background: #fff;
      border:1px solid rgb(249,139,118);
      margin-top: 20px;
-    
+
 }
 .register_btn:hover{
-    
+
     color: rgb(249,139,118);
     background: #fff;
      border-color: rgb(249,139,118);
@@ -138,7 +138,7 @@ a:hover{
      color:#fff;
     background: rgb(249,139,118);
     border-color:  #fff;
-    
+
 }
 
 
@@ -146,7 +146,7 @@ a:hover{
 
 
 .modal_reg{
-    
+
     position: fixed;
     top:0;
     left: 0;
@@ -155,7 +155,7 @@ a:hover{
     height: 100%;
     background: rgba(0,0,0,0.4);
     display: none;
-    
+
 }
 .modal_login{
         position: fixed;
@@ -167,10 +167,10 @@ a:hover{
     background: rgba(0,0,0,0.4);
     display: none;
 
-    
+
 }
 .register_div{
-    
+
     width: 520px;
     height: 460px;
     padding: 35px;
@@ -183,7 +183,7 @@ a:hover{
     margin-left: -260px;
 }
 .register_div p:first-child{
-    
+
     font-size: 20px;
     font-family: 'Open Sans',sans-serif;
     font-weight: 400;
@@ -191,28 +191,28 @@ a:hover{
     text-align: left;
 }
 .register_div p:nth-child(2){
-    
+
     text-align: left;
      font-family: 'Open Sans',sans-serif;
 }
 .register_div p:nth-child(2) a{
-    
+
     color:rgb(249,139,118);
 
 }
 .form{
-    
+
     text-align: left;
 }
 .form input:not([type="submit"]){
-    
+
     height: 55px;
     width: 287px;
     padding: 18px;
     background: #f7f7f7;
     border:1px solid #ccc;
     border-radius: 25px;
-    margin-top:10px; 
+    margin-top:10px;
 }
 .form input[type="submit"]{
     height: 55px;
@@ -222,19 +222,19 @@ a:hover{
      border-radius: 25px;
      background: #fff;
      color: #ccc;
-    
+
     font-weight: 400;
-    
-    
+
+
 }
 .events{
-    
+
     position: absolute;
     bottom: 20px;
     right: 20px;
 }
 .cancel{
-    
+
     color:rgb(249,139,118);
     font-size: 15px;
     font-weight: 400;
@@ -246,20 +246,20 @@ a:hover{
     font-weight: 400;
     margin-left: 20px;
     margin-top:40px;
-    
+
 }
 
 
 /* PLAYER PAGE*/
 #search{
-    
+
     float: right;
     width: 340px;
-    
-    
+
+
 }
 .search{
-    
+
     height: 55px;
     width: 15px;
      border:1px solid rgb(249,139,118);
@@ -270,80 +270,81 @@ a:hover{
     border-radius: 50px;
     padding: 18px;
     background: rgb(247,247,247);
-    
-    
+    outline-style: none;
+
+
 }
 #search span{
-    
-    
+
+
     position: absolute;
    right: 20px;
    top: 10px;
     z-index: 2;
 }
 #search span i{
-    
-   
-    
-    
+
+
+
+
    cursor: pointer;
    color:rgb(249,139,118);
-    
+
     background: #fff;
-    
+
     font-size: 28px;
     height:55px;
     width: 55px;
    padding: 12px;
     border:1px solid rgb(249,139,118);
     border-radius: 50%;
-    
-    
+
+
 }
 .player{
-    
+
     margin-top:40px;
 }
 .player span{
-    
+
     cursor:pointer;
 }
 .player span i{
-    
-   
-    
-    
-   
+
+
+
+
+
    color:rgb(249,139,118);
-   
-  
-    
+
+
+
     font-size: 22px;
     height:50px;
     width: 50px;
    padding: 13px;
     border:1px solid rgb(249,139,118);
     border-radius: 50%;
-    
-    
+
+
 }
 span.heart i{
-    
+
     padding-top:14px;
     padding-left: 12px;
-   
+
 }
 .circle span.play i{
-    
+
     padding-left: 15px;
 }
 span.forward i{
     padding-left: 15px;
-    
+
 }
 .circle{
-    
-    
+
+
     display: inline-block;
     height: 140px;
     width: 140px;
@@ -354,45 +355,45 @@ span.forward i{
     margin-left: 20px;
 }
 #disable i{
-    
+
     color:rgb(216,216,216);
     border-color:rgb(242,242,242);
 }
 .like{
-    
+
     cursor:pointer;
 }
 .dislike{
-    
+
     cursor: pointer;
-    
+
 }
 
 .artist{
-    
+
     margin-top:18px;
-    
+
 }
 .artist h3{
-    
+
     font-family: 'Open Sans',sans-serif;
     color:#000;
     font-weight: 400;
     text-transform: uppercase;
 }
 .artist h4{
-    
+
     font-family: 'Open Sans',sans-serif;
     font-weight: 300;
 }
 
 .playlist{
-    
+
     margin-top:44px;
     margin-bottom: 200px;
 }
 .progress_bar{
-    
+
     display: inline-block;
     width: 360px;
     height: 7px;
@@ -401,7 +402,7 @@ span.forward i{
     border-radius: 5px;
 }
 .progress_bar_in{
-    
+
     position: relative;
     height: 100%;
     width: 45%;
@@ -419,10 +420,10 @@ span.forward i{
     border:1px solid rgb(233,233,233);
     background: #fff;
     border-radius: 50%;
-    
+
 }
 .timer{
-    
+
    position: relative;
     display: inline-block;
     top:-16.5px;
@@ -430,57 +431,57 @@ span.forward i{
 
 /* RATING */
 .rating{
-    
+
     margin-top:40px;
 }
 .rating span i{
-    
+
     color: rgb(233,233,233);
-   
-  
-    
+
+
+
     font-size: 22px;
     height:50px;
     width: 50px;
    padding: 13px;
     border:1px solid  rgb(204,204,204);
     border-radius: 50%;
-    
+
 }
 .like{
-    
+
     float: left;
     margin-left: 40px;
 }
 .dislike{
- 
+
         float: right;
         margin-right: 40px;
-        
+
 }
 
 .rating p.rate{
-    
+
     font-family: 'Open Sans',sans-serif;
     display: inline;
     color:rgb(233,233,233);
-   
+
     position: relative;
     top:15px;
-    
+
 }
 .padding{
-    
+
     padding:30px;
     background: rgb(246,246,246);
 }
 .padding_ten{
-    
+
     padding: 8px;
 }
 /* PLAYLIST */
 .playing_next{
-    
+
     float: left;
     margin-left: 20px;
 }
@@ -491,30 +492,30 @@ span.forward i{
     font-weight: 400;
 }
 .margin{
-    
+
     margin-top:40px;
 }
 .list{
-    
+
     background: rgb(246,246,246);
- 
-    
+
+
     padding: 30px;
 }
 .artist_next{
-    
+
     text-align: left;
     padding: 7px;
 }
 .artist_next span{
-    
+
     float: left;
 }
 .circlei{
      color:rgb(249,139,118);
     background: #fff;
-    
-    
+
+
     font-size: 22px;
     height:50px;
     width: 50px;
@@ -523,52 +524,53 @@ span.forward i{
     border-top:1px solid  rgb(204,204,204);
     border-bottom: 1px solid  #fff;
     border-radius: 50%;
-    
-    
+
+
 }
 .name_artist{
-    
+
     text-align: left;
 }
 .name_artist h4{
-    
+
     color:rgb(166,119,119);
     font-family: 'Open Sans',sans-serif;
     font-weight: 300;
     margin-top:0;
-    
-   
+
+
 }
 .name_artist h4:first-child{
-    
+
     font-weight: 400;
     color:#000;
 }
 
 .orange{
-    
+
     color:rgb(249,139,118);
-   
+
+
 }
 .border{
-    
-    
+
+
     border-radius: 9px;
-    
+
 }
 
 .border:hover{
-    
+
     background: rgb(221,221,221);
 }
 .fade_in{
-    
+
     display: none;
     margin-top: 8px;
     text-align: right;
 }
 .border:hover > .padding_ten > .row > .fade_in{
-    
+
     display: block;
 }
 
@@ -576,7 +578,7 @@ span.forward i{
 /* MODAL */
 
 .modal_new_list{
-    
+
      position: fixed;
     top:0;
     left: 0;
@@ -587,13 +589,13 @@ span.forward i{
     display: none;
 }
 .modal_in{
-    
+
     width: 520px;
     height:240px;
     padding: 20px;
     background: #fff;
     box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 0.63);
-   
+
     position: relative;
     top: 50%;
     left: 50%;
@@ -601,7 +603,7 @@ span.forward i{
     margin-left: -260px;
 }
 .modal_in p:first-child{
-    
+
     font-size: 18px;
     font-family: 'Open Sans',sans-serif;
     font-weight: 400;
@@ -609,18 +611,18 @@ span.forward i{
     text-align: left;
 }
 .modal_in p:nth-child(2){
-    
+
     text-align: left;
      font-family: 'Open Sans',sans-serif;
 }
 .list_events{
-    
+
     position: absolute;
     bottom: 20px;
     right: 20px;
 }
 .close_modal{
-    
+
     color:rgb(249,139,118);
     font-size: 15px;
     font-weight: 400;
@@ -637,10 +639,48 @@ span.forward i{
      color: rgb(249,139,118);;
     cursor: pointer;
     font-weight: 400;
-    
+
 }
 
-/* 
+.music_list{
+
+    position: absolute;
+    right:40px;
+    top: 65px;
+    height: 88px;
+    width: 250px;
+    padding: 20px 20px;
+    border:1px solid rgb(246,246,246);
+    background: #fff;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    display: none;
+}
+.artist_row{
+
+         width: 210px;
+         height: 20px;
+         margin-bottom: 10px;
+         cursor: pointer;
+
+
+}
+
+.artist_name{
+
+    font-weight: 400;
+     color:rgba(166,119,119);
+    font-family: 'Open Sans',sans-serif;
+     float: left;
+}
+.artist_row a{
+
+    position: relative;
+    right: -50px;
+
+
+}
+/*
     Created on : 01.09.2014, 20:47:39
     Author     : Sergey
 */

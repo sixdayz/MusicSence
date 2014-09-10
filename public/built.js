@@ -27673,5 +27673,5 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"search-btn\"></i>\n</span>";
+  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\">\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil Wayne</p> <a href=\"#\" class=\"orange\">artist</a>\n</div>\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil's Way</p> <a href=\"#\" class=\"orange\">album</a>\n</div>\n</div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"search-btn\"></i>\n</span>";
   });
