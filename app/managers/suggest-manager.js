@@ -7,19 +7,14 @@ App.Managers.SuggestManager = Backbone.Model.extend({
         this.set('api_client', options.api_client);
     },
 
-    search: function(query, type) {
+    search: function(query) {
         var deferred = new $.Deferred();
 
         this.get('api_client')
-            .post('/musicfeed/suggest', {
-                q:      query,
-                type:   type
-            })
+            .post('/musicfeed/suggest', { q: query })
             .done(function(response) {
-                if (response.items) {
-                    var items = new App.Collections.SuggestItems(response.items);
-                    deferred.resolve(items);
-                }
+                var items = new App.Collections.SuggestItems(response.items);
+                deferred.resolve(items);
             });
 
         return deferred;

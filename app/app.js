@@ -18,7 +18,7 @@ App.Application = Backbone.View.extend({
         });
 
         this.router         = new App.Routers.Main({ app: this });
-        this.suggestView    = new App.Views.Suggest();
+        this.suggestView    = new App.Views.Suggest.Control({ app: this });
     },
 
     navigate: function(fragment) {

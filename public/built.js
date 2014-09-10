@@ -26903,9 +26903,23 @@ App.Models.Song = Backbone.Model.extend({
 });;
 namespace('App.Models');
 
+App.Models.SuggestControl = Backbone.Model.extend({
+
+    defaults: {
+        query: ''
+    }
+
+});;
+namespace('App.Models');
+
 App.Models.SuggestItem = Backbone.Model.extend({
 
-    idAttribute: 'name'
+    idAttribute: 'name',
+
+    defaults: {
+        name: '',
+        type: ''
+    }
 
 });;
 namespace('App.Models');
@@ -26932,7 +26946,7 @@ App.Application = Backbone.View.extend({
         });
 
         this.router         = new App.Routers.Main({ app: this });
-        this.suggestView    = new App.Views.Suggest();
+        this.suggestView    = new App.Views.Suggest.Control({ app: this });
     },
 
     navigate: function(fragment) {
@@ -27000,7 +27014,10 @@ App.Dispatcher = _.clone(Backbone.Events);
 App.Events = {
     authenticate:   'login', // Успешный вход
     authorize:      'authorize', // Успешная авторизация (вход уже был)
-    registration:   'registration' // Успешная регистрация
+    registration:   'registration', // Успешная регистрация
+    Suggest: {
+        select: 'suggest:select' // Выбран элемент suggest
+    }
 };;
 namespace('App.Enums');
 
@@ -27120,19 +27137,14 @@ App.Managers.SuggestManager = Backbone.Model.extend({
         this.set('api_client', options.api_client);
     },
 
-    search: function(query, type) {
+    search: function(query) {
         var deferred = new $.Deferred();
 
         this.get('api_client')
-            .post('/musicfeed/suggest', {
-                q:      query,
-                type:   type
-            })
+            .post('/musicfeed/suggest', { q: query })
             .done(function(response) {
-                if (response.items) {
-                    var items = new App.Collections.SuggestItems(response.items);
-                    deferred.resolve(items);
-                }
+                var items = new App.Collections.SuggestItems(response.items);
+                deferred.resolve(items);
             });
 
         return deferred;
@@ -27555,33 +27567,43 @@ App.Views.Player.Song = Backbone.View.extend({
         return this;
     }
 });;
-namespace('App.Views');
+namespace('App.Views.Suggest');
 
-App.Views.Suggest = Backbone.View.extend({
+App.Views.Suggest.Control = Backbone.View.extend({
 
     tagName: 'div',
     id: 'search',
 
     events: {
         'click [data-role=open-btn]':   'openInput',
-        'click [data-role=close-btn]': 'closeInput'
+        'click [data-role=close-btn]':  'closeInput',
+        'keyup [name=search]':          'loadSuggest'
+    },
+
+    bindings: {
+        '[name=search]': 'query'
     },
 
     initialize: function(options) {
-        this.template   = jst['app/templates/suggest.hbs'];
+        this.model          = new App.Models.SuggestControl();
+        this.app            = options.app;
+        this.template       = jst['app/templates/suggest/control.hbs'];
 
         App.Dispatcher.on(App.Events.authenticate, this.show, this);
         App.Dispatcher.on(App.Events.authorize, this.show, this);
         App.Dispatcher.on(App.Events.registration, this.show, this);
+        App.Dispatcher.on(App.Events.Suggest.select, this.onSelect, this);
     },
 
     render: function() {
         this.$el.html(this.template);
 
-        this.$openBtn       = this.$('[data-role=open-btn]');
-        this.$closeBtn      = this.$('[data-role=close-btn]').hide();
-        this.$searchInput   = this.$('[name=search]');
+        this.$openBtn           = this.$('[data-role=open-btn]');
+        this.$closeBtn          = this.$('[data-role=close-btn]').hide();
+        this.$searchInput       = this.$('[name=search]');
+        this.$itemsContainer    = this.$('[data-role=items-container]');
 
+        this.stickit();
         this.delegateEvents();
         return this;
     },
@@ -27601,9 +27623,70 @@ App.Views.Suggest = Backbone.View.extend({
         event.preventDefault();
         this.$openBtn.show();
         this.$closeBtn.hide();
+        this.$itemsContainer.hide();
+        this.$searchInput.val('');
         this.$searchInput.animate({ 'width': 15, 'marginLeft': 275 });
+    },
+
+    loadSuggest: _.debounce(function() {
+        var queryString = this.model.get('query');
+        if (queryString.length > 2) {
+
+            this.app.suggestManager.search(queryString)
+                .done(function(itemsCollection) {
+
+                    this.$itemsContainer.empty();
+                    this.$itemsContainer.show();
+
+                    // Заполним выпадающий список
+                    itemsCollection.slice(0, 10).forEach(function(model) {
+
+                        var itemView = new App.Views.Suggest.Item({ model: model });
+                        this.$itemsContainer.append(itemView.render().$el);
+
+                    }.bind(this));
+                }.bind(this));
+
+        } else {
+            this.$itemsContainer.hide();
+        }
+    }, 300),
+
+    onSelect: function(selectedItem) {
+        // При выборе элемента из выпавшего списка
+        // вставим его название в поле вводу текста
+        this.$searchInput.val(selectedItem.get('name'));
+        this.$itemsContainer.hide();
     }
 
+});;
+namespace('App.Views.Suggest');
+
+App.Views.Suggest.Item = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'artist_row',
+
+    events: {
+        'click': 'selectSuggest'
+    },
+
+    initialize: function(options) {
+        this.template = jst['app/templates/suggest/item.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template( this.model.toJSON() ));
+        return this;
+    },
+
+    selectSuggest: function() {
+        // При выборе элемента списка сгенерируем глобальное событие
+        App.Dispatcher.trigger(
+            App.Events.Suggest.select,
+            this.model
+        );
+    }
 });;this["jst"] = this["jst"] || {};
 
 this["jst"]["app/templates/enter/layout.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -27670,11 +27753,29 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return "<div class=\"col-md-12 padding_ten\">\n<div class=\"row\">\n<div class=\"col-md-2\">\n<span><i class=\"fa fa-circle circlei\"></i></span>\n</div>\n<div class=\"col-md-6 name_artist\">\n<h4>SHI</h4>\n<h4>Linkin sad</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
   });
 
-this["jst"]["app/templates/suggest.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["jst"]["app/templates/suggest/control.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\">\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil Wayne</p> <a href=\"#\" class=\"orange\">artist</a>\n</div>\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil's Way</p> <a href=\"#\" class=\"orange\">album</a>\n</div>\n</div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"close-btn\"></i>\n</span>";
+  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\" data-role=\"items-container\"></div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"close-btn\"></i>\n</span>";
+  });
+
+this["jst"]["app/templates/suggest/item.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<p class=\"artist_name\">";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n<a href=\"#\" class=\"orange\">";
+  if (helper = helpers.type) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.type); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</a>";
+  return buffer;
   });

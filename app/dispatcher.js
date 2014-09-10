@@ -15,5 +15,8 @@ App.Dispatcher = _.clone(Backbone.Events);
 App.Events = {
     authenticate:   'login', // Успешный вход
     authorize:      'authorize', // Успешная авторизация (вход уже был)
-    registration:   'registration' // Успешная регистрация
+    registration:   'registration', // Успешная регистрация
+    Suggest: {
+        select: 'suggest:select' // Выбран элемент suggest
+    }
 };

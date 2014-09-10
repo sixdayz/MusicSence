@@ -3,6 +3,11 @@ namespace('App.Models');
 
 App.Models.SuggestItem = Backbone.Model.extend({
 
-    idAttribute: 'name'
+    idAttribute: 'name',
+
+    defaults: {
+        name: '',
+        type: ''
+    }
 
 });
