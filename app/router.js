@@ -6,6 +6,7 @@ App.Routers.Main = Backbone.Router.extend({
     initialize: function(options) {
         this.app        = options.app;
         this.enterView  = new App.Views.Enter.Layout({ app: this.app });
+        this.playerView = new App.Views.Player.Layout({ app: this.app });
     },
 
     routes: {
@@ -42,7 +43,7 @@ App.Routers.Main = Backbone.Router.extend({
         if ( ! this.app.userManager.isAuthorized()) {
             this.app.navigate('enter');
         } else {
-            this.app.getContent().html('');
+            this.app.getContent().html(this.playerView.render().$el);
         }
     }
 
