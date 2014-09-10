@@ -26862,12 +26862,8 @@ App.Models.Context = Backbone.Model.extend({
         return {
             time:                   moment().format('YYYY-MM-DD HH:mm:ss'),
             location:               null,
-            speed:                  null,
-            audio_output:           null,
-            internet_connection:    null,
             locale:                 navigator.language,
-            avg_step_count:         null,
-            device:                 null,
+            device:                 'browser',
             ip:                     null
         };
     }
@@ -27551,6 +27547,8 @@ App.Views.Player.Playlist = Backbone.View.extend({
     initialize: function(options) {
         this.app        = options.app;
         this.template   = jst['app/templates/player/playlist.hbs'];
+
+        App.Dispatcher.on(App.Events.Suggest.select, this.onSuggestSelect, this);
     },
 
     render: function() {
@@ -27610,6 +27608,13 @@ App.Views.Player.Playlist = Backbone.View.extend({
         this.generateFeed(
             songModel.get('songArtist'),
             App.Enums.MediaType.ARTIST
+        );
+    },
+
+    onSuggestSelect: function(suggestItem) {
+        this.generateFeed(
+            suggestItem.get('name'),
+            suggestItem.get('type').toLowerCase()
         );
     }
 });;
