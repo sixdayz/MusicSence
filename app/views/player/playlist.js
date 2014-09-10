@@ -48,7 +48,7 @@ App.Views.Player.Playlist = Backbone.View.extend({
 
     loadSongs: function(feedId) {
         this.$generateBtn.button('loading');
-        this.app.feedManager.getSongs(feedId, 1000)
+        this.app.feedManager.getSongs(feedId, 50)
 
             .done(function(songsCollection) {
                 this.app.playlistSongs.reset(songsCollection.toJSON());

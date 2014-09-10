@@ -11,8 +11,8 @@ App.Views.Player.Layout = Backbone.View.extend({
     },
 
     render: function() {
-        // this.$el.append(this.playerView.render().$el);
-        // this.$el.append(this.artistView.render().$el);
+        this.$el.append(this.playerView.render().$el);
+        this.$el.append(this.artistView.render().$el);
         this.$el.append(this.playlistView.render().$el);
         return this;
     }

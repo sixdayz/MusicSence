@@ -27492,7 +27492,11 @@ App.Views.Player.Artist = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template({
+            title: '',
+            artist: ''
+        }));
+
         this.delegateEvents();
         return this;
     }
@@ -27509,8 +27513,8 @@ App.Views.Player.Layout = Backbone.View.extend({
     },
 
     render: function() {
-        // this.$el.append(this.playerView.render().$el);
-        // this.$el.append(this.artistView.render().$el);
+        this.$el.append(this.playerView.render().$el);
+        this.$el.append(this.artistView.render().$el);
         this.$el.append(this.playlistView.render().$el);
         return this;
     }
@@ -27582,7 +27586,7 @@ App.Views.Player.Playlist = Backbone.View.extend({
 
     loadSongs: function(feedId) {
         this.$generateBtn.button('loading');
-        this.app.feedManager.getSongs(feedId, 1000)
+        this.app.feedManager.getSongs(feedId, 50)
 
             .done(function(songsCollection) {
                 this.app.playlistSongs.reset(songsCollection.toJSON());
@@ -27798,10 +27802,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 this["jst"]["app/templates/player/artist.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<h3>Breacking the Silence</h3>\n<h4>Linkin Park</h4>\n</div>\n</div>\n</div>";
+  buffer += "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<h3>";
+  if (helper = helpers.title) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.title); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h3>\n<h4>";
+  if (helper = helpers.artist) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.artist); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h4>\n</div>\n</div>\n</div>";
+  return buffer;
   });
 
 this["jst"]["app/templates/player/player.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {

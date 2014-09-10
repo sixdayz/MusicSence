@@ -11,7 +11,11 @@ App.Views.Player.Artist = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template({
+            title: '',
+            artist: ''
+        }));
+
         this.delegateEvents();
         return this;
     }
