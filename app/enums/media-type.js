@@ -1,9 +1,8 @@
 
 namespace('App.Enums');
 
-App.Enums.SuggestType = {
+App.Enums.MediaType = {
     ARTIST: 'artist',
     ALBUM:  'album',
-    GENRE:  'genre',
-    SONG:   'song'
+    GENRE:  'genre'
 };

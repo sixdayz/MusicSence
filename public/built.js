@@ -26947,6 +26947,7 @@ App.Application = Backbone.View.extend({
 
         this.router         = new App.Routers.Main({ app: this });
         this.suggestView    = new App.Views.Suggest.Control({ app: this });
+        this.playlistSongs  = new App.Collections.Songs();
     },
 
     navigate: function(fragment) {
@@ -27021,11 +27022,10 @@ App.Events = {
 };;
 namespace('App.Enums');
 
-App.Enums.SuggestType = {
+App.Enums.MediaType = {
     ARTIST: 'artist',
     ALBUM:  'album',
-    GENRE:  'genre',
-    SONG:   'song'
+    GENRE:  'genre'
 };;
 namespace('App.Managers');
 
@@ -27586,11 +27586,17 @@ App.Views.Player.Playlist = Backbone.View.extend({
         this.app.feedManager.getSongs(feedId, 1000)
 
             .done(function(songsCollection) {
+                this.app.playlistSongs.reset(songsCollection.toJSON());
+
                 this.$songsContainer.empty();
-                songsCollection.slice(0, 10).forEach(function(songModel) {
+                this.app.playlistSongs.slice(0, 10).forEach(function(songModel) {
 
                     var songView = new App.Views.Player.Song({ model: songModel });
                     this.$songsContainer.append(songView.render().$el);
+
+                    // Подпишемся на событие необходимости генерации
+                    // нового списка на основе данного трека
+                    songView.on('generate', this.generateFeedBySong, this);
 
                 }.bind(this));
             }.bind(this))
@@ -27598,6 +27604,13 @@ App.Views.Player.Playlist = Backbone.View.extend({
             .always(function() {
                 this.$generateBtn.button('reset');
             }.bind(this));
+    },
+
+    generateFeedBySong: function(songModel) {
+        this.generateFeed(
+            songModel.get('songArtist'),
+            App.Enums.MediaType.ARTIST
+        );
     }
 });;
 namespace('App.Views.Player');
@@ -27607,6 +27620,10 @@ App.Views.Player.Song = Backbone.View.extend({
     tagName: 'div',
     className: 'row border',
 
+    events: {
+        'click [data-role=generate-by-song-btn]': 'onGenerate'
+    },
+
     initialize: function(options) {
         this.template   = jst['app/templates/player/song.hbs'];
     },
@@ -27615,6 +27632,11 @@ App.Views.Player.Song = Backbone.View.extend({
         this.$el.html(this.template( this.model.toJSON() ));
         this.delegateEvents();
         return this;
+    },
+
+    onGenerate: function(event) {
+        event.preventDefault();
+        this.trigger('generate', this.model);
     }
 });;
 namespace('App.Views.Suggest');
@@ -27809,7 +27831,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (helper = helpers.title) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.title); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
+    + "</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\" data-role=\"generate-by-song-btn\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
   return buffer;
   });
 

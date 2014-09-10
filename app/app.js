@@ -19,6 +19,7 @@ App.Application = Backbone.View.extend({
 
         this.router         = new App.Routers.Main({ app: this });
         this.suggestView    = new App.Views.Suggest.Control({ app: this });
+        this.playlistSongs  = new App.Collections.Songs();
     },
 
     navigate: function(fragment) {

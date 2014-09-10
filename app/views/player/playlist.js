@@ -48,11 +48,17 @@ App.Views.Player.Playlist = Backbone.View.extend({
         this.app.feedManager.getSongs(feedId, 1000)
 
             .done(function(songsCollection) {
+                this.app.playlistSongs.reset(songsCollection.toJSON());
+
                 this.$songsContainer.empty();
-                songsCollection.slice(0, 10).forEach(function(songModel) {
+                this.app.playlistSongs.slice(0, 10).forEach(function(songModel) {
 
                     var songView = new App.Views.Player.Song({ model: songModel });
                     this.$songsContainer.append(songView.render().$el);
+
+                    // Подпишемся на событие необходимости генерации
+                    // нового списка на основе данного трека
+                    songView.on('generate', this.generateFeedBySong, this);
 
                 }.bind(this));
             }.bind(this))
@@ -60,5 +66,12 @@ App.Views.Player.Playlist = Backbone.View.extend({
             .always(function() {
                 this.$generateBtn.button('reset');
             }.bind(this));
+    },
+
+    generateFeedBySong: function(songModel) {
+        this.generateFeed(
+            songModel.get('songArtist'),
+            App.Enums.MediaType.ARTIST
+        );
     }
 });
