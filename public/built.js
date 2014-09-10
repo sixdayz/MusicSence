@@ -27091,8 +27091,12 @@ App.Managers.FeedManager = Backbone.Model.extend({
                 context:    JSON.stringify(context.toJSON())
             }).done(function(response) {
 
-                // Вернем обещанный ответ
-                deferred.resolve(response);
+                if (response.error) {
+                    deferred.reject(response.error);
+                } else {
+                    deferred.resolve(response.result);
+                }
+
             });
         }.bind(this));
 
@@ -27503,14 +27507,14 @@ App.Views.Player.Layout = Backbone.View.extend({
 
     initialize: function(options) {
         this.app            = options.app;
-        this.playerView     = new App.Views.Player.Player();
-        this.artistView     = new App.Views.Player.Artist();
-        this.playlistView   = new App.Views.Player.Playlist();
+        this.playerView     = new App.Views.Player.Player({ app: this.app });
+        this.artistView     = new App.Views.Player.Artist({ app: this.app });
+        this.playlistView   = new App.Views.Player.Playlist({ app: this.app });
     },
 
     render: function() {
-        this.$el.append(this.playerView.render().$el);
-        this.$el.append(this.artistView.render().$el);
+        // this.$el.append(this.playerView.render().$el);
+        // this.$el.append(this.artistView.render().$el);
         this.$el.append(this.playlistView.render().$el);
         return this;
     }
@@ -27540,14 +27544,60 @@ App.Views.Player.Playlist = Backbone.View.extend({
     tagName: 'div',
     className: 'playlist',
 
+    events: {
+        'click [data-role=generate-btn]': 'onGenerate'
+    },
+
     initialize: function(options) {
+        this.app        = options.app;
         this.template   = jst['app/templates/player/playlist.hbs'];
     },
 
     render: function() {
         this.$el.html(this.template);
+
+        this.$generateBtn       = this.$('[data-role=generate-btn]');
+        this.$songsContainer    = this.$('[data-role=songs-container]');
+
         this.delegateEvents();
         return this;
+    },
+
+    onGenerate: function(event) {
+        event.preventDefault();
+        this.generateFeed(null, null);
+    },
+
+    generateFeed: function(query, type) {
+        this.$generateBtn.button('loading');
+        this.app.feedManager.generate(query, type)
+
+            .done(function(feedId) {
+                this.loadSongs(feedId);
+            }.bind(this))
+
+            .always(function() {
+                this.$generateBtn.button('reset');
+            }.bind(this));
+    },
+
+    loadSongs: function(feedId) {
+        this.$generateBtn.button('loading');
+        this.app.feedManager.getSongs(feedId, 1000)
+
+            .done(function(songsCollection) {
+                this.$songsContainer.empty();
+                songsCollection.slice(0, 10).forEach(function(songModel) {
+
+                    var songView = new App.Views.Player.Song({ model: songModel });
+                    this.$songsContainer.append(songView.render().$el);
+
+                }.bind(this));
+            }.bind(this))
+
+            .always(function() {
+                this.$generateBtn.button('reset');
+            }.bind(this));
     }
 });;
 namespace('App.Views.Player');
@@ -27562,7 +27612,7 @@ App.Views.Player.Song = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template( this.model.toJSON() ));
         this.delegateEvents();
         return this;
     }
@@ -27738,19 +27788,29 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 this["jst"]["app/templates/player/playlist.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+  var buffer = "";
 
 
-  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3\">\n<span class=\"timer\">1.58</span>\n<div class=\"progress_bar\">\n<div class=\"progress_bar_in\">\n<span class=\"progress_current\"></span>\n</div>\n</div>\n<span class=\"timer\">3.16</span>\n</div>\n</div>\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4 rating\">\n<div>\n<span class=\"like\"><i class=\"fa fa-thumbs-o-up\"></i></span>\n<p class=\"rate\">Rate this song</p>\n<span class=\"dislike\"><i class=\"fa fa-thumbs-o-down\"></i></span>\n</div>\n</div>\n</div>\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3 margin\">\n<p class=\"playing_next\">Playing next:</p>\n<a class=\"new_list\">Generate new list</a>\n<div class=\"col-md-12 padding\" data-role=\"songs-container\"></div>\n</div>\n</div>\n</div>";
+  buffer += "<div class=\"container\">\n\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3 margin\">\n<p class=\"playing_next\">Playing next:</p>\n<a class=\"new_list\" data-role=\"generate-btn\" data-loading-text=\"Generating...\">Generate new list</a>\n<div class=\"col-md-12 padding\" data-role=\"songs-container\"></div>\n</div>\n</div>\n</div>";
+  return buffer;
   });
 
 this["jst"]["app/templates/player/song.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  return "<div class=\"col-md-12 padding_ten\">\n<div class=\"row\">\n<div class=\"col-md-2\">\n<span><i class=\"fa fa-circle circlei\"></i></span>\n</div>\n<div class=\"col-md-6 name_artist\">\n<h4>SHI</h4>\n<h4>Linkin sad</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
+  buffer += "<div class=\"col-md-12 padding_ten\">\n<div class=\"row\">\n<div class=\"col-md-2\">\n<span><i class=\"fa fa-circle circlei\"></i></span>\n</div>\n<div class=\"col-md-6 name_artist\">\n<h4>";
+  if (helper = helpers.songArtist) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.songArtist); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h4>\n<h4>";
+  if (helper = helpers.title) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.title); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
+  return buffer;
   });
 
 this["jst"]["app/templates/suggest/control.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -27759,7 +27819,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\" data-role=\"items-container\"></div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"close-btn\"></i>\n</span>";
+  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" autocomplete=\"off\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\" data-role=\"items-container\"></div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"close-btn\"></i>\n</span>";
   });
 
 this["jst"]["app/templates/suggest/item.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {

@@ -18,8 +18,12 @@ App.Managers.FeedManager = Backbone.Model.extend({
                 context:    JSON.stringify(context.toJSON())
             }).done(function(response) {
 
-                // Вернем обещанный ответ
-                deferred.resolve(response);
+                if (response.error) {
+                    deferred.reject(response.error);
+                } else {
+                    deferred.resolve(response.result);
+                }
+
             });
         }.bind(this));
 

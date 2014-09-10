@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    {{!-- <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <span class="timer">1.58</span>
             <div class="progress_bar">
@@ -18,11 +18,11 @@
                 <span class="dislike"><i class="fa fa-thumbs-o-down"></i></span>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-md-6 col-md-offset-3 margin">
             <p class="playing_next">Playing next:</p>
-            <a class="new_list">Generate new list</a>
+            <a class="new_list" data-role="generate-btn" data-loading-text="Generating...">Generate new list</a>
             <div class="col-md-12 padding" data-role="songs-container"></div>
         </div>
     </div>
