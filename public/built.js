@@ -27564,7 +27564,7 @@ App.Views.Suggest = Backbone.View.extend({
 
     events: {
         'click [data-role=open-btn]':   'openInput',
-        'click [data-role=search-btn]': 'search'
+        'click [data-role=close-btn]': 'closeInput'
     },
 
     initialize: function(options) {
@@ -27579,7 +27579,7 @@ App.Views.Suggest = Backbone.View.extend({
         this.$el.html(this.template);
 
         this.$openBtn       = this.$('[data-role=open-btn]');
-        this.$searchBtn     = this.$('[data-role=search-btn]').hide();
+        this.$closeBtn      = this.$('[data-role=close-btn]').hide();
         this.$searchInput   = this.$('[name=search]');
 
         this.delegateEvents();
@@ -27593,12 +27593,15 @@ App.Views.Suggest = Backbone.View.extend({
     openInput: function(event) {
         event.preventDefault();
         this.$openBtn.hide();
-        this.$searchBtn.show();
+        this.$closeBtn.show();
         this.$searchInput.animate({ 'width': 285, 'marginLeft': 25 });
     },
 
-    search: function() {
+    closeInput: function(event) {
         event.preventDefault();
+        this.$openBtn.show();
+        this.$closeBtn.hide();
+        this.$searchInput.animate({ 'width': 15, 'marginLeft': 275 });
     }
 
 });;this["jst"] = this["jst"] || {};
@@ -27673,5 +27676,5 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\">\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil Wayne</p> <a href=\"#\" class=\"orange\">artist</a>\n</div>\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil's Way</p> <a href=\"#\" class=\"orange\">album</a>\n</div>\n</div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"search-btn\"></i>\n</span>";
+  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\">\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil Wayne</p> <a href=\"#\" class=\"orange\">artist</a>\n</div>\n<div class=\"artist_row\">\n<p class=\"artist_name\">Lil's Way</p> <a href=\"#\" class=\"orange\">album</a>\n</div>\n</div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"close-btn\"></i>\n</span>";
   });

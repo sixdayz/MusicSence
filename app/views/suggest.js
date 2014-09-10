@@ -8,7 +8,7 @@ App.Views.Suggest = Backbone.View.extend({
 
     events: {
         'click [data-role=open-btn]':   'openInput',
-        'click [data-role=search-btn]': 'search'
+        'click [data-role=close-btn]': 'closeInput'
     },
 
     initialize: function(options) {
@@ -23,7 +23,7 @@ App.Views.Suggest = Backbone.View.extend({
         this.$el.html(this.template);
 
         this.$openBtn       = this.$('[data-role=open-btn]');
-        this.$searchBtn     = this.$('[data-role=search-btn]').hide();
+        this.$closeBtn      = this.$('[data-role=close-btn]').hide();
         this.$searchInput   = this.$('[name=search]');
 
         this.delegateEvents();
@@ -37,12 +37,15 @@ App.Views.Suggest = Backbone.View.extend({
     openInput: function(event) {
         event.preventDefault();
         this.$openBtn.hide();
-        this.$searchBtn.show();
+        this.$closeBtn.show();
         this.$searchInput.animate({ 'width': 285, 'marginLeft': 25 });
     },
 
-    search: function() {
+    closeInput: function(event) {
         event.preventDefault();
+        this.$openBtn.show();
+        this.$closeBtn.hide();
+        this.$searchInput.animate({ 'width': 15, 'marginLeft': 275 });
     }
 
 });
