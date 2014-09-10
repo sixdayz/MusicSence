@@ -26930,6 +26930,7 @@ App.Application = Backbone.View.extend({
     el: 'body',
 
     initialize: function(config) {
+        this.playlistSongs  = new App.Collections.Songs();
         this.config         = new App.Models.Config(config);
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
@@ -26943,7 +26944,6 @@ App.Application = Backbone.View.extend({
 
         this.router         = new App.Routers.Main({ app: this });
         this.suggestView    = new App.Views.Suggest.Control({ app: this });
-        this.playlistSongs  = new App.Collections.Songs();
     },
 
     navigate: function(fragment) {
@@ -27552,6 +27552,7 @@ App.Views.Player.Playlist = Backbone.View.extend({
         this.app        = options.app;
         this.template   = jst['app/templates/player/playlist.hbs'];
 
+        this.app.playlistSongs.on('add remove reset', this.renderSongs, this);
         App.Dispatcher.on(App.Events.Suggest.select, this.onSuggestSelect, this);
     },
 
@@ -27589,24 +27590,27 @@ App.Views.Player.Playlist = Backbone.View.extend({
         this.app.feedManager.getSongs(feedId, 50)
 
             .done(function(songsCollection) {
-                this.app.playlistSongs.reset(songsCollection.toJSON());
-
-                this.$songsContainer.empty();
-                this.app.playlistSongs.slice(0, 10).forEach(function(songModel) {
-
-                    var songView = new App.Views.Player.Song({ model: songModel });
-                    this.$songsContainer.append(songView.render().$el);
-
-                    // Подпишемся на событие необходимости генерации
-                    // нового списка на основе данного трека
-                    songView.on('generate', this.generateFeedBySong, this);
-
-                }.bind(this));
+                this.app.playlistSongs.reset(songsCollection.models);
             }.bind(this))
 
             .always(function() {
                 this.$generateBtn.button('reset');
             }.bind(this));
+    },
+
+    renderSongs: function() {
+        this.$songsContainer.empty();
+
+        // Выведем первые 10 треков из списка
+        this.app.playlistSongs.slice(0, 10).forEach(function(songModel) {
+
+            var songView = new App.Views.Player.Song({ model: songModel });
+            this.$songsContainer.append(songView.render().$el);
+
+            // Подпишемся на событие необходимости генерации
+            // нового списка на основе данного трека
+            songView.on('generate', this.generateFeedBySong, this);
+        }.bind(this));
     },
 
     generateFeedBySong: function(songModel) {

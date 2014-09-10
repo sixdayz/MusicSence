@@ -6,6 +6,7 @@ App.Application = Backbone.View.extend({
     el: 'body',
 
     initialize: function(config) {
+        this.playlistSongs  = new App.Collections.Songs();
         this.config         = new App.Models.Config(config);
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
@@ -19,7 +20,6 @@ App.Application = Backbone.View.extend({
 
         this.router         = new App.Routers.Main({ app: this });
         this.suggestView    = new App.Views.Suggest.Control({ app: this });
-        this.playlistSongs  = new App.Collections.Songs();
     },
 
     navigate: function(fragment) {
