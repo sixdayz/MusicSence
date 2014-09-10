@@ -27557,6 +27557,7 @@ App.Views.Player.Playlist = Backbone.View.extend({
         this.$generateBtn       = this.$('[data-role=generate-btn]');
         this.$songsContainer    = this.$('[data-role=songs-container]');
 
+        this.generateFeed(null, null);
         this.delegateEvents();
         return this;
     },
