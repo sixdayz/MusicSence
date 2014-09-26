@@ -8,9 +8,6 @@
     "grunt-contrib-concat":     "latest",
     "grunt-contrib-jshint":     "latest",
     "grunt-contrib-handlebars": "latest",
-    "grunt-contrib-clean":      "latest",
-    "connect":                  "latest",
-    "http-proxy":               "latest",
-    "serve-static":             "latest"
+    "grunt-contrib-clean":      "latest"
   }
 }
