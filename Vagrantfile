@@ -12,10 +12,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.network "public_network"
   # config.ssh.forward_agent = true
   # config.vm.synced_folder "../data", "/vagrant_data"
-  
-  config.vm.provision :puppet do |puppet| 
-    puppet.manifests_path = 'puppet/manifests' 
-    puppet.module_path = 'puppet/modules' 
-    puppet.manifest_file = 'init.pp'
+
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path   = 'puppet/manifests'
+    puppet.module_path      = 'puppet/modules'
+    puppet.manifest_file    = 'init.pp'
   end
 end

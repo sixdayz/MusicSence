@@ -4,11 +4,11 @@ class nginx {
         path    => '/etc/yum.repos.d/nginx.repo',
         ensure  => file,
         source  => 'puppet:///modules/nginx/nginx.repo'
-    }   
+    }
 
-    file { '/var/www/musicsence': 
-        ensure => 'link', 
-        target => '/vagrant', 
+    file { '/var/www/musicsence':
+        ensure => 'link',
+        target => '/vagrant',
     }
 
     package { 'nginx':
@@ -19,16 +19,9 @@ class nginx {
         ]
     }
 
-    service { 'iptables':
-        ensure  => stopped
-    }
-
     service { 'nginx':
         ensure  => running,
-        require => [
-            Package['nginx'],
-            Service['iptables']
-        ]
+        require => Package['nginx']
     }
 
     file { 'default-nginx-disable':

@@ -6,6 +6,10 @@ package { 'vim':
     ensure => present,
 }
 
+service { 'iptables':
+    ensure => stopped
+}
+
 file { '/var/www/':
     ensure => 'directory',
 }
