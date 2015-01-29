@@ -56,6 +56,7 @@ App.Views.Enter.Login = Backbone.View.extend({
             }.bind(this))
 
             .fail(function() {
+                console.log(arguments);
                 alert('Invalid login or password');
             }.bind(this))
 

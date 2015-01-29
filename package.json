@@ -2,12 +2,13 @@
   "name": "MusicSence",
   "version": "0.0.1",
   "devDependencies": {
-    "grunt-contrib-watch":      "latest",
-    "grunt-contrib-cssmin":     "latest",
-    "grunt-contrib-uglify":     "latest",
-    "grunt-contrib-concat":     "latest",
-    "grunt-contrib-jshint":     "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-cssmin": "latest",
     "grunt-contrib-handlebars": "latest",
-    "grunt-contrib-clean":      "latest"
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "http-proxy": "^1.8.1"
   }
 }
