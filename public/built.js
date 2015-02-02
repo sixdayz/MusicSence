@@ -28244,59 +28244,59 @@ App.Views.Suggest.Item = Backbone.View.extend({
 });;this["jst"] = this["jst"] || {};
 
 this["jst"]["app/templates/enter/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"container\"><div class=\"row\"><div class=\"col-md-4 col-md-offset-4\"><p class=\"welcome\">Welcome to</p><p class=\"music\">Music Sense</p></div></div><div id=\"social\"><div class=\"row\"><div class=\"col-md-4 col-md-offset-4\"><span class=\"social\"><i class=\"fa fa-facebook\"></i></span><span class=\"social\"><i class=\"fa fa-google-plus\"></i></span><span class=\"social\"><i class=\"fa fa-vk\"></i></span></div></div></div><div data-role=\"loading\"><p>Загрузка...</p></div><div id=\"register\" data-role=\"enter-btns\"><div class=\"row\"><div class=\"col-md-4 col-md-offset-4\"><button type=\"button\" class=\"register_btn\" data-role=\"reg-btn\">Register</button><br /><button type=\"button\" class=\"login_btn\" data-role=\"login-btn\">Login</button></div></div></div></div>";
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<p class=\"welcome\">Welcome to</p>\n<p class=\"music\">Music Sense</p>\n</div>\n</div>\n<div id=\"social\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<span class=\"social\"><i class=\"fa fa-facebook\"></i></span>\n<span class=\"social\"><i class=\"fa fa-google-plus\"></i></span>\n<span class=\"social\"><i class=\"fa fa-vk\"></i></span>\n</div>\n</div>\n</div>\n<div data-role=\"loading\">\n<p>Загрузка...</p>\n</div>\n<div id=\"register\" data-role=\"enter-btns\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<button type=\"button\" class=\"register_btn\" data-role=\"reg-btn\">Register</button>\n<br />\n<button type=\"button\" class=\"login_btn\" data-role=\"login-btn\">Login</button>\n</div>\n</div>\n</div>\n</div>";
   },"useData":true});
 
 
 
 this["jst"]["app/templates/enter/login.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"register_div\"><p>Login</p><p>If you don't have an account you can <a href=\"#\" data-role=\"reg-btn\">Register</a> </p><div class=\"form\"><form action=\"\" method=\"\" data-role=\"login-form\"><input type=\"text\" name=\"login\" placeholder=\"Type your login or email\"><br><input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br><div class=\"events\"><a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a><input type=\"submit\" value=\"Complete\" data-loading-text=\"Loading...\" data-role=\"complete-btn\" /></div></form></div></div>";
+  return "<div class=\"register_div\">\n<p>Login</p>\n<p>If you don't have an account you can <a href=\"#\" data-role=\"reg-btn\">Register</a> </p>\n<div class=\"form\">\n<form action=\"\" method=\"\" data-role=\"login-form\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login or email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\" data-loading-text=\"Loading...\" data-role=\"complete-btn\" />\n</div>\n</form></div>\n</div>";
 },"useData":true});
 
 
 
 this["jst"]["app/templates/enter/registration.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"register_div\"><p>Registration</p><p>You'll create your 10tracks account. You can <a href=\"#\" data-role=\"login-btn\">Login</a> instead</p><div class=\"form\"><form action=\"\" method=\"\" data-role=\"registration-form\"><input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br><input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br><input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br><div class=\"events\"><a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a><input type=\"submit\" value=\"Complete\" data-role=\"complete-btn\" data-loading-text=\"Loading...\" /></div></form></div></div>";
+  return "<div class=\"register_div\">\n<p>Registration</p>\n<p>You'll create your 10tracks account. You can <a href=\"#\" data-role=\"login-btn\">Login</a> instead</p>\n<div class=\"form\">\n<form action=\"\" method=\"\" data-role=\"registration-form\">\n<input type=\"text\" name=\"login\" placeholder=\"Type your login\"><br>\n<input type=\"email\" name=\"email\" placeholder=\"Type your email\"><br>\n<input type=\"password\" name=\"password\" placeholder=\"Type your password\"><br>\n<div class=\"events\">\n<a class=\"cancel\" data-role=\"cancel-btn\">Cancel</a>\n<input type=\"submit\" value=\"Complete\" data-role=\"complete-btn\" data-loading-text=\"Loading...\" />\n</div>\n</form>\n</div>\n</div>";
   },"useData":true});
 
 
 
 this["jst"]["app/templates/player/artist.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div class=\"container\"><div class=\"row\"><div class=\"col-md-4 col-md-offset-4\"><h3>"
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<h3>"
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</h3><h4>"
+    + "</h3>\n<h4>"
     + escapeExpression(((helper = (helper = helpers.artist || (depth0 != null ? depth0.artist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"artist","hash":{},"data":data}) : helper)))
-    + "</h4></div></div></div>";
+    + "</h4>\n</div>\n</div>\n</div>";
 },"useData":true});
 
 
 
 this["jst"]["app/templates/player/player.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"container\"><div class=\"row\"><div class=\"col-md-4 col-md-offset-4\"><span class=\"heart\" id=\"disable\"><i class=\"fa fa-heart\"></i></span><div class=\"circle\"><span class=\"play\"><i class=\"fa fa-play\"></i></span></div><span class=\"forward\"><i class=\"fa fa-forward\"></i></span></div></div></div>";
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<span class=\"heart\" id=\"disable\">\n<i class=\"fa fa-heart\"></i>\n</span>\n<div class=\"circle\">\n<span class=\"play\"><i class=\"fa fa-play\"></i></span>\n</div>\n<span class=\"forward\"><i class=\"fa fa-forward\"></i></span>\n</div>\n</div>\n</div>";
   },"useData":true});
 
 
 
 this["jst"]["app/templates/player/playlist.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3 margin\"><p class=\"playing_next\">Playing next:</p><a class=\"new_list\" data-role=\"generate-btn\" data-loading-text=\"Generating...\">Generate new list</a><div class=\"col-md-12 padding\" data-role=\"songs-container\"></div></div></div></div>";
+  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3 margin\">\n<p class=\"playing_next\">Playing next:</p>\n<a class=\"new_list\" data-role=\"generate-btn\" data-loading-text=\"Generating...\">Generate new list</a>\n<div class=\"col-md-12 padding\" data-role=\"songs-container\"></div>\n</div>\n</div>\n</div>";
 },"useData":true});
 
 
 
 this["jst"]["app/templates/player/song.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div class=\"col-md-12 padding_ten\"><div class=\"row\"><div class=\"col-md-2\"><span><i class=\"fa fa-circle circlei\"></i></span></div><div class=\"col-md-6 name_artist\"><h4>"
+  return "<div class=\"col-md-12 padding_ten\">\n<div class=\"row\">\n<div class=\"col-md-2\">\n<span><i class=\"fa fa-circle circlei\"></i></span>\n</div>\n<div class=\"col-md-6 name_artist\">\n<h4>"
     + escapeExpression(((helper = (helper = helpers.songArtist || (depth0 != null ? depth0.songArtist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"songArtist","hash":{},"data":data}) : helper)))
-    + "</h4><h4>"
+    + "</h4>\n<h4>"
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</h4></div><div class=\"col-md-4 fade_in\"><a class=\"orange\" data-role=\"generate-by-song-btn\">Generate</a><p>based on this song</p></div></div></div>";
+    + "</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\" data-role=\"generate-by-song-btn\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
 },"useData":true});
 
 
 
 this["jst"]["app/templates/suggest/control.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<form><input type=\"text\" name=\"search\" class=\"search\" autocomplete=\"off\" placeholder=\"Song artist ot genre...\"></form><div class=\"music_list\" data-role=\"items-container\"></div><span class=\"search_click\"><i class=\"fa fa-search\" data-role=\"open-btn\"></i><i class=\"fa fa-arrow-right\" data-role=\"close-btn\"></i></span>";
+  return "<form>\n<input type=\"text\" name=\"search\" class=\"search\" autocomplete=\"off\" placeholder=\"Song artist ot genre...\">\n</form>\n<div class=\"music_list\" data-role=\"items-container\"></div>\n<span class=\"search_click\">\n<i class=\"fa fa-search\" data-role=\"open-btn\"></i>\n<i class=\"fa fa-arrow-right\" data-role=\"close-btn\"></i>\n</span>";
   },"useData":true});
 
 
@@ -28305,7 +28305,7 @@ this["jst"]["app/templates/suggest/item.hbs"] = Handlebars.template({"compiler":
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "<p class=\"artist_name\">"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "</p><a href=\"#\" class=\"orange\">"
+    + "</p>\n<a href=\"#\" class=\"orange\">"
     + escapeExpression(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"type","hash":{},"data":data}) : helper)))
     + "</a>";
 },"useData":true});

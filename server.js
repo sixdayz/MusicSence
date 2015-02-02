@@ -1,10 +1,10 @@
-var http      = require("http"),
-    httpProxy = require('http-proxy'),
-    proxy     = httpProxy.createProxyServer({}),
-    url       = require("url"),
-    path      = require("path"),
-    fs        = require("fs")
-    port      = parseInt(process.argv[2] || 8888, 10);
+var http      = require("http");
+var httpProxy = require('http-proxy');
+var proxy     = httpProxy.createProxyServer({});
+var url       = require("url");
+var path      = require("path");
+var fs        = require("fs");
+var port      = parseInt(process.argv[2] || 8888, 10);
 
 http.createServer(function(request, response) {
 
@@ -23,8 +23,14 @@ http.createServer(function(request, response) {
 
   if (0 === uri.indexOf('/api')) {
     proxy.web(request, response, { target: 'http://musicsense.me' });
+    proxy.on('error', function(err, req) {
+      console.log(err);
+    });
+
     return;
   }
+
+  console.log(uri);
 
   // Отдадим локальный файл, если он существует
 
