@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Musicsense - new generation of music services more personalized, clean design and smart alghoritms</title>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap -->
+	<!--<link rel="stylesheet/less" type="text/css" href="assets/less/bootstrap.less">	-->
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+
+	<!-- Styles -->
+	<!--<link rel="stylesheet/less" type="text/css" href="assets/less/main.less">-->
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">	
+	
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+	
+	<!-- Plugins Styles -->	
+	<link rel="stylesheet" href="assets/plugins/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="assets/plugins/owl-carousel/owl.theme.css">
+	<!--<link rel="stylesheet" href="assets/plugins/fullPage/jquery.fullPage.css">-->
+	<link rel="stylesheet" href="assets/plugins/slider/bootstrap-slider.css">
+	<link rel="stylesheet" href="assets/plugins/asPieProgress/progress.css">
+		
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+     
+</head>
+
+<body>
+
+<!-- Navbar -->
+<!-- ++++++++++++++++++++++++++++++++++++++++ -->
+
+<header class="header">
+	<nav id="nav" class="navbar navbar-default  navbar-fixed-top"  role="navigation">
+	  <div class="container">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="#home">
+		  	<img src="assets/images/logo.png" alt="musicsense"/>
+		  </a>
+		</div>
+		<div class="navbar-collapse collapse" id="navbar-collapse">		
+			<div class="btn-toolbar navbar-form  navbar-right">
+<!--				<a type="button" class="btn btn-info"><small>Login</small></a>
+				<a type="button" class="btn btn-default"><small>Register</small></a>-->
+				<a type="button" class="btn btn-default" href="login.html"><small>early access for web version</small></a>
+			</div>
+		</div><!--/.nav-collapse -->
+	  </div><!--/.container -->
+	</nav>
+</header>
+
+
+<!-- Section -->
+<!-- ++++++++++++++++++++++++++++++++++++++++ -->
+
+<section class="play" >
+	<div class="container">
+		<div class="row ">
+			<div class="col-lg-3 col-lg-offset-3  col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1">
+				<article>
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a href="#now-playing" role="tab" data-toggle="tab">Now playing</a></li>
+						<li role="presentation" class=""><a href="#search" role="tab" data-toggle="tab">Search</a></li>
+					</ul>
+					
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="now-playing">
+							<figure class="player">
+								<img src="assets/images/cover.png" alt="player" />
+								<figcaption>
+									<h6>BREAKING THE SILENCE</h6>
+									<p class="small">Linkin Park</p>
+									<ul class="btn-play list-unstyled">
+										<li><a href="#"><i class="fa fa-heart"></i></a></li>
+										<li><a href="#"><i class="fa fa-play"></i></a></li>
+										<li><a href="#"><i class="fa fa-forward"></i></a></li>
+									</ul>
+								</figcaption>
+							</figure>
+							<div class="time" id="">
+								
+								<input id="slider" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>	
+							</div>		
+							<p class="time-marks"><span class="pull-left">1.34</span><span class="pull-right">2.34</span></p>							
+							<div class="btn-like">
+								<a class="" href="#"></a>
+								<a class="" href="#"></a>
+							</div>
+						</div><!-- tab panel-->
+						<div role="tabpanel" class="tab-pane fade" id="search">
+							<div class="row">
+								<div class="col-sm-12  col-center-block">
+									<form class="form-inline" role="form">
+										<div class="form-group">
+											<div class="input-group">
+												<input class="form-control input-sm" type="text" placeholder="Search for song, artist or genre…">
+												<span class="input-group-btn">
+													<span class="btn btn-default btn-sm">
+														<i class="fa fa-search"></i>
+													</span>
+												</span>
+											</div>
+										</div>
+									</form>	
+									<div class="pie_progress" role="progressbar">
+										 <div class="pie_progress__number">0%</div>
+										 <div class="pie_progress__label">Text Label</div>
+									</div>
+				                    <button id="button_start"class="btn btn-default">Start</button>								
+								</div>
+							</div>
+						</div><!-- tab panel-->
+					</div><!-- tab-content -->
+				</article>	
+			</div><!-- col-->
+			<div class="col-lg-3 col-md-4  col-sm-5 ">
+				<article>
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class=""><a href="#playing-next" role="tab" data-toggle="tab">Playing next</a></li>
+						<li role="presentation" class="active"><a href="#favorites" role="tab" data-toggle="tab">Favorites</a></li>
+					</ul>
+					
+					<!-- Tab panes -->
+					<div class="tab-content" >
+					
+						<div role="tabpanel" class="tab-pane fade" id="playing-next">
+							<ul class=" media-list">
+								<li class="media">
+									<a class="pull-left" href="#">
+										<img src="assets/images/icon-list.png" alt="icon">
+									</a>
+									<div class="media-body text-left">
+										<h5 class="media-heading ">Breaking the habits</h5>
+										<p>Linkin Park</p>
+									</div>
+								</li>
+								<li class="media">
+									<a class="pull-left" href="#">
+										<img src="assets/images/icon-list.png" alt="icon">
+									</a>
+									<div class="media-body text-left">
+										<h5 class="media-heading ">Breaking the habits</h5>
+										<p>Linkin Park</p>
+									</div>
+								</li>
+								<li class="media">
+									<a class="pull-left" href="#">
+										<img src="assets/images/icon-list.png" alt="icon">
+									</a>
+									<div class="media-body text-left">
+										<h5 class="media-heading ">Breaking the habits</h5>
+										<p>Linkin Park</p>
+									</div>
+								</li>
+							</ul>
+						</div><!-- tab panel-->
+						
+						<div role="tabpanel" class="tab-pane fade in active " id="favorites">
+							<div class="row">
+								<div class="col-sm-6">
+									<figure class="favorites first">
+										<a href="#"><img src="assets/images/btn-circle-1.png" alt="button"/></a>									
+										<figcaption>
+											<h5>Storage base</h5>
+											<p>Jump kitty</p>
+										</figcaption>
+									</figure>
+								</div>
+								<div class="col-sm-6">
+									<figure class="favorites second">
+										<a href="#"><img src="assets/images/btn-circle-2.png" alt="button"/></a>
+										<figcaption>
+											<h5>Free slot</h5>
+											<p ></p>
+										</figcaption>
+									</figure>
+								</div>
+								<div class="col-sm-6">
+									<figure class="favorites">
+										<a href="#"><img src="assets/images/btn-circle-3.png" alt="button"/></a>
+										<figcaption>
+											<h5>Get more space</h5>
+											<p> Jump kitty</p>
+										</figcaption>
+									</figure>
+								</div>
+							</div>
+						</div><!-- tab panel-->
+						
+					</div><!-- tab-content -->
+				</article>	
+			</div><!-- col-->
+		</div><!--row-->
+	</div><!--container-->
+</section>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<!-- Include BOOTSTRAP plugins  -->
+<script src="assets/js/bootstrap.min.js"></script>
+<!-- Include custom plugins  -->
+<script src="assets/plugins/owl-carousel/owl.carousel.min.js"></script>
+<script src="assets/plugins/jquery.typer.js/jquery.typer.js"></script>
+<script src="assets/plugins/fullPage/jquery.fullPage.js"></script>
+<script src="assets/plugins/fullPage/vendors/jquery.easings.min.js"></script>
+<script src="assets/plugins/fullPage/vendors/jquery.slimscroll.min.js"></script>
+<script src="assets/plugins/slider/bootstrap-slider.js"></script>
+<script src="assets/plugins/asPieProgress/jquery-asPieProgress.min.js"></script>
+<script src="assets/plugins/typeahead/handlebars.js"></script>
+<script src="assets/plugins/typeahead/typeahead.bundle.min.js"></script>
+
+<!-- Include LESS -->   
+<script type="text/javascript" src="assets/js/less-1.7.0.min.js"></script>
+<!-- Include local script calls -->  
+<script src="assets/js/custom.js"></script>
+
+</body>
+</html>
+

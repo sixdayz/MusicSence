@@ -13,8 +13,8 @@ module.exports = function(grunt) {
         },
 
         clean: {
-            pre_build:      [ 'public/*.js' ],
-            after_build:    ['public/app.js', 'public/templates.js']
+            pre_build:      [ 'public/built/*.js' ],
+            after_build:    ['public/built/app.js', 'public/built/templates.js']
         },
 
         concat: {
@@ -37,11 +37,11 @@ module.exports = function(grunt) {
                     'app/models/**/*.js',
                     'app/**/*.js'
                 ],
-                dest: 'public/app.js',
+                dest: 'public/built/app.js',
             },
             templates: {
-                src:    ['public/app.js', 'public/templates.js'],
-                dest:   'public/built.js',
+                src:    ['public/built/app.js', 'public/built/templates.js'],
+                dest:   'public/built/built.js',
             }
         },
 
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                         return src.replace(/(^\s+|\s+$)/gm, '');
                     }
                 },
-                files: { 'public/templates.js': [ 'app/templates/**/*.hbs' ]}
+                files: { 'public/built/templates.js': [ 'app/templates/**/*.hbs' ]}
             }
         },
 
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
             },
             release: {
                 files: {
-                    'public/built.min.js': [ 'public/built.js' ]
+                    'public/built/built.min.js': [ 'public/built/built.js' ]
                 }
             }
         },

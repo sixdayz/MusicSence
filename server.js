@@ -30,8 +30,6 @@ http.createServer(function(request, response) {
     return;
   }
 
-  console.log(uri);
-
   // Отдадим локальный файл, если он существует
 
   fs.exists(filename, function(exists) {
