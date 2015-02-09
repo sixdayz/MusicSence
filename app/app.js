@@ -31,12 +31,12 @@ App.Application = Backbone.View.extend({
 
     render: function() {
 
-        // Инициализируем ссылки на контейнеры
-        this.$header    = this.$('[data-role=page-header]');
-        this.$content   = this.$('[data-role=page-content]');
+        // // Инициализируем ссылки на контейнеры
+        // this.$header    = this.$('[data-role=page-header]');
+        // this.$content   = this.$('[data-role=page-content]');
 
-        // Добавим представления
-        this.$header.append(this.suggestView.render().$el.hide());
+        // // Добавим представления
+        // this.$header.append(this.suggestView.render().$el.hide());
 
         return this;
     },
