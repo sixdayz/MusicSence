@@ -144,58 +144,6 @@ if (fullpage.length > 0) {
 	});
 }
 
-// if ($('#login-form').length > 0) {
-//   	$('#login-form')
-//   	.bootstrapValidator({
-// 	  	submitButtons: '#btn-login',
-// 		message: 'This value is not valid',
-// 		feedbackIcons: {
-// 			valid: 'fa fa-check',
-// 			invalid: 'fa fa-times',
-// 			validating: 'fa fa-spinner fa-spin'
-// 		},
-// 		fields: {
-// 			email: {
-// 				validators: {
-// 					notEmpty: {
-// 						message: 'The email address is required and can\'t be empty'
-// 					},
-// 					emailAddress: {
-// 						message: 'The input is not a valid email address'
-// 					}
-// 				}
-// 			},
-//  			comment: {
-// 				validators: {
-//                     stringLength: {
-//                         max: 300,
-//                         message: 'The comment must be less than 300 characters long'
-//                     }
-// 				}
-// 			}
-// 		}
-//     })
-//    .on('success.form.bv', function(e) {
-// 	    e.preventDefault();
-
-//       // Get the form instance
-// //        var $form = $(e.target);
-
-//         // Get the BootstrapValidator instance
-// //        var bv = $form.data('bootstrapValidator');
-
-//         // Use Ajax to submit form data
-// //        $.post($form.attr('action'), $form.serialize(), function(result) {
-// //            // ... Process the result ...
-// //        }, 'json');
-
-// 		$('.alert').toggleClass('in');
-// 		setTimeout(function () {
-// 		    $('.alert').toggleClass('in');
-// 		}, 3000);
-//     });
-// }
-
 if ($('input#slider').length > 0) {
 	var mySlider = $("input#slider").slider({
 		 max : 100,

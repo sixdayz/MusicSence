@@ -3,6 +3,10 @@ namespace('App.Views.Player');
 
 App.Views.Player.Layout = Backbone.View.extend({
 
+    tagName: 'section',
+    className: 'play',
+    template: jst['app/templates/player/layout.hbs'],
+
     initialize: function(options) {
         this.app            = options.app;
         this.playerView     = new App.Views.Player.Player({ app: this.app });
@@ -11,9 +15,10 @@ App.Views.Player.Layout = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.append(this.playerView.render().$el);
-        this.$el.append(this.artistView.render().$el);
-        this.$el.append(this.playlistView.render().$el);
+        this.$el.html(this.template);
+        //this.$el.append(this.playerView.render().$el);
+        //this.$el.append(this.artistView.render().$el);
+        //this.$el.append(this.playlistView.render().$el);
         return this;
     }
 
