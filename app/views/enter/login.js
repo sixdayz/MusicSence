@@ -9,8 +9,8 @@ App.Views.Enter.Login = Backbone.View.extend({
     template: jst['app/templates/enter/login.hbs'],
 
     events: {
-        'click [data-role=reg-btn]':        'showRegistrationView',
-        'submit [data-role=login-form]':    'login'
+        'click [data-role=reg-btn]':        'showRegistrationView'//,
+        //'submit [data-role=login-form]':    'login'
     },
 
     bindings: {
@@ -27,12 +27,48 @@ App.Views.Enter.Login = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template);
 
-        this.$loginBtn = this.$('[data-role=complete-btn]');
+        this.$loginBtn  = this.$('[data-role=complete-btn]');
+        this.$form      = this.$('[data-role=login-form]');
 
+        this._initBootstrapValidator();
         this.stickit();
         this.delegateEvents();
 
         return this;
+    },
+
+    _initBootstrapValidator: function () {
+        this.$form.bootstrapValidator({
+            submitButtons: '[data-role="complete-btn"]',
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-spinner fa-spin'
+            },
+            fields: {
+                login: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The login or email address is required and can\'t be empty'
+                        }/*,
+                        emailAddress: {
+                            message: 'The input is not a valid email address'
+                        }*/
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required and can\'t be empty'
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function(event) {
+            event.preventDefault();
+            this.login();
+        }.bind(this));
     },
 
     showRegistrationView: function(event) {
@@ -40,10 +76,8 @@ App.Views.Enter.Login = Backbone.View.extend({
         this.layout.showRegistrationView();
     },
 
-    login: function(event) {
-        event.preventDefault();
+    login: function() {
         this.$loginBtn.button('loading');
-
         this.app.userManager.authenticate(this.model.get('login'), this.model.get('password'))
 
             .done(function() {

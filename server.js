@@ -35,7 +35,6 @@ http.createServer(function(request, response) {
   fs.exists(filename, function(exists) {
 
     if (0 === uri.indexOf('/player')) {
-        console.log(process.cwd(), filename);
         filename = path.join(process.cwd(), '/public/player.html');
         exists = true;
     }

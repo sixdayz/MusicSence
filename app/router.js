@@ -17,12 +17,6 @@ App.Routers.Main = Backbone.Router.extend({
     },
 
     start: function() {
-        console.log('start');
-        console.trace();
-
-        // Нарисуем стартовый вид
-        //this.app.getContent().html(this.enterView.render().$el);
-        //this.enterView.showLoginView();
 
         // Авторизуем пользователя
         this.app.userManager.authorize()
@@ -39,8 +33,6 @@ App.Routers.Main = Backbone.Router.extend({
     },
 
     enter: function() {
-        console.log('enter');
-        console.trace();
         this.app.getContent().html(this.enterView.render().$el);
         this.enterView.showLoginView();
     },
