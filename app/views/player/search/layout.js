@@ -75,6 +75,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
             })
             .on('typeahead:selected', function (event, selected) {
                 this.$searchType.val(selected.type);
+                this._generateFeed();
             }.bind(this))
         ;
     },
@@ -99,7 +100,6 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
     },
 
     _generateFeed: function () {
-
 
         this.isGenerating       = true;
         this._startPieProgress(70, 100);
