@@ -9,12 +9,17 @@ App.Views.Player.Layout = Backbone.View.extend({
     template: jst['app/templates/player/layout.hbs'],
 
     initialize: function(options) {
-        this.app            = options.app;
-        this.playlistSongs  = new App.Collections.Songs();
-        this.playerView     = new App.Views.Player.Player.Layout({ app: this.app });
-        this.searchView     = new App.Views.Player.Search.Layout({ app: this.app });
-        this.playlistView   = new App.Views.Player.Playlist.Layout({ app: this.app });
-        this.favoritesView  = new App.Views.Player.Favorites.Layout({ app: this.app });
+        this.app = options.app;
+        this.playlistSongs = new App.Collections.Songs();
+
+        this.playerView = new App.Views.Player.Player.Layout({ app: this.app });
+
+        this.searchView = new App.Views.Player.Search.Layout({ app: this.app });
+        this.searchView.on('generate', this._onGenerateFeed, this);
+
+        this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app });
+
+        this.favoritesView = new App.Views.Player.Favorites.Layout({ app: this.app });
     },
 
     render: function() {
@@ -26,6 +31,10 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.$('[data-role=favorites]').html(this.favoritesView.render().$el);
 
         return this;
+    },
+
+    _onGenerateFeed: function (songs) {
+        console.log(songs);
     }
 
 });

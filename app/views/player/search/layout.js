@@ -105,6 +105,13 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
     },
 
     _generateFeed: function () {
-        console.log(this.$searchName.val(), this.$searchType.val());
+        this.feedManager.generate(this.$searchName.val(), null).done(function (feedId) {
+            this.feedManager.getSongs(feedId).done(function (songs) {
+
+                // Сообщим о найденных треках
+                this.trigger('generate', songs);
+
+            }.bind(this));
+        }.bind(this));
     }
 });
