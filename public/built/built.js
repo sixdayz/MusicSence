@@ -3092,7 +3092,7 @@ this["jst"]["app/templates/enter/login.hbs"] = Handlebars.template({"compiler":[
 
 
 this["jst"]["app/templates/enter/registration.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"col-sm-4 col-sm-offset-4\">\n<div class=\"form-wrap\">\n<h3 class=\"text-center\">Register new 10tracks account</h3>\n<form role=\"form\" action=\"\" method=\"post\" data-role=\"registration-form\" autocomplete=\"off\">\n<div class=\"form-group\">\n<label for=\"login\" class=\"sr-only\">Login</label>\n<input type=\"text\" name=\"login\" id=\"login\" class=\"form-control\" placeholder=\"Type new login\">\n</div>\n<div class=\"form-group\">\n<label for=\"email\" class=\"sr-only\">Login</label>\n<input type=\"email\" name=\"email\" id=\"email\" class=\"form-control\" placeholder=\"Type new email\">\n</div>\n<div class=\"form-group\">\n<label for=\"password\" class=\"sr-only\">Password</label>\n<input type=\"password\" name=\"password\" id=\"password\" class=\"form-control\" placeholder=\"Type new password\">\n</div>\n<input type=\"submit\" data-loading-text=\"Loading...\" data-role=\"complete-btn\" class=\"btn btn-default  btn-block \" value=\"Register\" />\n</form>\n</div>\n<p>\n<a href=\"#\" data-role=\"login-btn\">Login</a>\n</p>\n</div>";
+  return "<div class=\"col-sm-4 col-sm-offset-4\">\n<div class=\"form-wrap\">\n<h3 class=\"text-center\">Register new 10tracks account</h3>\n<form role=\"form\" action=\"\" method=\"post\" data-role=\"registration-form\" autocomplete=\"off\">\n<div class=\"form-group\">\n<label for=\"login\" class=\"sr-only\">Login</label>\n<input type=\"text\" name=\"login\" id=\"login\" class=\"form-control\" placeholder=\"Type new login\">\n</div>\n<div class=\"form-group\">\n<label for=\"email\" class=\"sr-only\">Email</label>\n<input type=\"email\" name=\"email\" id=\"email\" class=\"form-control\" placeholder=\"Type new email\">\n</div>\n<div class=\"form-group\">\n<label for=\"password\" class=\"sr-only\">Password</label>\n<input type=\"password\" name=\"password\" id=\"password\" class=\"form-control\" placeholder=\"Type new password\">\n</div>\n<input type=\"submit\" data-loading-text=\"Loading...\" data-role=\"complete-btn\" class=\"btn btn-default  btn-block \" value=\"Register\" />\n</form>\n</div>\n<p>\n<a href=\"#\" data-role=\"login-btn\">Login</a>\n</p>\n</div>";
   },"useData":true});
 
 
@@ -25760,8 +25760,7 @@ App.Views.Enter.Login = Backbone.View.extend({
     template: jst['app/templates/enter/login.hbs'],
 
     events: {
-        'click [data-role=reg-btn]':        'showRegistrationView'//,
-        //'submit [data-role=login-form]':    'login'
+        'click [data-role=reg-btn]': 'showRegistrationView'
     },
 
     bindings: {
@@ -25843,7 +25842,8 @@ App.Views.Enter.Login = Backbone.View.extend({
 
             .always(function() {
                 this.$loginBtn.button('reset');
-            }.bind(this));
+            }.bind(this))
+        ;
     }
 
 });;
@@ -25857,8 +25857,7 @@ App.Views.Enter.Registration = Backbone.View.extend({
     template: jst['app/templates/enter/registration.hbs'],
 
     events: {
-        'click [data-role=login-btn]':          'showLoginView',
-        'submit [data-role=registration-form]': 'registration'
+        'click [data-role=login-btn]': 'showLoginView'
     },
 
     bindings: {
@@ -25876,11 +25875,54 @@ App.Views.Enter.Registration = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template);
 
-        this.$regBtn = this.$('[data-role=complete-btn]');
+        this.$regBtn    = this.$('[data-role=complete-btn]');
+        this.$form      = this.$('[data-role=registration-form]');
 
+        this._initBootstrapValidator();
         this.stickit();
         this.delegateEvents();
         return this;
+    },
+
+    _initBootstrapValidator: function () {
+        this.$form.bootstrapValidator({
+            submitButtons: '[data-role="complete-btn"]',
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-spinner fa-spin'
+            },
+            fields: {
+                login: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The login is required and can\'t be empty'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address is required and can\'t be empty'
+                        },
+                        emailAddress: {
+                            message: 'The input is not a valid email address'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required and can\'t be empty'
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function(event) {
+            event.preventDefault();
+            this.registration();
+        }.bind(this));
     },
 
     showLoginView: function(event) {
@@ -25888,8 +25930,7 @@ App.Views.Enter.Registration = Backbone.View.extend({
         this.layout.showLoginView();
     },
 
-    registration: function(event) {
-        event.preventDefault();
+    registration: function() {
         this.$regBtn.button('loading');
 
         this.app.userManager.register(
@@ -25898,18 +25939,19 @@ App.Views.Enter.Registration = Backbone.View.extend({
             this.model.get('password')
         )
 
-        .done(function() {
-            this.$el.hide();
-            this.app.navigate('player');
-        }.bind(this))
+            .done(function() {
+                this.$el.hide();
+                this.app.navigate('player');
+            }.bind(this))
 
-        .fail(function(errorText) {
-            alert(errorText);
-        }.bind(this))
+            .fail(function(errorText) {
+                alert(errorText);
+            }.bind(this))
 
-        .always(function() {
-            this.$regBtn.button('reset');
-        }.bind(this));
+            .always(function() {
+                this.$regBtn.button('reset');
+            }.bind(this))
+        ;
     }
 
 });;

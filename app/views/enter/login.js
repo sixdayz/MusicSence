@@ -9,8 +9,7 @@ App.Views.Enter.Login = Backbone.View.extend({
     template: jst['app/templates/enter/login.hbs'],
 
     events: {
-        'click [data-role=reg-btn]':        'showRegistrationView'//,
-        //'submit [data-role=login-form]':    'login'
+        'click [data-role=reg-btn]': 'showRegistrationView'
     },
 
     bindings: {
@@ -92,7 +91,8 @@ App.Views.Enter.Login = Backbone.View.extend({
 
             .always(function() {
                 this.$loginBtn.button('reset');
-            }.bind(this));
+            }.bind(this))
+        ;
     }
 
 });

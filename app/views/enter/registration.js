@@ -9,8 +9,7 @@ App.Views.Enter.Registration = Backbone.View.extend({
     template: jst['app/templates/enter/registration.hbs'],
 
     events: {
-        'click [data-role=login-btn]':          'showLoginView',
-        'submit [data-role=registration-form]': 'registration'
+        'click [data-role=login-btn]': 'showLoginView'
     },
 
     bindings: {
@@ -28,11 +27,54 @@ App.Views.Enter.Registration = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template);
 
-        this.$regBtn = this.$('[data-role=complete-btn]');
+        this.$regBtn    = this.$('[data-role=complete-btn]');
+        this.$form      = this.$('[data-role=registration-form]');
 
+        this._initBootstrapValidator();
         this.stickit();
         this.delegateEvents();
         return this;
+    },
+
+    _initBootstrapValidator: function () {
+        this.$form.bootstrapValidator({
+            submitButtons: '[data-role="complete-btn"]',
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-spinner fa-spin'
+            },
+            fields: {
+                login: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The login is required and can\'t be empty'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address is required and can\'t be empty'
+                        },
+                        emailAddress: {
+                            message: 'The input is not a valid email address'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required and can\'t be empty'
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function(event) {
+            event.preventDefault();
+            this.registration();
+        }.bind(this));
     },
 
     showLoginView: function(event) {
@@ -40,8 +82,7 @@ App.Views.Enter.Registration = Backbone.View.extend({
         this.layout.showLoginView();
     },
 
-    registration: function(event) {
-        event.preventDefault();
+    registration: function() {
         this.$regBtn.button('loading');
 
         this.app.userManager.register(
@@ -50,18 +91,19 @@ App.Views.Enter.Registration = Backbone.View.extend({
             this.model.get('password')
         )
 
-        .done(function() {
-            this.$el.hide();
-            this.app.navigate('player');
-        }.bind(this))
+            .done(function() {
+                this.$el.hide();
+                this.app.navigate('player');
+            }.bind(this))
 
-        .fail(function(errorText) {
-            alert(errorText);
-        }.bind(this))
+            .fail(function(errorText) {
+                alert(errorText);
+            }.bind(this))
 
-        .always(function() {
-            this.$regBtn.button('reset');
-        }.bind(this));
+            .always(function() {
+                this.$regBtn.button('reset');
+            }.bind(this))
+        ;
     }
 
 });
