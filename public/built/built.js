@@ -25468,14 +25468,15 @@ App.Managers.FeedManager = Backbone.Model.extend({
         this.set('context_manager', options.context_manager);
     },
 
-    generate: function(query, type) {
+    generate: function(query, type, lastFeedId) {
         var deferred = new $.Deferred();
 
         this.get('context_manager').createContext().done(function(context) {
             this.get('api_client').post('/musicfeed/generate', {
                 q:          query,
                 type:       type,
-                context:    JSON.stringify(context.toJSON())
+                context:    JSON.stringify(context.toJSON()),
+                last_feed:  lastFeedId
             }).done(function(response) {
 
                 if (response.error) {
@@ -26060,6 +26061,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.feedManager        = this.app.feedManager;
         this.isGenerating       = false;
         this.currentPercentage  = 0;
+        this.lastFeedId         = null;
     },
 
     render: function() {
@@ -26117,6 +26119,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
             })
             .on('typeahead:selected', function (event, selected) {
                 this.$searchType.val(selected.type);
+                this._generateFeed();
             }.bind(this))
         ;
     },
@@ -26142,13 +26145,13 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
 
     _generateFeed: function () {
 
-
         this.isGenerating       = true;
         this._startPieProgress(70, 100);
 
         this.$generateBtn.button('loading');
 
-        this.feedManager.generate(this.$searchName.val(), null).done(function (feedId) {
+        this.feedManager.generate(this.$searchName.val(), null, this.lastFeedId).done(function (feedId) {
+            this.lastFeedId = feedId;
             this.feedManager.getSongs(feedId).done(function (songs) {
                 this.isGenerating = false;
 

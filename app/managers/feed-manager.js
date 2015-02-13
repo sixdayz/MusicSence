@@ -9,14 +9,15 @@ App.Managers.FeedManager = Backbone.Model.extend({
         this.set('context_manager', options.context_manager);
     },
 
-    generate: function(query, type) {
+    generate: function(query, type, lastFeedId) {
         var deferred = new $.Deferred();
 
         this.get('context_manager').createContext().done(function(context) {
             this.get('api_client').post('/musicfeed/generate', {
                 q:          query,
                 type:       type,
-                context:    JSON.stringify(context.toJSON())
+                context:    JSON.stringify(context.toJSON()),
+                last_feed:  lastFeedId
             }).done(function(response) {
 
                 if (response.error) {

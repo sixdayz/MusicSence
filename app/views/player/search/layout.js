@@ -18,6 +18,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.feedManager        = this.app.feedManager;
         this.isGenerating       = false;
         this.currentPercentage  = 0;
+        this.lastFeedId         = null;
     },
 
     render: function() {
@@ -106,7 +107,8 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
 
         this.$generateBtn.button('loading');
 
-        this.feedManager.generate(this.$searchName.val(), null).done(function (feedId) {
+        this.feedManager.generate(this.$searchName.val(), null, this.lastFeedId).done(function (feedId) {
+            this.lastFeedId = feedId;
             this.feedManager.getSongs(feedId).done(function (songs) {
                 this.isGenerating = false;
 
