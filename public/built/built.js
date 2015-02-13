@@ -3115,9 +3115,14 @@ this["jst"]["app/templates/player/player/layout.hbs"] = Handlebars.template({"co
 
 
 
-this["jst"]["app/templates/player/playlist/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>";
-  },"useData":true});
+this["jst"]["app/templates/player/playlist/item.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">"
+    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
+    + "</h5>\n<p>"
+    + escapeExpression(((helper = (helper = helpers.artist || (depth0 != null ? depth0.artist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"artist","hash":{},"data":data}) : helper)))
+    + "</p>\n</div>";
+},"useData":true});
 
 
 
@@ -25931,7 +25936,7 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.searchView = new App.Views.Player.Search.Layout({ app: this.app });
         this.searchView.on('generate', this._onGenerateFeed, this);
 
-        this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app });
+        this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app, collection: this.playlistSongs });
 
         this.favoritesView = new App.Views.Player.Favorites.Layout({ app: this.app });
     },
@@ -25948,7 +25953,7 @@ App.Views.Player.Layout = Backbone.View.extend({
     },
 
     _onGenerateFeed: function (songs) {
-        console.log(songs);
+        this.playlistSongs.reset(songs.models);
         this.showPlayer();
         this.showPlaylist();
     },
@@ -26000,14 +26005,38 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
 /** @namespace App.Views.Player.Playlist */
 namespace('App.Views.Player.Playlist');
 
+App.Views.Player.Playlist.Item = Backbone.View.extend({
+
+    tagName: 'li',
+    className: 'media',
+    template: jst['app/templates/player/playlist/item.hbs'],
+
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        this.delegateEvents();
+        return this;
+    }
+});;
+/** @namespace App.Views.Player.Playlist */
+namespace('App.Views.Player.Playlist');
+
 App.Views.Player.Playlist.Layout = Backbone.View.extend({
 
     tagName: 'ul',
     className: 'media-list',
-    template: jst['app/templates/player/playlist/layout.hbs'],
+
+    initialize: function () {
+        this.collection.on('remove reset', this.render, this);
+    },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.empty();
+
+        this.collection.each(function (model) {
+            var itemView = new App.Views.Player.Playlist.Item({ model: model });
+            this.$el.append(itemView.render().$el);
+        }, this);
+
         this.delegateEvents();
         return this;
     }

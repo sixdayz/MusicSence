@@ -17,7 +17,7 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.searchView = new App.Views.Player.Search.Layout({ app: this.app });
         this.searchView.on('generate', this._onGenerateFeed, this);
 
-        this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app });
+        this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app, collection: this.playlistSongs });
 
         this.favoritesView = new App.Views.Player.Favorites.Layout({ app: this.app });
     },
@@ -34,7 +34,7 @@ App.Views.Player.Layout = Backbone.View.extend({
     },
 
     _onGenerateFeed: function (songs) {
-        console.log(songs);
+        this.playlistSongs.reset(songs.models);
         this.showPlayer();
         this.showPlaylist();
     },

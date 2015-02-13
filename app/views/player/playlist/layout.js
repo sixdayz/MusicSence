@@ -6,10 +6,19 @@ App.Views.Player.Playlist.Layout = Backbone.View.extend({
 
     tagName: 'ul',
     className: 'media-list',
-    template: jst['app/templates/player/playlist/layout.hbs'],
+
+    initialize: function () {
+        this.collection.on('remove reset', this.render, this);
+    },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.empty();
+
+        this.collection.each(function (model) {
+            var itemView = new App.Views.Player.Playlist.Item({ model: model });
+            this.$el.append(itemView.render().$el);
+        }, this);
+
         this.delegateEvents();
         return this;
     }
