@@ -31,6 +31,8 @@ module.exports = function(grunt) {
                     'bower_components/backbone.soundmanager2/backbone.soundmanager2.js',
                     'bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'bower_components/backbone.stickit/backbone.stickit.js',
+                    'bower_components/typeahead.js/dist/bloodhound.min.js',
+                    'bower_components/typeahead.js/dist/typeahead.bundle.min.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
                     'app/models/**/*.js',

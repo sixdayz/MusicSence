@@ -10,6 +10,7 @@ App.Views.Player.Layout = Backbone.View.extend({
 
     initialize: function(options) {
         this.app            = options.app;
+        this.playlistSongs  = new App.Collections.Songs();
         this.playerView     = new App.Views.Player.Player.Layout({ app: this.app });
         this.searchView     = new App.Views.Player.Search.Layout({ app: this.app });
         this.playlistView   = new App.Views.Player.Playlist.Layout({ app: this.app });

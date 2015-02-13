@@ -8,6 +8,15 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
     className: 'row',
     template: jst['app/templates/player/search/layout.hbs'],
 
+    events: {
+        'click [data-role="generate-btn"]': '_generateFeed'
+    },
+
+    initialize: function (options) {
+        this.app            = options.app;
+        this.feedManager    = this.app.feedManager;
+    },
+
     render: function() {
         this.$el.html(this.template);
 
@@ -93,5 +102,9 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.$('#button_start').on('click', function(){
             this.$progress.asPieProgress('start');
         }.bind(this));
+    },
+
+    _generateFeed: function () {
+        console.log(this.$searchName.val(), this.$searchType.val());
     }
 });

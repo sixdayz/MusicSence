@@ -6,11 +6,10 @@ App.Application = Backbone.View.extend({
     el: 'body',
 
     initialize: function(config) {
-        this.playlistSongs  = new App.Collections.Songs();
+
         this.config         = new App.Models.Config(config);
         this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
-        this.suggestManager = new App.Managers.SuggestManager({ api_client: this.apiClient });
 
         this.contextManager = new App.Managers.ContextManager();
         this.feedManager    = new App.Managers.FeedManager({
@@ -19,7 +18,6 @@ App.Application = Backbone.View.extend({
         });
 
         this.router         = new App.Routers.Main({ app: this });
-        this.suggestView    = new App.Views.Suggest.Control({ app: this });
     },
 
     navigate: function(fragment) {
