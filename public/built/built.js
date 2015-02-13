@@ -3097,9 +3097,16 @@ this["jst"]["app/templates/enter/registration.hbs"] = Handlebars.template({"comp
 
 
 
-this["jst"]["app/templates/player/favorites/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"col-sm-6\">\n<figure class=\"favorites first\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-1.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Storage base</h5>\n<p>Jump kitty</p>\n</figcaption>\n</figure>\n</div>\n<div class=\"col-sm-6\">\n<figure class=\"favorites second\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-2.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Free slot</h5>\n<p ></p>\n</figcaption>\n</figure>\n</div>\n<div class=\"col-sm-6\">\n<figure class=\"favorites\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-3.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Get more space</h5>\n<p> Jump kitty</p>\n</figcaption>\n</figure>\n</div>";
-  },"useData":true});
+this["jst"]["app/templates/player/favorites/item.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<figure class=\"favorites first\">\n<a href=\"#\"><img src=\""
+    + escapeExpression(((helper = (helper = helpers.lastfm_small_album_image || (depth0 != null ? depth0.lastfm_small_album_image : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"lastfm_small_album_image","hash":{},"data":data}) : helper)))
+    + "\" alt=\"button\" width=\"80\" height=\"80\" /></a>\n<figcaption>\n<h5>"
+    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
+    + "</h5>\n<p>"
+    + escapeExpression(((helper = (helper = helpers.artist || (depth0 != null ? depth0.artist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"artist","hash":{},"data":data}) : helper)))
+    + "</p>\n</figcaption>\n</figure>";
+},"useData":true});
 
 
 
@@ -25334,9 +25341,10 @@ App.Application = Backbone.View.extend({
 
     initialize: function(config) {
 
-        this.config         = new App.Models.Config(config);
-        this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
-        this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
+        this.config             = new App.Models.Config(config);
+        this.apiClient          = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
+        this.userManager        = new App.Managers.UserManager({ api_client: this.apiClient });
+        this.favoritesManager   = new App.Managers.FavoritesManager({ api_client: this.apiClient });
 
         this.contextManager = new App.Managers.ContextManager();
         this.feedManager    = new App.Managers.FeedManager({
@@ -25461,6 +25469,79 @@ App.Managers.ContextManager = Backbone.Model.extend({
 /** @namespace App.Managers */
 namespace('App.Managers');
 
+App.Managers.FavoritesManager = Backbone.Model.extend({
+
+    initialize: function(options) {
+        this.set('api_client', options.api_client);
+    },
+
+    getList: function () {
+        var deferred = new $.Deferred();
+
+        this.get('api_client')
+            .post('/musicfeed/favorites')
+            .done(function(response) {
+
+                if (response.error) {
+                    deferred.reject(response.error);
+                } else {
+                    var songs = new App.Collections.Songs(response.songs);
+                    deferred.resolve(songs);
+                }
+            }
+        );
+
+        return deferred.promise();
+    },
+
+    add: function (song) {
+
+    },
+
+    remove: function (song) {
+
+    }
+
+    //generate: function(query, type, lastFeedId) {
+    //    var deferred = new $.Deferred();
+    //
+    //    this.get('context_manager').createContext().done(function(context) {
+    //        this.get('api_client').post('/musicfeed/generate', {
+    //            q:          query,
+    //            type:       type,
+    //            context:    JSON.stringify(context.toJSON()),
+    //            last_feed:  lastFeedId
+    //        }).done(function(response) {
+    //
+    //            if (response.error) {
+    //                deferred.reject(response.error);
+    //            } else {
+    //                deferred.resolve(response.result);
+    //            }
+    //
+    //        });
+    //    }.bind(this));
+    //
+    //    return deferred.promise();
+    //},
+    //
+    //getSongs: function(feedId, limit) {
+    //    var deferred = new $.Deferred();
+    //
+    //    this.get('api_client')
+    //        .post('/musicfeed/' + feedId + '/songs', { limit: limit })
+    //        .done(function(response) {
+    //            var songs = new App.Collections.Songs(response.items);
+    //            deferred.resolve(songs);
+    //        });
+    //
+    //    return deferred;
+    //}
+
+});;
+/** @namespace App.Managers */
+namespace('App.Managers');
+
 App.Managers.FeedManager = Backbone.Model.extend({
 
     initialize: function(options) {
@@ -25501,7 +25582,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
                 deferred.resolve(songs);
             });
 
-        return deferred;
+        return deferred.promise();
     },
 
     like: function() {
@@ -25907,14 +25988,46 @@ App.Views.Enter.Registration = Backbone.View.extend({
 /** @namespace App.Views.Player.Favorites */
 namespace('App.Views.Player.Favorites');
 
+App.Views.Player.Favorites.Item = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'col-sm-6',
+    template: jst['app/templates/player/favorites/item.hbs'],
+
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        this.delegateEvents();
+        return this;
+    }
+});;
+/** @namespace App.Views.Player.Favorites */
+namespace('App.Views.Player.Favorites');
+
 App.Views.Player.Favorites.Layout = Backbone.View.extend({
 
     tagName: 'div',
-    className: 'row',
-    template: jst['app/templates/player/favorites/layout.hbs'],
+
+    initialize: function (options) {
+        this.collection = new App.Collections.Songs();
+        this.collection.on('reset remove', this.render, this);
+        this.manager    = options.manager;
+        this._loadFavorites();
+    },
+
+    _loadFavorites: function () {
+        this.manager.getList().done(function (songs) {
+            this.collection.reset(songs.models);
+        }.bind(this));
+    },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.empty();
+
+        this.collection.each(function (songModel) {
+            var songView = new App.Views.Player.Favorites.Item({ model: songModel });
+            this.$el.append(songView.render().$el);
+        }, this);
+
         this.delegateEvents();
         return this;
     }
@@ -25939,7 +26052,11 @@ App.Views.Player.Layout = Backbone.View.extend({
 
         this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app, collection: this.playlistSongs });
 
-        this.favoritesView = new App.Views.Player.Favorites.Layout({ app: this.app });
+        this.favoritesManager   = this.app.favoritesManager;
+        this.favoritesView      = new App.Views.Player.Favorites.Layout({
+            app: this.app,
+            manager: this.favoritesManager
+        });
     },
 
     render: function() {
@@ -26076,6 +26193,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this._initSuggest();
         this.delegateEvents();
 
+        this._generateFeed();
         return this;
     },
 

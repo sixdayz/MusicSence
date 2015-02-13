@@ -42,7 +42,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
                 deferred.resolve(songs);
             });
 
-        return deferred;
+        return deferred.promise();
     },
 
     like: function() {

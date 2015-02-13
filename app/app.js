@@ -7,9 +7,10 @@ App.Application = Backbone.View.extend({
 
     initialize: function(config) {
 
-        this.config         = new App.Models.Config(config);
-        this.apiClient      = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
-        this.userManager    = new App.Managers.UserManager({ api_client: this.apiClient });
+        this.config             = new App.Models.Config(config);
+        this.apiClient          = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
+        this.userManager        = new App.Managers.UserManager({ api_client: this.apiClient });
+        this.favoritesManager   = new App.Managers.FavoritesManager({ api_client: this.apiClient });
 
         this.contextManager = new App.Managers.ContextManager();
         this.feedManager    = new App.Managers.FeedManager({

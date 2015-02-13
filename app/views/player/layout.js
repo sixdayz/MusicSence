@@ -19,7 +19,11 @@ App.Views.Player.Layout = Backbone.View.extend({
 
         this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app, collection: this.playlistSongs });
 
-        this.favoritesView = new App.Views.Player.Favorites.Layout({ app: this.app });
+        this.favoritesManager   = this.app.favoritesManager;
+        this.favoritesView      = new App.Views.Player.Favorites.Layout({
+            app: this.app,
+            manager: this.favoritesManager
+        });
     },
 
     render: function() {

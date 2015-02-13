@@ -33,6 +33,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this._initSuggest();
         this.delegateEvents();
 
+        this._generateFeed();
         return this;
     },
 
