@@ -1,10 +1,7 @@
 
 $(document).ready(function() {
 
-<!-- =============================================== -->
-<!-- ========== Typer ========== -->
-<!-- =============================================== --> 
-if ($('[data-typer-targets]').length > 0) { 
+if ($('[data-typer-targets]').length > 0) {
 	$('[data-typer-targets]').typer({
 		highlightSpeed    : 20,
 		typeSpeed         : 100,
@@ -16,9 +13,6 @@ if ($('[data-typer-targets]').length > 0) {
 	});
 }
 
-<!-- =============================================== -->
-<!-- ========== OWL CAROUSEL  ========== -->
-<!-- =============================================== --> 
 var carousel = $("#carousel");
 if (carousel.length > 0) {
 
@@ -26,7 +20,7 @@ if (carousel.length > 0) {
 	var previousItem;
 	var videoStarted  = false;
 	var largePhone = $(".section-b figure");
-	
+
 	var win_height = $(window).height() - 100;
 	largePhone.height(win_height);
 	largePhone.css("background-size","auto " + win_height + "px" );
@@ -34,32 +28,32 @@ if (carousel.length > 0) {
 	var ratio = 1136 / 640;
 	var vid_height = win_height * 0.988;
 	var vid_width = vid_height / ratio;
-	
+
 	videos.each(function( index ) {
 		$(this).css({
 		   'height': vid_height,
 		   'width': vid_width
 		}).hide();
 	});
-	
+
 	var currentItem;
-	
-	function syncPosition(el){
+
+	var syncPosition = function (el) {
 		var currentItem = this.currentItem;
-		
+
 		console.log("Current = " + currentItem + "Previous = " + previousItem);
 		if (previousItem !== undefined) {
-			videos.get(previousItem).pause(); 
-			videos.eq(previousItem).hide(); 
+			videos.get(previousItem).pause();
+			videos.eq(previousItem).hide();
 		}
 
 		videos.eq(currentItem).show();
 		console.log("Start play");
 		videos.get(currentItem).play();
-		
+
 		previousItem = currentItem;
-	}
-  
+	};
+
     carousel.owlCarousel({
 	    slideSpeed: 500,
     	singleItem: true,
@@ -69,23 +63,21 @@ if (carousel.length > 0) {
     });
 
 	var owl = carousel.data('owlCarousel');
-	
+
 //	videos.first().show();
-//    videos.get(0).play();	
-	
+//    videos.get(0).play();
+
 	videos.bind("ended", function () {
 		owl.next();
 		currentItem = owl.owl.currentItem;
 
-		videos.get(currentItem-1).pause(); 
-		videos.eq(currentItem-1).hide(); 
-		videos.get(currentItem).play(); 
-		videos.eq(currentItem).show(); 
+		videos.get(currentItem-1).pause();
+		videos.eq(currentItem-1).hide();
+		videos.get(currentItem).play();
+		videos.eq(currentItem).show();
 	});
-} 
-<!-- =============================================== -->
-<!-- ========== Scroller  ========== -->
-<!-- =============================================== --> 
+}
+
 var fullpage = $('#fullpage');
 if (fullpage.length > 0) {
 	fullpage.fullpage({
@@ -97,7 +89,7 @@ if (fullpage.length > 0) {
 	//	navigationTooltips: ['firstSlide', 'secondSlide'],
 	//	slidesNavigation: true,
 	//	slidesNavPosition: 'bottom',
-	
+
 		//Scrolling
 		css3: false,
 		scrollingSpeed: 700,
@@ -112,11 +104,11 @@ if (fullpage.length > 0) {
 		scrollOverflow: false,
 		touchSensitivity: 15,
 		normalScrollElementTouchThreshold: 5,
-	
+
 		//Accessibility
 		keyboardScrolling: true,
 		animateAnchor: true,
-	
+
 		//Design
 		verticalCentered: true,
 		resize : true,
@@ -125,11 +117,11 @@ if (fullpage.length > 0) {
 		paddingBottom: '0px',
 		fixedElements: '#header',
 		responsive: 0,
-	
+
 		//Custom selectors
 		sectionSelector: '.section',
 	//	slideSelector: '.slide',
-	
+
 		afterLoad: function(anchorLink, index){
 			if( (anchorLink == 'section-b') && ( !videoStarted)){
 
@@ -144,72 +136,65 @@ if (fullpage.length > 0) {
 //					$('.section-b .screen-video').get(0).play();
 //				});
 //				vid.play();
-// 
+//
 //				$('.section-b .screen-video').first().show();
 //				$('.section-b .screen-video').get(0).play();
 			}
 		}
 	});
-} 
-
-
-<!-- =============================================== -->
-<!-- ========== Validator  ========== -->
-<!-- =============================================== --> 
-if ($('#login-form').length > 0) {     
-  	$('#login-form')
-  	.bootstrapValidator({
-	  	submitButtons: '#btn-login',
-		message: 'This value is not valid',
-		feedbackIcons: {
-			valid: 'fa fa-check',
-			invalid: 'fa fa-times',
-			validating: 'fa fa-spinner fa-spin'
-		},
-		fields: {
-			email: {
-				validators: {
-					notEmpty: {
-						message: 'The email address is required and can\'t be empty'
-					},
-					emailAddress: {
-						message: 'The input is not a valid email address'
-					}
-				}
-			},
- 			comment: {
-				validators: {
-                    stringLength: {
-                        max: 300,
-                        message: 'The comment must be less than 300 characters long'
-                    }
-				}
-			}
-		}
-    })
-   .on('success.form.bv', function(e) {
-	    e.preventDefault();
-
-      // Get the form instance
-//        var $form = $(e.target);
-
-        // Get the BootstrapValidator instance
-//        var bv = $form.data('bootstrapValidator');
-
-        // Use Ajax to submit form data
-//        $.post($form.attr('action'), $form.serialize(), function(result) {
-//            // ... Process the result ...
-//        }, 'json');
-            
-		$('.alert').toggleClass('in');
-		setTimeout(function () {
-		    $('.alert').toggleClass('in');
-		}, 3000)		
-    }); 
 }
-<!-- =============================================== -->
-<!-- ========== Player - slider  ========== -->
-<!-- =============================================== --> 
+
+// if ($('#login-form').length > 0) {
+//   	$('#login-form')
+//   	.bootstrapValidator({
+// 	  	submitButtons: '#btn-login',
+// 		message: 'This value is not valid',
+// 		feedbackIcons: {
+// 			valid: 'fa fa-check',
+// 			invalid: 'fa fa-times',
+// 			validating: 'fa fa-spinner fa-spin'
+// 		},
+// 		fields: {
+// 			email: {
+// 				validators: {
+// 					notEmpty: {
+// 						message: 'The email address is required and can\'t be empty'
+// 					},
+// 					emailAddress: {
+// 						message: 'The input is not a valid email address'
+// 					}
+// 				}
+// 			},
+//  			comment: {
+// 				validators: {
+//                     stringLength: {
+//                         max: 300,
+//                         message: 'The comment must be less than 300 characters long'
+//                     }
+// 				}
+// 			}
+// 		}
+//     })
+//    .on('success.form.bv', function(e) {
+// 	    e.preventDefault();
+
+//       // Get the form instance
+// //        var $form = $(e.target);
+
+//         // Get the BootstrapValidator instance
+// //        var bv = $form.data('bootstrapValidator');
+
+//         // Use Ajax to submit form data
+// //        $.post($form.attr('action'), $form.serialize(), function(result) {
+// //            // ... Process the result ...
+// //        }, 'json');
+
+// 		$('.alert').toggleClass('in');
+// 		setTimeout(function () {
+// 		    $('.alert').toggleClass('in');
+// 		}, 3000);
+//     });
+// }
 
 if ($('input#slider').length > 0) {
 	var mySlider = $("input#slider").slider({
@@ -218,10 +203,6 @@ if ($('input#slider').length > 0) {
 		 tooltip : 'hide'
 	});
 }
-	
-<!-- =============================================== -->
-<!-- ========== Pie - progress  ========== -->
-<!-- =============================================== --> 
 
 if ($('.pie_progress').length > 0) {
 	$(".pie_progress").asPieProgress({
@@ -245,17 +226,14 @@ if ($('.pie_progress').length > 0) {
 //	    onStop: function(){},
 //	    onUpdate: function(){},
 //	    onReset: function(){}
-	
+
 	});
     $('#button_start').on('click', function(){
         $('.pie_progress').asPieProgress('start');
     });
 }
-   
-<!-- =============================================== -->
-<!-- ========== Typeahead  ========== -->
-<!-- =============================================== --> 
-if ($('#search input').length > 0) {    
+
+if ($('#search input').length > 0) {
 //	$.get('example_collection.json', function(data){
 //		$("#name").typeahead({ source:data });
 //	},'json');
@@ -290,8 +268,8 @@ if ($('#search input').length > 0) {
 		{"name":"Curtis","type":"album"},
 		{"name":"Animal Ambition: An Untamed Desire To Win","type":"album"}
 	];
-	
-	
+
+
 	// constructs the suggestion engine
 	var tracks = new Bloodhound({
 //		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -301,13 +279,13 @@ if ($('#search input').length > 0) {
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
 		local: data
 	});
-	 
+
 	// kicks off the loading/processing of `local` and `prefetch`
 	tracks.initialize();
-			
+
 	$("#search input").typeahead({
 			highlight: true,
-			minLength: 1 
+			minLength: 1
 		}, {
 		name: 'tracks',
 		displayKey: 'name',
@@ -316,7 +294,7 @@ if ($('#search input').length > 0) {
 			empty: [].join('\n'),
 			suggestion: Handlebars.compile('<p>{{name}}<span>{{type}}</span></p>')
 		}
-	}); 
+	});
 }
-      
+
 });// Document ready

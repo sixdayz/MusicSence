@@ -1,4 +1,5 @@
 
+/** @namespace App.Views.Player */
 namespace('App.Views.Player');
 
 App.Views.Player.Player = Backbone.View.extend({

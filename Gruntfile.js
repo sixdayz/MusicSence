@@ -26,7 +26,6 @@ module.exports = function(grunt) {
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/underscore/underscore.js',
                     'bower_components/backbone/backbone.js',
-                    'bower_components/handlebars/handlebars.js',
                     'bower_components/momentjs/moment.js',
                     'bower_components/soundmanager/script/soundmanager2.js',
                     'bower_components/backbone.soundmanager2/backbone.soundmanager2.js',
@@ -37,11 +36,15 @@ module.exports = function(grunt) {
                     'app/models/**/*.js',
                     'app/**/*.js'
                 ],
-                dest: 'public/built/app.js',
+                dest: 'public/built/app.js'
             },
             templates: {
-                src:    ['public/built/app.js', 'public/built/templates.js'],
-                dest:   'public/built/built.js',
+                src:    [
+                    'bower_components/handlebars/handlebars.js',
+                    'public/built/templates.js',
+                    'public/built/app.js'
+                ],
+                dest:   'public/built/built.js'
             }
         },
 

@@ -1,4 +1,5 @@
 
+/** @namespace App.Managers */
 namespace('App.Managers');
 
 App.Managers.ContextManager = Backbone.Model.extend({

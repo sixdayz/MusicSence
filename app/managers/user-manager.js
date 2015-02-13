@@ -1,4 +1,5 @@
 
+/** @namespace App.Managers */
 namespace('App.Managers');
 
 App.Managers.UserManager = Backbone.Model.extend({

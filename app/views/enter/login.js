@@ -1,14 +1,15 @@
 
+/** @namespace App.Views.Enter */
 namespace('App.Views.Enter');
 
 App.Views.Enter.Login = Backbone.View.extend({
 
     tagName: 'div',
-    className: 'modal_login',
+    className: 'row',
+    template: jst['app/templates/enter/login.hbs'],
 
     events: {
         'click [data-role=reg-btn]':        'showRegistrationView',
-        'click [data-role=cancel-btn]':     'hide',
         'submit [data-role=login-form]':    'login'
     },
 
@@ -21,7 +22,6 @@ App.Views.Enter.Login = Backbone.View.extend({
         this.model      = new App.Models.Enter.Login();
         this.app        = options.app;
         this.layout     = options.layout;
-        this.template   = jst['app/templates/enter/login.hbs'];
     },
 
     render: function() {
@@ -31,17 +31,13 @@ App.Views.Enter.Login = Backbone.View.extend({
 
         this.stickit();
         this.delegateEvents();
+
         return this;
     },
 
     showRegistrationView: function(event) {
         event.preventDefault();
-        this.layout.showRegistrationView(event);
-    },
-
-    hide: function(event) {
-        event.preventDefault();
-        this.$el.fadeOut();
+        this.layout.showRegistrationView();
     },
 
     login: function(event) {
@@ -52,7 +48,7 @@ App.Views.Enter.Login = Backbone.View.extend({
 
             .done(function() {
                 this.$el.hide();
-                this.app.navigate('/');
+                this.app.navigate('/player');
             }.bind(this))
 
             .fail(function() {

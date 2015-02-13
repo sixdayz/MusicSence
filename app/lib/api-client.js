@@ -1,4 +1,5 @@
 
+/** @namespace App.Lib */
 namespace('App.Lib');
 
 App.Lib.ApiClient = function(options) {
