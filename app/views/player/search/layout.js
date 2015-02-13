@@ -9,12 +9,15 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
     template: jst['app/templates/player/search/layout.hbs'],
 
     events: {
-        'click [data-role="generate-btn"]': '_generateFeed'
+        'click [data-role="generate-btn"]': '_generateFeed',
+        'click [data-role="search-btn"]': '_generateFeed'
     },
 
     initialize: function (options) {
-        this.app            = options.app;
-        this.feedManager    = this.app.feedManager;
+        this.app                = options.app;
+        this.feedManager        = this.app.feedManager;
+        this.isGenerating       = false;
+        this.currentPercentage  = 0;
     },
 
     render: function() {
@@ -23,6 +26,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.$progress      = this.$('[data-role=progressbar]');
         this.$searchName    = this.$('[data-role=search-name]');
         this.$searchType    = this.$('[data-role=search-type]');
+        this.$generateBtn   = this.$('[data-role=generate-btn]');
 
         this._initPieProgress();
         this._initSuggest();
@@ -80,7 +84,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
             namespace: 'pie_progress',
             min: 0,
             max: 100,
-            goal: 50,
+            goal: 100,
             step: 1,
             speed: 10,  // speed of 1/100
             delay: 300,
@@ -88,30 +92,62 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
             barsize: '3',
             trackcolor: '#f2f2f2',
             fillcolor: 'none',
-
             label: function(n) {
                 return this.getPercentage(n);
             }
-//	    onStart: function(){},
-//	    onStop: function(){},
-//	    onUpdate: function(){},
-//	    onReset: function(){}
-
         });
-
-        this.$('#button_start').on('click', function(){
-            this.$progress.asPieProgress('start');
-        }.bind(this));
     },
 
     _generateFeed: function () {
+
+
+        this.isGenerating       = true;
+        this._startPieProgress(70, 100);
+
+        this.$generateBtn.button('loading');
+
         this.feedManager.generate(this.$searchName.val(), null).done(function (feedId) {
             this.feedManager.getSongs(feedId).done(function (songs) {
+                this.isGenerating = false;
 
                 // Сообщим о найденных треках
                 this.trigger('generate', songs);
+                this.$generateBtn.button('reset');
 
             }.bind(this));
         }.bind(this));
+    },
+
+    _startPieProgress: function (timeout, percentLeft) {
+
+        // Подвинем прогресс
+        this.currentPercentage++;
+        this.$progress.asPieProgress('go', this.currentPercentage);
+
+        if (this.currentPercentage < 100 && this.isGenerating) {
+
+            // Если прошли очередную половину остатка процентов
+            // то уменьшим скорость прогрессбара.
+            // Он будет замедляться по мере приближения к 100%,
+            // т. к. он не привязан жестко к реальному процессу
+            // генерации
+            if ((100 - this.currentPercentage) < (percentLeft / 2)) {
+                percentLeft = parseInt(percentLeft / 2);
+                timeout     = timeout * 2;
+            }
+
+            console.log(percentLeft);
+            console.log(timeout);
+
+            // Если еще не закончили, запланируем следующий сдвиг
+            setTimeout(function () {
+                this._startPieProgress(timeout, percentLeft);
+            }.bind(this), timeout);
+
+        } else {
+            // Закончилась генерация
+            this.currentPercentage = 0;
+            this.$progress.asPieProgress('reset');
+        }
     }
 });

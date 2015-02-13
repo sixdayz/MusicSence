@@ -3115,12 +3115,6 @@ this["jst"]["app/templates/player/player/layout.hbs"] = Handlebars.template({"co
 
 
 
-this["jst"]["app/templates/player/playlist.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3 margin\">\n<p class=\"playing_next\">Playing next:</p>\n<a class=\"new_list\" data-role=\"generate-btn\" data-loading-text=\"Generating...\">Generate new list</a>\n<div class=\"col-md-12 padding\" data-role=\"songs-container\"></div>\n</div>\n</div>\n</div>";
-},"useData":true});
-
-
-
 this["jst"]["app/templates/player/playlist/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>";
   },"useData":true});
@@ -3128,19 +3122,8 @@ this["jst"]["app/templates/player/playlist/layout.hbs"] = Handlebars.template({"
 
 
 this["jst"]["app/templates/player/search/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"col-sm-12  col-center-block\">\n<form class=\"form-inline\" role=\"form\">\n<div class=\"form-group\">\n<div class=\"input-group\">\n<input class=\"form-control input-sm\" type=\"text\" data-role=\"search-name\" placeholder=\"Search for song, artist or genre…\" />\n<input type=\"hidden\" data-role=\"search-type\" />\n<span class=\"input-group-btn\" data-role=\"generate-btn\">\n<span class=\"btn btn-default btn-sm\">\n<i class=\"fa fa-search\"></i>\n</span>\n</span>\n</div>\n</div>\n</form>\n<div class=\"pie_progress\" role=\"progressbar\" data-role=\"progressbar\">\n<div class=\"pie_progress__number\">0%</div>\n<div class=\"pie_progress__label\">Text Label</div>\n</div>\n<button id=\"button_start\" class=\"btn btn-default\" data-role=\"generate-btn\">Start</button>\n</div>";
-  },"useData":true});
-
-
-
-this["jst"]["app/templates/player/song.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div class=\"col-md-12 padding_ten\">\n<div class=\"row\">\n<div class=\"col-md-2\">\n<span><i class=\"fa fa-circle circlei\"></i></span>\n</div>\n<div class=\"col-md-6 name_artist\">\n<h4>"
-    + escapeExpression(((helper = (helper = helpers.songArtist || (depth0 != null ? depth0.songArtist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"songArtist","hash":{},"data":data}) : helper)))
-    + "</h4>\n<h4>"
-    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\" data-role=\"generate-by-song-btn\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
-},"useData":true});;/*!
+  return "<div class=\"col-sm-12  col-center-block\">\n<form class=\"form-inline\" role=\"form\">\n<div class=\"form-group\">\n<div class=\"input-group\">\n<input class=\"form-control input-sm\" type=\"text\" data-role=\"search-name\" placeholder=\"Search for song, artist or genre…\" />\n<input type=\"hidden\" data-role=\"search-type\" />\n<span class=\"input-group-btn\" data-role=\"search-btn\">\n<span class=\"btn btn-default btn-sm\">\n<i class=\"fa fa-search\"></i>\n</span>\n</span>\n</div>\n</div>\n</form>\n<div class=\"pie_progress\" role=\"progressbar\" data-role=\"progressbar\">\n<div class=\"pie_progress__number\">0%</div>\n<div class=\"pie_progress__label\">Text Label</div>\n</div>\n<button id=\"button_start\" class=\"btn btn-default\" data-loading-text=\"Generating...\" data-role=\"generate-btn\">Start</button>\n</div>";
+  },"useData":true});;/*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
  *
@@ -25940,12 +25923,17 @@ App.Views.Player.Layout = Backbone.View.extend({
     template: jst['app/templates/player/layout.hbs'],
 
     initialize: function(options) {
-        this.app            = options.app;
-        this.playlistSongs  = new App.Collections.Songs();
-        this.playerView     = new App.Views.Player.Player.Layout({ app: this.app });
-        this.searchView     = new App.Views.Player.Search.Layout({ app: this.app });
-        this.playlistView   = new App.Views.Player.Playlist.Layout({ app: this.app });
-        this.favoritesView  = new App.Views.Player.Favorites.Layout({ app: this.app });
+        this.app = options.app;
+        this.playlistSongs = new App.Collections.Songs();
+
+        this.playerView = new App.Views.Player.Player.Layout({ app: this.app });
+
+        this.searchView = new App.Views.Player.Search.Layout({ app: this.app });
+        this.searchView.on('generate', this._onGenerateFeed, this);
+
+        this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app });
+
+        this.favoritesView = new App.Views.Player.Favorites.Layout({ app: this.app });
     },
 
     render: function() {
@@ -25957,6 +25945,10 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.$('[data-role=favorites]').html(this.favoritesView.render().$el);
 
         return this;
+    },
+
+    _onGenerateFeed: function (songs) {
+        console.log(songs);
     }
 
 });;
@@ -25987,97 +25979,6 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         });
     }
 });;
-/** @namespace App.Views.Player */
-namespace('App.Views.Player');
-
-App.Views.Player.Playlist = Backbone.View.extend({
-
-    tagName: 'div',
-    className: 'playlist',
-
-    events: {
-        'click [data-role=generate-btn]': 'onGenerate'
-    },
-
-    initialize: function(options) {
-        this.app        = options.app;
-        this.template   = jst['app/templates/player/playlist.hbs'];
-
-        this.app.playlistSongs.on('add remove reset', this.renderSongs, this);
-        App.Dispatcher.on(App.Events.Suggest.select, this.onSuggestSelect, this);
-    },
-
-    render: function() {
-        this.$el.html(this.template);
-
-        this.$generateBtn       = this.$('[data-role=generate-btn]');
-        this.$songsContainer    = this.$('[data-role=songs-container]');
-
-        this.generateFeed(null, null);
-        this.delegateEvents();
-        return this;
-    },
-
-    onGenerate: function(event) {
-        event.preventDefault();
-        this.generateFeed(null, null);
-    },
-
-    generateFeed: function(query, type) {
-        this.$generateBtn.button('loading');
-        this.app.feedManager.generate(query, type)
-
-            .done(function(feedId) {
-                this.loadSongs(feedId);
-            }.bind(this))
-
-            .always(function() {
-                this.$generateBtn.button('reset');
-            }.bind(this));
-    },
-
-    loadSongs: function(feedId) {
-        this.$generateBtn.button('loading');
-        this.app.feedManager.getSongs(feedId, 50)
-
-            .done(function(songsCollection) {
-                this.app.playlistSongs.reset(songsCollection.models);
-            }.bind(this))
-
-            .always(function() {
-                this.$generateBtn.button('reset');
-            }.bind(this));
-    },
-
-    renderSongs: function() {
-        this.$songsContainer.empty();
-
-        // Выведем первые 10 треков из списка
-        this.app.playlistSongs.slice(0, 10).forEach(function(songModel) {
-
-            var songView = new App.Views.Player.Song({ model: songModel });
-            this.$songsContainer.append(songView.render().$el);
-
-            // Подпишемся на событие необходимости генерации
-            // нового списка на основе данного трека
-            songView.on('generate', this.generateFeedBySong, this);
-        }.bind(this));
-    },
-
-    generateFeedBySong: function(songModel) {
-        this.generateFeed(
-            songModel.get('songArtist'),
-            App.Enums.MediaType.ARTIST
-        );
-    },
-
-    onSuggestSelect: function(suggestItem) {
-        this.generateFeed(
-            suggestItem.get('name'),
-            suggestItem.get('type').toLowerCase()
-        );
-    }
-});;
 /** @namespace App.Views.Player.Playlist */
 namespace('App.Views.Player.Playlist');
 
@@ -26103,12 +26004,15 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
     template: jst['app/templates/player/search/layout.hbs'],
 
     events: {
-        'click [data-role="generate-btn"]': '_generateFeed'
+        'click [data-role="generate-btn"]': '_generateFeed',
+        'click [data-role="search-btn"]': '_generateFeed'
     },
 
     initialize: function (options) {
-        this.app            = options.app;
-        this.feedManager    = this.app.feedManager;
+        this.app                = options.app;
+        this.feedManager        = this.app.feedManager;
+        this.isGenerating       = false;
+        this.currentPercentage  = 0;
     },
 
     render: function() {
@@ -26117,6 +26021,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.$progress      = this.$('[data-role=progressbar]');
         this.$searchName    = this.$('[data-role=search-name]');
         this.$searchType    = this.$('[data-role=search-type]');
+        this.$generateBtn   = this.$('[data-role=generate-btn]');
 
         this._initPieProgress();
         this._initSuggest();
@@ -26174,7 +26079,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
             namespace: 'pie_progress',
             min: 0,
             max: 100,
-            goal: 50,
+            goal: 100,
             step: 1,
             speed: 10,  // speed of 1/100
             delay: 300,
@@ -26182,49 +26087,62 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
             barsize: '3',
             trackcolor: '#f2f2f2',
             fillcolor: 'none',
-
             label: function(n) {
                 return this.getPercentage(n);
             }
-//	    onStart: function(){},
-//	    onStop: function(){},
-//	    onUpdate: function(){},
-//	    onReset: function(){}
-
         });
-
-        this.$('#button_start').on('click', function(){
-            this.$progress.asPieProgress('start');
-        }.bind(this));
     },
 
     _generateFeed: function () {
-        console.log(this.$searchName.val(), this.$searchType.val());
-    }
-});;
-namespace('App.Views.Player');
 
-App.Views.Player.Song = Backbone.View.extend({
 
-    tagName: 'div',
-    className: 'row border',
+        this.isGenerating       = true;
+        this._startPieProgress(70, 100);
 
-    events: {
-        'click [data-role=generate-by-song-btn]': 'onGenerate'
+        this.$generateBtn.button('loading');
+
+        this.feedManager.generate(this.$searchName.val(), null).done(function (feedId) {
+            this.feedManager.getSongs(feedId).done(function (songs) {
+                this.isGenerating = false;
+
+                // Сообщим о найденных треках
+                this.trigger('generate', songs);
+                this.$generateBtn.button('reset');
+
+            }.bind(this));
+        }.bind(this));
     },
 
-    initialize: function(options) {
-        this.template   = jst['app/templates/player/song.hbs'];
-    },
+    _startPieProgress: function (timeout, percentLeft) {
 
-    render: function() {
-        this.$el.html(this.template( this.model.toJSON() ));
-        this.delegateEvents();
-        return this;
-    },
+        // Подвинем прогресс
+        this.currentPercentage++;
+        this.$progress.asPieProgress('go', this.currentPercentage);
 
-    onGenerate: function(event) {
-        event.preventDefault();
-        this.trigger('generate', this.model);
+        if (this.currentPercentage < 100 && this.isGenerating) {
+
+            // Если прошли очередную половину остатка процентов
+            // то уменьшим скорость прогрессбара.
+            // Он будет замедляться по мере приближения к 100%,
+            // т. к. он не привязан жестко к реальному процессу
+            // генерации
+            if ((100 - this.currentPercentage) < (percentLeft / 2)) {
+                percentLeft = parseInt(percentLeft / 2);
+                timeout     = timeout * 2;
+            }
+
+            console.log(percentLeft);
+            console.log(timeout);
+
+            // Если еще не закончили, запланируем следующий сдвиг
+            setTimeout(function () {
+                this._startPieProgress(timeout, percentLeft);
+            }.bind(this), timeout);
+
+        } else {
+            // Закончилась генерация
+            this.currentPercentage = 0;
+            this.$progress.asPieProgress('reset');
+        }
     }
 });
