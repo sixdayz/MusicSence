@@ -3124,7 +3124,7 @@ this["jst"]["app/templates/player/player/layout.hbs"] = Handlebars.template({"co
 
 this["jst"]["app/templates/player/playlist/item.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">"
+  return "<a class=\"pull-left\" href=\"#\" data-role=\"btn\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">"
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "</h5>\n<p>"
     + escapeExpression(((helper = (helper = helpers.artist || (depth0 != null ? depth0.artist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"artist","hash":{},"data":data}) : helper)))
@@ -26051,6 +26051,7 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.searchView.on('generate', this._onGenerateFeed, this);
 
         this.playlistView = new App.Views.Player.Playlist.Layout({ app: this.app, collection: this.playlistSongs });
+        this.playlistView.on('select:song', this._onPlaylistSongSelect, this);
 
         this.favoritesManager   = this.app.favoritesManager;
         this.favoritesView      = new App.Views.Player.Favorites.Layout({
@@ -26074,6 +26075,11 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.playlistSongs.reset(songs.models);
         this.showPlayer();
         this.showPlaylist();
+    },
+
+    _onPlaylistSongSelect: function (song) {
+        this.searchView.generateFeed(song.get('title'), 'song');
+        this.showSearch();
     },
 
     showPlayer: function () {
@@ -26129,10 +26135,18 @@ App.Views.Player.Playlist.Item = Backbone.View.extend({
     className: 'media',
     template: jst['app/templates/player/playlist/item.hbs'],
 
+    events: {
+        'click [data-role=btn]': '_onClick'
+    },
+
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         this.delegateEvents();
         return this;
+    },
+
+    _onClick: function () {
+        this.trigger('select', this.model);
     }
 });;
 /** @namespace App.Views.Player.Playlist */
@@ -26152,11 +26166,16 @@ App.Views.Player.Playlist.Layout = Backbone.View.extend({
 
         this.collection.each(function (model) {
             var itemView = new App.Views.Player.Playlist.Item({ model: model });
+            itemView.on('select', this._onItemSelect, this);
             this.$el.append(itemView.render().$el);
         }, this);
 
         this.delegateEvents();
         return this;
+    },
+
+    _onItemSelect: function (song) {
+        this.trigger('select:song', song);
     }
 });;
 /** @namespace App.Views.Player.Search */
@@ -26193,8 +26212,14 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this._initSuggest();
         this.delegateEvents();
 
-        this._generateFeed();
+        this.generateFeed(null, null);
         return this;
+    },
+
+    generateFeed: function (name, type) {
+        this.$searchName.val(name);
+        this.$searchType.val(type);
+        this._generateFeed();
     },
 
     _initSuggest: function () {
