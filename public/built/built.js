@@ -3104,7 +3104,7 @@ this["jst"]["app/templates/player/favorites/layout.hbs"] = Handlebars.template({
 
 
 this["jst"]["app/templates/player/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<header class=\"header\">\n<nav id=\"nav\" class=\"navbar navbar-default  navbar-fixed-top\"  role=\"navigation\">\n<div class=\"container\">\n<div class=\"navbar-header\">\n<button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\">\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n</button>\n<a class=\"navbar-brand\" href=\"/#home\">\n<img src=\"/assets/images/logo.png\" alt=\"musicsense\"/>\n</a>\n</div></div><!--/.container -->\n</nav>\n</header>\n<div class=\"container\">\n<div class=\"row \">\n<div class=\"col-lg-3 col-lg-offset-3  col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1\">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"active\"><a href=\"#now-playing\" role=\"tab\" data-toggle=\"tab\">Now playing</a></li>\n<li role=\"presentation\" class=\"\"><a href=\"#search\" role=\"tab\" data-toggle=\"tab\">Search</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\">\n<div role=\"tabpanel\" class=\"tab-pane fade in active\" id=\"now-playing\" data-role=\"player\"></div>\n<div role=\"tabpanel\" class=\"tab-pane fade\" id=\"search\" data-role=\"suggest\"></div>\n</div>\n</article>\n</div><!-- col-->\n<div class=\"col-lg-3 col-md-4  col-sm-5 \">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"\"><a href=\"#playing-next\" role=\"tab\" data-toggle=\"tab\">Playing next</a></li>\n<li role=\"presentation\" class=\"active\"><a href=\"#favorites\" role=\"tab\" data-toggle=\"tab\">Favorites</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\" ><div role=\"tabpanel\" class=\"tab-pane fade\" id=\"playing-next\" data-role=\"playlist\"></div><!-- tab panel-->\n<div role=\"tabpanel\" class=\"tab-pane fade in active \" id=\"favorites\" data-role=\"favorites\"></div><!-- tab panel--></div><!-- tab-content -->\n</article>\n</div><!-- col-->\n</div><!--row-->\n</div><!--container-->";
+  return "<header class=\"header\">\n<nav id=\"nav\" class=\"navbar navbar-default  navbar-fixed-top\"  role=\"navigation\">\n<div class=\"container\">\n<div class=\"navbar-header\">\n<button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\">\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n</button>\n<a class=\"navbar-brand\" href=\"/#home\">\n<img src=\"/assets/images/logo.png\" alt=\"musicsense\"/>\n</a>\n</div></div><!--/.container -->\n</nav>\n</header>\n<div class=\"container\">\n<div class=\"row \">\n<div class=\"col-lg-3 col-lg-offset-3  col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1\">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"active\"><a href=\"#now-playing\" role=\"tab\" data-toggle=\"tab\">Now playing</a></li>\n<li role=\"presentation\" class=\"\"><a href=\"#search\" role=\"tab\" data-toggle=\"tab\">Search</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\">\n<div role=\"tabpanel\" class=\"tab-pane fade in active\" id=\"now-playing\" data-role=\"player\"></div>\n<div role=\"tabpanel\" class=\"tab-pane fade\" id=\"search\" data-role=\"search\"></div>\n</div>\n</article>\n</div><!-- col-->\n<div class=\"col-lg-3 col-md-4  col-sm-5 \">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"\"><a href=\"#playing-next\" role=\"tab\" data-toggle=\"tab\">Playing next</a></li>\n<li role=\"presentation\" class=\"active\"><a href=\"#favorites\" role=\"tab\" data-toggle=\"tab\">Favorites</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\" ><div role=\"tabpanel\" class=\"tab-pane fade\" id=\"playing-next\" data-role=\"playlist\"></div><!-- tab panel-->\n<div role=\"tabpanel\" class=\"tab-pane fade in active \" id=\"favorites\" data-role=\"favorites\"></div><!-- tab panel--></div><!-- tab-content -->\n</article>\n</div><!-- col-->\n</div><!--row-->\n</div><!--container-->";
   },"useData":true});
 
 
@@ -3127,6 +3127,12 @@ this["jst"]["app/templates/player/playlist/layout.hbs"] = Handlebars.template({"
 
 
 
+this["jst"]["app/templates/player/search/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<div class=\"col-sm-12  col-center-block\">\n<form class=\"form-inline\" role=\"form\">\n<div class=\"form-group\">\n<div class=\"input-group\">\n<input class=\"form-control input-sm\" type=\"text\" data-role=\"search-name\" placeholder=\"Search for song, artist or genre…\" />\n<input type=\"hidden\" data-role=\"search-type\" />\n<span class=\"input-group-btn\">\n<span class=\"btn btn-default btn-sm\">\n<i class=\"fa fa-search\"></i>\n</span>\n</span>\n</div>\n</div>\n</form>\n<div class=\"pie_progress\" role=\"progressbar\" data-role=\"progressbar\">\n<div class=\"pie_progress__number\">0%</div>\n<div class=\"pie_progress__label\">Text Label</div>\n</div>\n<button id=\"button_start\" class=\"btn btn-default\">Start</button>\n</div>";
+  },"useData":true});
+
+
+
 this["jst"]["app/templates/player/song.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "<div class=\"col-md-12 padding_ten\">\n<div class=\"row\">\n<div class=\"col-md-2\">\n<span><i class=\"fa fa-circle circlei\"></i></span>\n</div>\n<div class=\"col-md-6 name_artist\">\n<h4>"
@@ -3135,12 +3141,6 @@ this["jst"]["app/templates/player/song.hbs"] = Handlebars.template({"compiler":[
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\" data-role=\"generate-by-song-btn\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
 },"useData":true});
-
-
-
-this["jst"]["app/templates/player/suggest/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"col-sm-12  col-center-block\">\n<form class=\"form-inline\" role=\"form\">\n<div class=\"form-group\">\n<div class=\"input-group\">\n<input class=\"form-control input-sm\" type=\"text\" placeholder=\"Search for song, artist or genre…\">\n<span class=\"input-group-btn\">\n<span class=\"btn btn-default btn-sm\">\n<i class=\"fa fa-search\"></i>\n</span>\n</span>\n</div>\n</div>\n</form>\n<div class=\"pie_progress\" role=\"progressbar\" data-role=\"progressbar\">\n<div class=\"pie_progress__number\">0%</div>\n<div class=\"pie_progress__label\">Text Label</div>\n</div>\n<button id=\"button_start\" class=\"btn btn-default\">Start</button>\n</div>";
-  },"useData":true});
 
 
 
@@ -25995,7 +25995,7 @@ App.Views.Player.Layout = Backbone.View.extend({
     initialize: function(options) {
         this.app            = options.app;
         this.playerView     = new App.Views.Player.Player.Layout({ app: this.app });
-        this.searchView     = new App.Views.Player.Suggest.Layout({ app: this.app });
+        this.searchView     = new App.Views.Player.Search.Layout({ app: this.app });
         this.playlistView   = new App.Views.Player.Playlist.Layout({ app: this.app });
         this.favoritesView  = new App.Views.Player.Favorites.Layout({ app: this.app });
     },
@@ -26004,7 +26004,7 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.$el.html(this.template);
 
         this.$('[data-role=player]').html(this.playerView.render().$el);
-        this.$('[data-role=suggest]').html(this.searchView.render().$el);
+        this.$('[data-role=search]').html(this.searchView.render().$el);
         this.$('[data-role=playlist]').html(this.playlistView.render().$el);
         this.$('[data-role=favorites]').html(this.favoritesView.render().$el);
 
@@ -26145,50 +26145,71 @@ App.Views.Player.Playlist.Layout = Backbone.View.extend({
         return this;
     }
 });;
-namespace('App.Views.Player');
+/** @namespace App.Views.Player.Search */
+namespace('App.Views.Player.Search');
 
-App.Views.Player.Song = Backbone.View.extend({
-
-    tagName: 'div',
-    className: 'row border',
-
-    events: {
-        'click [data-role=generate-by-song-btn]': 'onGenerate'
-    },
-
-    initialize: function(options) {
-        this.template   = jst['app/templates/player/song.hbs'];
-    },
-
-    render: function() {
-        this.$el.html(this.template( this.model.toJSON() ));
-        this.delegateEvents();
-        return this;
-    },
-
-    onGenerate: function(event) {
-        event.preventDefault();
-        this.trigger('generate', this.model);
-    }
-});;
-/** @namespace App.Views.Player.Suggest */
-namespace('App.Views.Player.Suggest');
-
-App.Views.Player.Suggest.Layout = Backbone.View.extend({
+App.Views.Player.Search.Layout = Backbone.View.extend({
 
     tagName: 'div',
     className: 'row',
-    template: jst['app/templates/player/suggest/layout.hbs'],
+    template: jst['app/templates/player/search/layout.hbs'],
 
     render: function() {
         this.$el.html(this.template);
 
-        this.$progress = this.$('[data-role=progressbar]');
+        this.$progress      = this.$('[data-role=progressbar]');
+        this.$searchName    = this.$('[data-role=search-name]');
+        this.$searchType    = this.$('[data-role=search-type]');
 
         this._initPieProgress();
+        this._initSuggest();
         this.delegateEvents();
 
         return this;
+    },
+
+    _initSuggest: function () {
+
+        var tracks = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 10,
+            remote: {
+                url: '/api/musicfeed/suggest',
+                filter: function (response) {
+                    return $.map(response.items, function (item) {
+                        return {
+                            type: item.type,
+                            name: item.name
+                        };
+                    });
+                },
+                replace: function(url, query) {
+                    return url + "#" + query;
+                },
+                ajax: {
+                    type: 'POST',
+                    beforeSend: function(jqXhr, settings) {
+                        settings.data = $.param({ q: this.$searchName.val() });
+                    }.bind(this)
+                }
+            }
+        });
+
+        tracks.initialize();
+
+        this.$searchName.typeahead({
+                highlight: true,
+                minLength: 3
+            }, {
+                name: 'tracks',
+                displayKey: 'name',
+                source: tracks.ttAdapter()
+            })
+            .on('typeahead:selected', function (event, selected) {
+                this.$searchType.val(selected.type);
+            }.bind(this))
+        ;
     },
 
     _initPieProgress: function () {
@@ -26218,6 +26239,32 @@ App.Views.Player.Suggest.Layout = Backbone.View.extend({
         this.$('#button_start').on('click', function(){
             this.$progress.asPieProgress('start');
         }.bind(this));
+    }
+});;
+namespace('App.Views.Player');
+
+App.Views.Player.Song = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'row border',
+
+    events: {
+        'click [data-role=generate-by-song-btn]': 'onGenerate'
+    },
+
+    initialize: function(options) {
+        this.template   = jst['app/templates/player/song.hbs'];
+    },
+
+    render: function() {
+        this.$el.html(this.template( this.model.toJSON() ));
+        this.delegateEvents();
+        return this;
+    },
+
+    onGenerate: function(event) {
+        event.preventDefault();
+        this.trigger('generate', this.model);
     }
 });;
 namespace('App.Views.Suggest');

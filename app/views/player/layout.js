@@ -11,7 +11,7 @@ App.Views.Player.Layout = Backbone.View.extend({
     initialize: function(options) {
         this.app            = options.app;
         this.playerView     = new App.Views.Player.Player.Layout({ app: this.app });
-        this.searchView     = new App.Views.Player.Suggest.Layout({ app: this.app });
+        this.searchView     = new App.Views.Player.Search.Layout({ app: this.app });
         this.playlistView   = new App.Views.Player.Playlist.Layout({ app: this.app });
         this.favoritesView  = new App.Views.Player.Favorites.Layout({ app: this.app });
     },
@@ -20,7 +20,7 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.$el.html(this.template);
 
         this.$('[data-role=player]').html(this.playerView.render().$el);
-        this.$('[data-role=suggest]').html(this.searchView.render().$el);
+        this.$('[data-role=search]').html(this.searchView.render().$el);
         this.$('[data-role=playlist]').html(this.playlistView.render().$el);
         this.$('[data-role=favorites]').html(this.favoritesView.render().$el);
 
