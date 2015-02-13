@@ -1,15 +1,23 @@
-<div class="register_div">
-    <p>Registration</p>
-    <p>You'll create your 10tracks account. You can <a href="#" data-role="login-btn">Login</a> instead</p>
-    <div class="form">
-        <form action="" method="" data-role="registration-form">
-            <input type="text" name="login" placeholder="Type your login"><br>
-            <input type="email" name="email" placeholder="Type your email"><br>
-            <input type="password" name="password" placeholder="Type your password"><br>
-            <div class="events">
-                <a class="cancel" data-role="cancel-btn">Cancel</a>
-                <input type="submit" value="Complete" data-role="complete-btn" data-loading-text="Loading..." />
+<div class="col-sm-4 col-sm-offset-4">
+    <div class="form-wrap">
+        <h3 class="text-center">Register new 10tracks account</h3>
+        <form role="form" action="" method="post" data-role="registration-form" autocomplete="off">
+            <div class="form-group">
+                <label for="login" class="sr-only">Login</label>
+                <input type="text" name="login" id="login" class="form-control" placeholder="Type new login">
             </div>
+            <div class="form-group">
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Type new email">
+            </div>
+             <div class="form-group">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Type new password">
+            </div>
+            <input type="submit" data-loading-text="Loading..." data-role="complete-btn" class="btn btn-default  btn-block " value="Register" />
         </form>
     </div>
+    <p>
+        <a href="#" data-role="login-btn">Login</a>
+    </p>
 </div>

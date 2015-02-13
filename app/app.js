@@ -30,14 +30,7 @@ App.Application = Backbone.View.extend({
     },
 
     render: function() {
-
-        // Инициализируем ссылки на контейнеры
-        this.$header    = this.$('[data-role=page-header]');
-        this.$content   = this.$('[data-role=page-content]');
-
-        // Добавим представления
-        this.$header.append(this.suggestView.render().$el.hide());
-
+        this.$content = this.$('[data-role=page-content]');
         return this;
     },
 
@@ -50,10 +43,7 @@ App.Application = Backbone.View.extend({
         this.render();
 
         // Инициализация роутинга
-        Backbone.history.start({ pushState: false });
-
-        // Идем на главную
-        this.navigate('');
+        Backbone.history.start({ pushState: true });
     }
 
 });

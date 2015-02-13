@@ -30,12 +30,16 @@ http.createServer(function(request, response) {
     return;
   }
 
-  console.log(uri);
-
   // Отдадим локальный файл, если он существует
 
   fs.exists(filename, function(exists) {
-    if(!exists) {
+
+    if (0 === uri.indexOf('/player')) {
+        filename = path.join(process.cwd(), '/public/player.html');
+        exists = true;
+    }
+
+    if ( ! exists) {
       response.writeHead(404, {"Content-Type": "text/plain"});
       response.write("404 Not Found\n");
       response.end();

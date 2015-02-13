@@ -1,4 +1,5 @@
 
+/** @namespace App.Routers */
 namespace('App.Routers');
 
 App.Routers.Main = Backbone.Router.extend({
@@ -10,38 +11,35 @@ App.Routers.Main = Backbone.Router.extend({
     },
 
     routes: {
-        '':         'start',
-        'enter':    'enter',
-        'player':   'player'
+        'player':       'start',
+        'player/enter': 'enter',
+        'player/start': 'player'
     },
 
     start: function() {
-
-        // Нарисуем стартовый вид
-        this.app.getContent().html(this.enterView.render().$el);
 
         // Авторизуем пользователя
         this.app.userManager.authorize()
 
             // В случае успеха - показываем основной интерфейс
             .done(function() {
-                this.app.navigate('player');
+                this.app.navigate('player/start');
             }.bind(this))
 
             // А если не удалось - страницу входа
             .fail(function() {
-                this.app.navigate('enter');
+                this.app.navigate('player/enter');
             }.bind(this));
     },
 
     enter: function() {
         this.app.getContent().html(this.enterView.render().$el);
-        this.enterView.showEnterControls();
+        this.enterView.showLoginView();
     },
 
     player: function() {
         if ( ! this.app.userManager.isAuthorized()) {
-            this.app.navigate('enter');
+            this.app.navigate('player/enter');
         } else {
             this.app.getContent().html(this.playerView.render().$el);
         }

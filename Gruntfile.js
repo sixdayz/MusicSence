@@ -13,8 +13,8 @@ module.exports = function(grunt) {
         },
 
         clean: {
-            pre_build:      [ 'public/*.js' ],
-            after_build:    ['public/app.js', 'public/templates.js']
+            pre_build:      [ 'public/built/*.js' ],
+            after_build:    ['public/built/app.js', 'public/built/templates.js']
         },
 
         concat: {
@@ -26,22 +26,25 @@ module.exports = function(grunt) {
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/underscore/underscore.js',
                     'bower_components/backbone/backbone.js',
-                    'bower_components/handlebars/handlebars.js',
                     'bower_components/momentjs/moment.js',
                     'bower_components/soundmanager/script/soundmanager2.js',
                     'bower_components/backbone.soundmanager2/backbone.soundmanager2.js',
-                    'bower_components/bootstrap/dist/js/bootstrap.js',
+                    'bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'bower_components/backbone.stickit/backbone.stickit.js',
                     'app/lib/namespace.js',
                     'app/lib/*.js',
                     'app/models/**/*.js',
                     'app/**/*.js'
                 ],
-                dest: 'public/app.js',
+                dest: 'public/built/app.js'
             },
             templates: {
-                src:    ['public/app.js', 'public/templates.js'],
-                dest:   'public/built.js',
+                src:    [
+                    'bower_components/handlebars/handlebars.js',
+                    'public/built/templates.js',
+                    'public/built/app.js'
+                ],
+                dest:   'public/built/built.js'
             }
         },
 
@@ -53,7 +56,7 @@ module.exports = function(grunt) {
                         return src.replace(/(^\s+|\s+$)/gm, '');
                     }
                 },
-                files: { 'public/templates.js': [ 'app/templates/**/*.hbs' ]}
+                files: { 'public/built/templates.js': [ 'app/templates/**/*.hbs' ]}
             }
         },
 
@@ -63,7 +66,7 @@ module.exports = function(grunt) {
             },
             release: {
                 files: {
-                    'public/built.min.js': [ 'public/built.js' ]
+                    'public/built/built.min.js': [ 'public/built/built.js' ]
                 }
             }
         },

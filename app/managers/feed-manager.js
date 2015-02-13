@@ -1,4 +1,5 @@
 
+/** @namespace App.Managers */
 namespace('App.Managers');
 
 App.Managers.FeedManager = Backbone.Model.extend({
