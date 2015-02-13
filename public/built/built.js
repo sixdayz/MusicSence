@@ -3097,25 +3097,20 @@ this["jst"]["app/templates/enter/registration.hbs"] = Handlebars.template({"comp
 
 
 
-this["jst"]["app/templates/player/artist.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<h3>"
-    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</h3>\n<h4>"
-    + escapeExpression(((helper = (helper = helpers.artist || (depth0 != null ? depth0.artist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"artist","hash":{},"data":data}) : helper)))
-    + "</h4>\n</div>\n</div>\n</div>";
-},"useData":true});
-
-
-
-this["jst"]["app/templates/player/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<header class=\"header\">\n<nav id=\"nav\" class=\"navbar navbar-default  navbar-fixed-top\"  role=\"navigation\">\n<div class=\"container\">\n<div class=\"navbar-header\">\n<button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\">\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n</button>\n<a class=\"navbar-brand\" href=\"/#home\">\n<img src=\"/assets/images/logo.png\" alt=\"musicsense\"/>\n</a>\n</div></div><!--/.container -->\n</nav>\n</header>\n<div class=\"container\">\n<div class=\"row \">\n<div class=\"col-lg-3 col-lg-offset-3  col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1\">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"active\"><a href=\"#now-playing\" role=\"tab\" data-toggle=\"tab\">Now playing</a></li>\n<li role=\"presentation\" class=\"\"><a href=\"#search\" role=\"tab\" data-toggle=\"tab\">Search</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\">\n<div role=\"tabpanel\" class=\"tab-pane fade in active\" id=\"now-playing\">\n<figure class=\"player\">\n<img src=\"/assets/images/cover.png\" alt=\"player\" />\n<figcaption>\n<h6>BREAKING THE SILENCE</h6>\n<p class=\"small\">Linkin Park</p>\n<ul class=\"btn-play list-unstyled\">\n<li><a href=\"#\"><i class=\"fa fa-heart\"></i></a></li>\n<li><a href=\"#\"><i class=\"fa fa-play\"></i></a></li>\n<li><a href=\"#\"><i class=\"fa fa-forward\"></i></a></li>\n</ul>\n</figcaption>\n</figure>\n<div class=\"time\" id=\"\"><input id=\"slider\" data-slider-id='ex1Slider' type=\"text\" data-slider-min=\"0\" data-slider-max=\"20\" data-slider-step=\"1\" data-slider-value=\"14\"/>\n</div>\n<p class=\"time-marks\"><span class=\"pull-left\">1.34</span><span class=\"pull-right\">2.34</span></p>\n<div class=\"btn-like\">\n<a class=\"\" href=\"#\"></a>\n<a class=\"\" href=\"#\"></a>\n</div>\n</div><!-- tab panel-->\n<div role=\"tabpanel\" class=\"tab-pane fade\" id=\"search\">\n<div class=\"row\">\n<div class=\"col-sm-12  col-center-block\">\n<form class=\"form-inline\" role=\"form\">\n<div class=\"form-group\">\n<div class=\"input-group\">\n<input class=\"form-control input-sm\" type=\"text\" placeholder=\"Search for song, artist or genre…\">\n<span class=\"input-group-btn\">\n<span class=\"btn btn-default btn-sm\">\n<i class=\"fa fa-search\"></i>\n</span>\n</span>\n</div>\n</div>\n</form>\n<div class=\"pie_progress\" role=\"progressbar\">\n<div class=\"pie_progress__number\">0%</div>\n<div class=\"pie_progress__label\">Text Label</div>\n</div>\n<button id=\"button_start\"class=\"btn btn-default\">Start</button>\n</div>\n</div>\n</div><!-- tab panel-->\n</div><!-- tab-content -->\n</article>\n</div><!-- col-->\n<div class=\"col-lg-3 col-md-4  col-sm-5 \">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"\"><a href=\"#playing-next\" role=\"tab\" data-toggle=\"tab\">Playing next</a></li>\n<li role=\"presentation\" class=\"active\"><a href=\"#favorites\" role=\"tab\" data-toggle=\"tab\">Favorites</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\" ><div role=\"tabpanel\" class=\"tab-pane fade\" id=\"playing-next\">\n<ul class=\" media-list\">\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n</ul>\n</div><!-- tab panel--><div role=\"tabpanel\" class=\"tab-pane fade in active \" id=\"favorites\">\n<div class=\"row\">\n<div class=\"col-sm-6\">\n<figure class=\"favorites first\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-1.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Storage base</h5>\n<p>Jump kitty</p>\n</figcaption>\n</figure>\n</div>\n<div class=\"col-sm-6\">\n<figure class=\"favorites second\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-2.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Free slot</h5>\n<p ></p>\n</figcaption>\n</figure>\n</div>\n<div class=\"col-sm-6\">\n<figure class=\"favorites\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-3.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Get more space</h5>\n<p> Jump kitty</p>\n</figcaption>\n</figure>\n</div>\n</div>\n</div><!-- tab panel--></div><!-- tab-content -->\n</article>\n</div><!-- col-->\n</div><!--row-->\n</div><!--container-->";
+this["jst"]["app/templates/player/favorites/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<div class=\"col-sm-6\">\n<figure class=\"favorites first\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-1.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Storage base</h5>\n<p>Jump kitty</p>\n</figcaption>\n</figure>\n</div>\n<div class=\"col-sm-6\">\n<figure class=\"favorites second\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-2.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Free slot</h5>\n<p ></p>\n</figcaption>\n</figure>\n</div>\n<div class=\"col-sm-6\">\n<figure class=\"favorites\">\n<a href=\"#\"><img src=\"/assets/images/btn-circle-3.png\" alt=\"button\"/></a>\n<figcaption>\n<h5>Get more space</h5>\n<p> Jump kitty</p>\n</figcaption>\n</figure>\n</div>";
   },"useData":true});
 
 
 
-this["jst"]["app/templates/player/player.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-4 col-md-offset-4\">\n<span class=\"heart\" id=\"disable\">\n<i class=\"fa fa-heart\"></i>\n</span>\n<div class=\"circle\">\n<span class=\"play\"><i class=\"fa fa-play\"></i></span>\n</div>\n<span class=\"forward\"><i class=\"fa fa-forward\"></i></span>\n</div>\n</div>\n</div>";
+this["jst"]["app/templates/player/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<header class=\"header\">\n<nav id=\"nav\" class=\"navbar navbar-default  navbar-fixed-top\"  role=\"navigation\">\n<div class=\"container\">\n<div class=\"navbar-header\">\n<button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\">\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n</button>\n<a class=\"navbar-brand\" href=\"/#home\">\n<img src=\"/assets/images/logo.png\" alt=\"musicsense\"/>\n</a>\n</div></div><!--/.container -->\n</nav>\n</header>\n<div class=\"container\">\n<div class=\"row \">\n<div class=\"col-lg-3 col-lg-offset-3  col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1\">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"active\"><a href=\"#now-playing\" role=\"tab\" data-toggle=\"tab\">Now playing</a></li>\n<li role=\"presentation\" class=\"\"><a href=\"#search\" role=\"tab\" data-toggle=\"tab\">Search</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\">\n<div role=\"tabpanel\" class=\"tab-pane fade in active\" id=\"now-playing\" data-role=\"player\"></div>\n<div role=\"tabpanel\" class=\"tab-pane fade\" id=\"search\" data-role=\"suggest\"></div>\n</div>\n</article>\n</div><!-- col-->\n<div class=\"col-lg-3 col-md-4  col-sm-5 \">\n<article>\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\" role=\"tablist\">\n<li role=\"presentation\" class=\"\"><a href=\"#playing-next\" role=\"tab\" data-toggle=\"tab\">Playing next</a></li>\n<li role=\"presentation\" class=\"active\"><a href=\"#favorites\" role=\"tab\" data-toggle=\"tab\">Favorites</a></li>\n</ul><!-- Tab panes -->\n<div class=\"tab-content\" ><div role=\"tabpanel\" class=\"tab-pane fade\" id=\"playing-next\" data-role=\"playlist\"></div><!-- tab panel-->\n<div role=\"tabpanel\" class=\"tab-pane fade in active \" id=\"favorites\" data-role=\"favorites\"></div><!-- tab panel--></div><!-- tab-content -->\n</article>\n</div><!-- col-->\n</div><!--row-->\n</div><!--container-->";
+  },"useData":true});
+
+
+
+this["jst"]["app/templates/player/player/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<figure class=\"player\">\n<img src=\"/assets/images/cover.png\" alt=\"player\" />\n<figcaption>\n<h6>BREAKING THE SILENCE</h6>\n<p class=\"small\">Linkin Park</p>\n<ul class=\"btn-play list-unstyled\">\n<li><a href=\"#\"><i class=\"fa fa-heart\"></i></a></li>\n<li><a href=\"#\"><i class=\"fa fa-play\"></i></a></li>\n<li><a href=\"#\"><i class=\"fa fa-forward\"></i></a></li>\n</ul>\n</figcaption>\n</figure>\n<div class=\"time\">\n<input type=\"text\" data-role=\"slider\" />\n</div>\n<p class=\"time-marks\"><span class=\"pull-left\">1.34</span><span class=\"pull-right\">2.34</span></p>\n<div class=\"btn-like\">\n<a class=\"\" href=\"#\"></a>\n<a class=\"\" href=\"#\"></a>\n</div>";
   },"useData":true});
 
 
@@ -3123,6 +3118,12 @@ this["jst"]["app/templates/player/player.hbs"] = Handlebars.template({"compiler"
 this["jst"]["app/templates/player/playlist.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<div class=\"container\">\n<div class=\"row\">\n<div class=\"col-md-6 col-md-offset-3 margin\">\n<p class=\"playing_next\">Playing next:</p>\n<a class=\"new_list\" data-role=\"generate-btn\" data-loading-text=\"Generating...\">Generate new list</a>\n<div class=\"col-md-12 padding\" data-role=\"songs-container\"></div>\n</div>\n</div>\n</div>";
 },"useData":true});
+
+
+
+this["jst"]["app/templates/player/playlist/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>\n<li class=\"media\">\n<a class=\"pull-left\" href=\"#\">\n<img src=\"/assets/images/icon-list.png\" alt=\"icon\">\n</a>\n<div class=\"media-body text-left\">\n<h5 class=\"media-heading \">Breaking the habits</h5>\n<p>Linkin Park</p>\n</div>\n</li>";
+  },"useData":true});
 
 
 
@@ -3134,6 +3135,12 @@ this["jst"]["app/templates/player/song.hbs"] = Handlebars.template({"compiler":[
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "</h4>\n</div>\n<div class=\"col-md-4 fade_in\">\n<a class=\"orange\" data-role=\"generate-by-song-btn\">Generate</a>\n<p>based on this song</p>\n</div>\n</div>\n</div>";
 },"useData":true});
+
+
+
+this["jst"]["app/templates/player/suggest/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<div class=\"col-sm-12  col-center-block\">\n<form class=\"form-inline\" role=\"form\">\n<div class=\"form-group\">\n<div class=\"input-group\">\n<input class=\"form-control input-sm\" type=\"text\" placeholder=\"Search for song, artist or genre…\">\n<span class=\"input-group-btn\">\n<span class=\"btn btn-default btn-sm\">\n<i class=\"fa fa-search\"></i>\n</span>\n</span>\n</div>\n</div>\n</form>\n<div class=\"pie_progress\" role=\"progressbar\" data-role=\"progressbar\">\n<div class=\"pie_progress__number\">0%</div>\n<div class=\"pie_progress__label\">Text Label</div>\n</div>\n<button id=\"button_start\" class=\"btn btn-default\">Start</button>\n</div>";
+  },"useData":true});
 
 
 
@@ -25961,27 +25968,22 @@ App.Views.Enter.Registration = Backbone.View.extend({
     }
 
 });;
-namespace('App.Views.Player');
+/** @namespace App.Views.Player.Favorites */
+namespace('App.Views.Player.Favorites');
 
-App.Views.Player.Artist = Backbone.View.extend({
+App.Views.Player.Favorites.Layout = Backbone.View.extend({
 
     tagName: 'div',
-    className: 'artist',
-
-    initialize: function(options) {
-        this.template   = jst['app/templates/player/artist.hbs'];
-    },
+    className: 'row',
+    template: jst['app/templates/player/favorites/layout.hbs'],
 
     render: function() {
-        this.$el.html(this.template({
-            title: '',
-            artist: ''
-        }));
-
+        this.$el.html(this.template);
         this.delegateEvents();
         return this;
     }
 });;
+/** @namespace App.Views.Player */
 namespace('App.Views.Player');
 
 App.Views.Player.Layout = Backbone.View.extend({
@@ -25992,38 +25994,52 @@ App.Views.Player.Layout = Backbone.View.extend({
 
     initialize: function(options) {
         this.app            = options.app;
-        this.playerView     = new App.Views.Player.Player({ app: this.app });
-        this.artistView     = new App.Views.Player.Artist({ app: this.app });
-        this.playlistView   = new App.Views.Player.Playlist({ app: this.app });
+        this.playerView     = new App.Views.Player.Player.Layout({ app: this.app });
+        this.searchView     = new App.Views.Player.Suggest.Layout({ app: this.app });
+        this.playlistView   = new App.Views.Player.Playlist.Layout({ app: this.app });
+        this.favoritesView  = new App.Views.Player.Favorites.Layout({ app: this.app });
     },
 
     render: function() {
         this.$el.html(this.template);
-        //this.$el.append(this.playerView.render().$el);
-        //this.$el.append(this.artistView.render().$el);
-        //this.$el.append(this.playlistView.render().$el);
+
+        this.$('[data-role=player]').html(this.playerView.render().$el);
+        this.$('[data-role=suggest]').html(this.searchView.render().$el);
+        this.$('[data-role=playlist]').html(this.playlistView.render().$el);
+        this.$('[data-role=favorites]').html(this.favoritesView.render().$el);
+
         return this;
     }
 
 });;
-/** @namespace App.Views.Player */
-namespace('App.Views.Player');
+/** @namespace App.Views.Player.Player */
+namespace('App.Views.Player.Player');
 
-App.Views.Player.Player = Backbone.View.extend({
+App.Views.Player.Player.Layout = Backbone.View.extend({
 
     tagName: 'div',
-    className: 'player',
-
-    initialize: function(options) {
-        this.template   = jst['app/templates/player/player.hbs'];
-    },
+    template: jst['app/templates/player/player/layout.hbs'],
 
     render: function() {
         this.$el.html(this.template);
+
+        this.$slider = this.$('[data-role=slider]');
+
+        this._initSlider();
         this.delegateEvents();
+
         return this;
+    },
+
+    _initSlider: function () {
+        this.$slider.slider({
+            max : 100,
+            min : 1,
+            tooltip : 'hide'
+        });
     }
 });;
+/** @namespace App.Views.Player */
 namespace('App.Views.Player');
 
 App.Views.Player.Playlist = Backbone.View.extend({
@@ -26114,6 +26130,21 @@ App.Views.Player.Playlist = Backbone.View.extend({
         );
     }
 });;
+/** @namespace App.Views.Player.Playlist */
+namespace('App.Views.Player.Playlist');
+
+App.Views.Player.Playlist.Layout = Backbone.View.extend({
+
+    tagName: 'ul',
+    className: 'media-list',
+    template: jst['app/templates/player/playlist/layout.hbs'],
+
+    render: function() {
+        this.$el.html(this.template);
+        this.delegateEvents();
+        return this;
+    }
+});;
 namespace('App.Views.Player');
 
 App.Views.Player.Song = Backbone.View.extend({
@@ -26138,6 +26169,55 @@ App.Views.Player.Song = Backbone.View.extend({
     onGenerate: function(event) {
         event.preventDefault();
         this.trigger('generate', this.model);
+    }
+});;
+/** @namespace App.Views.Player.Suggest */
+namespace('App.Views.Player.Suggest');
+
+App.Views.Player.Suggest.Layout = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'row',
+    template: jst['app/templates/player/suggest/layout.hbs'],
+
+    render: function() {
+        this.$el.html(this.template);
+
+        this.$progress = this.$('[data-role=progressbar]');
+
+        this._initPieProgress();
+        this.delegateEvents();
+
+        return this;
+    },
+
+    _initPieProgress: function () {
+        this.$progress.asPieProgress({
+            namespace: 'pie_progress',
+            min: 0,
+            max: 100,
+            goal: 50,
+            step: 1,
+            speed: 10,  // speed of 1/100
+            delay: 300,
+            barcolor: '#fa8c75',
+            barsize: '3',
+            trackcolor: '#f2f2f2',
+            fillcolor: 'none',
+
+            label: function(n) {
+                return this.getPercentage(n);
+            }
+//	    onStart: function(){},
+//	    onStop: function(){},
+//	    onUpdate: function(){},
+//	    onReset: function(){}
+
+        });
+
+        this.$('#button_start').on('click', function(){
+            this.$progress.asPieProgress('start');
+        }.bind(this));
     }
 });;
 namespace('App.Views.Suggest');

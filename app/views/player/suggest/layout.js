@@ -1,0 +1,50 @@
+
+/** @namespace App.Views.Player.Suggest */
+namespace('App.Views.Player.Suggest');
+
+App.Views.Player.Suggest.Layout = Backbone.View.extend({
+
+    tagName: 'div',
+    className: 'row',
+    template: jst['app/templates/player/suggest/layout.hbs'],
+
+    render: function() {
+        this.$el.html(this.template);
+
+        this.$progress = this.$('[data-role=progressbar]');
+
+        this._initPieProgress();
+        this.delegateEvents();
+
+        return this;
+    },
+
+    _initPieProgress: function () {
+        this.$progress.asPieProgress({
+            namespace: 'pie_progress',
+            min: 0,
+            max: 100,
+            goal: 50,
+            step: 1,
+            speed: 10,  // speed of 1/100
+            delay: 300,
+            barcolor: '#fa8c75',
+            barsize: '3',
+            trackcolor: '#f2f2f2',
+            fillcolor: 'none',
+
+            label: function(n) {
+                return this.getPercentage(n);
+            }
+//	    onStart: function(){},
+//	    onStop: function(){},
+//	    onUpdate: function(){},
+//	    onReset: function(){}
+
+        });
+
+        this.$('#button_start').on('click', function(){
+            this.$progress.asPieProgress('start');
+        }.bind(this));
+    }
+});
