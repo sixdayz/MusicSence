@@ -136,9 +136,6 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
                 timeout     = timeout * 2;
             }
 
-            console.log(percentLeft);
-            console.log(timeout);
-
             // Если еще не закончили, запланируем следующий сдвиг
             setTimeout(function () {
                 this._startPieProgress(timeout, percentLeft);

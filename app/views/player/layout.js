@@ -35,6 +35,24 @@ App.Views.Player.Layout = Backbone.View.extend({
 
     _onGenerateFeed: function (songs) {
         console.log(songs);
+        this.showPlayer();
+        this.showPlaylist();
+    },
+
+    showPlayer: function () {
+        this.$('[data-role=player-tab]').tab('show');
+    },
+
+    showSearch: function () {
+        this.$('[data-role=search-tab]').tab('show');
+    },
+
+    showPlaylist: function () {
+        this.$('[data-role=playlist-tab]').tab('show');
+    },
+
+    showFavorites: function () {
+        this.$('[data-role=favorites-tab]').tab('show');
     }
 
 });
