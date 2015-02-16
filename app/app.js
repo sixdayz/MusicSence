@@ -11,6 +11,10 @@ App.Application = Backbone.View.extend({
         this.apiClient          = new App.Lib.ApiClient({ api_host: this.config.get('api_host') });
         this.userManager        = new App.Managers.UserManager({ api_client: this.apiClient });
         this.favoritesManager   = new App.Managers.FavoritesManager({ api_client: this.apiClient });
+        this.soundManager       = soundManager;
+        this.soundManager.setup({
+            debugMode: false
+        });
 
         this.contextManager = new App.Managers.ContextManager();
         this.feedManager    = new App.Managers.FeedManager({
@@ -19,6 +23,7 @@ App.Application = Backbone.View.extend({
         });
 
         this.router         = new App.Routers.Main({ app: this });
+        _.string            = s.exports();
     },
 
     navigate: function(fragment) {

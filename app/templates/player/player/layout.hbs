@@ -1,20 +1,20 @@
 <figure class="player">
-    <img src="/assets/images/cover.png" alt="player" />
+    <img src="/assets/images/cover.png" alt="player" data-role="cover" width="240" height="240" />
     <figcaption>
-        <h6>BREAKING THE SILENCE</h6>
-        <p class="small">Linkin Park</p>
+        <h6>{{ title }}</h6>
+        <p class="small">{{ artist }}</p>
         <ul class="btn-play list-unstyled">
-            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-            <li><a href="#"><i class="fa fa-play"></i></a></li>
-            <li><a href="#"><i class="fa fa-forward"></i></a></li>
+            <li><a href="#"><i class="fa fa-heart" data-role="favorite-btn"></i></a></li>
+            <li><a href="#"><i class="fa fa-play" data-role="play-btn"></i></a></li>
+            <li><a href="#"><i class="fa fa-forward" data-role="skip-btn"></i></a></li>
         </ul>
     </figcaption>
 </figure>
 <div class="time">
     <input type="text" data-role="slider" />
 </div>
-<p class="time-marks"><span class="pull-left">1.34</span><span class="pull-right">2.34</span></p>
+<p class="time-marks"><span class="pull-left" data-role="start-time-label">0</span><span class="pull-right" data-role="end-time-label">...</span></p>
 <div class="btn-like">
-    <a class="" href="#"></a>
-    <a class="" href="#"></a>
+    <a class="" href="#" data-role="like-btn"></a>
+    <a class="" href="#" data-role="dislike-btn"></a>
 </div>

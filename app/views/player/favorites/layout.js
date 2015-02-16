@@ -24,10 +24,15 @@ App.Views.Player.Favorites.Layout = Backbone.View.extend({
 
         this.collection.each(function (songModel) {
             var songView = new App.Views.Player.Favorites.Item({ model: songModel });
+            songView.on('select', this._onItemSelect, this);
             this.$el.append(songView.render().$el);
         }, this);
 
         this.delegateEvents();
         return this;
+    },
+
+    _onItemSelect: function (song) {
+        this.trigger('select:song', song);
     }
 });

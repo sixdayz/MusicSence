@@ -25,6 +25,7 @@ module.exports = function(grunt) {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/underscore/underscore.js',
+                    'bower_components/underscore.string/dist/underscore.string.min.js',
                     'bower_components/backbone/backbone.js',
                     'bower_components/momentjs/moment.js',
                     'bower_components/soundmanager/script/soundmanager2.js',
