@@ -8,7 +8,8 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
     template: jst['app/templates/player/player/layout.hbs'],
 
     events: {
-        'click [data-role=play-btn]': '_onPlayBtnClick'
+        'click [data-role=play-btn]': '_onPlayBtnClick',
+        'click [data-role=skip-btn]': '_onSkipBtnClick'
     },
 
     initialize: function (options) {
@@ -96,8 +97,10 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         this.collection.remove(song);
     },
 
-    skip: function () {
-
+    _onSkipBtnClick: function () {
+        if (this.collection.length > 0) {
+            this.play(this.collection.at(0));
+        }
     },
 
     _onPlaying: function () {
