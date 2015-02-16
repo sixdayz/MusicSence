@@ -91,6 +91,9 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
                 alert('Internet connection error :(');
             }
         });
+
+        // Удалим трек из коллекции
+        this.collection.remove(song);
     },
 
     skip: function () {
@@ -142,6 +145,10 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
 
     _onFinish: function () {
 
+        // Проиграем следующий трек из плейлиста
+        if (this.collection.length > 0) {
+            this.play(this.collection.at(0));
+        }
     },
 
     /**
