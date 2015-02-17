@@ -19,6 +19,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.isGenerating       = false;
         this.currentPercentage  = 0;
         this.lastFeedId         = null;
+        this.pieTimeout         = null;
     },
 
     render: function() {
@@ -109,6 +110,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
 
     _generateFeed: function () {
 
+        this._resetPieProgress();
         this.isGenerating       = true;
         this._startPieProgress(70, 100);
 
@@ -146,14 +148,22 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
             }
 
             // Если еще не закончили, запланируем следующий сдвиг
-            setTimeout(function () {
+            this.pieTimeout = setTimeout(function () {
                 this._startPieProgress(timeout, percentLeft);
             }.bind(this), timeout);
 
         } else {
+
             // Закончилась генерация
-            this.currentPercentage = 0;
-            this.$progress.asPieProgress('reset');
+            this._resetPieProgress();
+
         }
+    },
+
+    _resetPieProgress: function () {
+        clearTimeout(this.pieTimeout);
+        this.pieTimeout         = null;
+        this.currentPercentage  = 0;
+        this.$progress.asPieProgress('reset');
     }
 });
