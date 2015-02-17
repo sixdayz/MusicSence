@@ -23,12 +23,12 @@ module.exports = function(grunt) {
             },
             app: {
                 src: [
-                    'bower_components/jquery/dist/jquery.js',
+                    'bower_components/jquery/dist/jquery.min.js',
                     'bower_components/underscore/underscore.js',
                     'bower_components/underscore.string/dist/underscore.string.min.js',
                     'bower_components/backbone/backbone.js',
-                    'bower_components/momentjs/moment.js',
-                    'bower_components/soundmanager/script/soundmanager2.js',
+                    'bower_components/momentjs/min/moment.min.js',
+                    'bower_components/soundmanager/script/soundmanager2-jsmin.js',
                     'bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'bower_components/backbone.stickit/backbone.stickit.js',
                     'bower_components/typeahead.js/dist/bloodhound.min.js',
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
             },
             templates: {
                 src:    [
-                    'bower_components/handlebars/handlebars.js',
+                    'bower_components/handlebars/handlebars.min.js',
                     'public/built/templates.js',
                     'public/built/app.js'
                 ],
@@ -99,7 +99,7 @@ module.exports = function(grunt) {
         'handlebars',
         'concat:app',
         'concat:templates',
-        'clean:after_build',
+        'clean:after_build'//,
         //'uglify'
     ]);
 
