@@ -7,6 +7,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
     initialize: function(options) {
         this.set('api_client', options.api_client);
         this.set('context_manager', options.context_manager);
+        this.ajaxOperation = null;
     },
 
     /**
@@ -18,9 +19,11 @@ App.Managers.FeedManager = Backbone.Model.extend({
     generate: function(query, type, lastFeedId) {
         var deferred = new $.Deferred();
 
+        // Отменим выполнение предыдущих запросов
+        this.abort();
+
         // Подготовим параметры запроса
 
-        console.log(type);
         type        = (null === type) ? type : type.toLowerCase();
         var params  = { type: 'default', last_feed: lastFeedId };
 
@@ -47,7 +50,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
         this.get('context_manager').createContext().done(function(context) {
             params.context = JSON.stringify(context.toJSON());
 
-            this.get('api_client')
+            this.ajaxOperation = this.get('api_client')
                 .post('/musicfeed/generate', params)
                 .done(function(response) {
 
@@ -58,6 +61,9 @@ App.Managers.FeedManager = Backbone.Model.extend({
                     }
 
                 })
+                .always(function () {
+                    this.ajaxOperation = null;
+                }.bind(this))
             ;
         }.bind(this));
 
@@ -67,14 +73,33 @@ App.Managers.FeedManager = Backbone.Model.extend({
     getSongs: function(feedId, limit) {
         var deferred = new $.Deferred();
 
-        this.get('api_client')
+        // Отменим выполнение предыдущих запросов
+        this.abort();
+
+        // Запустим получение списка треков
+        this.ajaxOperation = this.get('api_client')
             .post('/musicfeed/' + feedId + '/songs', { limit: limit })
             .done(function(response) {
                 var songs = new App.Collections.Songs(response.items);
                 deferred.resolve(songs);
-            });
+            })
+            .always(function () {
+                this.ajaxOperation = null;
+            }.bind(this))
+        ;
 
         return deferred.promise();
+    },
+
+    /**
+     * Прекращение выполнения любой асинхронной
+     * операции feedManager, выполняющейся в текущий
+     * момент и поддерживающей отмену
+     */
+    abort: function () {
+        if (this.ajaxOperation) {
+            this.ajaxOperation.abort();
+        }
     },
 
     like: function() {
