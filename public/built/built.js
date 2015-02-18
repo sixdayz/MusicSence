@@ -4920,6 +4920,10 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
 
     _onFinish: function () {
 
+        // Выгрузим трек
+        this.currentSound.destruct();
+        this.currentSound = null;
+
         // Проиграем следующий трек из плейлиста
         if (this.collection.length > 0) {
             this.play(this.collection.at(0));
