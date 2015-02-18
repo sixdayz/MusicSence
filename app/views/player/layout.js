@@ -43,7 +43,7 @@ App.Views.Player.Layout = Backbone.View.extend({
     },
 
     _onSongSelect: function (song) {
-        this.searchView.generateFeed(song.get('title'), 'song');
+        this.searchView.generateFeed(song.get('artist'), 'artist');
         this.playerView.play(song);
         this.showPlayer();
     },

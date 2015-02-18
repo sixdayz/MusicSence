@@ -4177,24 +4177,56 @@ App.Managers.FeedManager = Backbone.Model.extend({
         this.set('context_manager', options.context_manager);
     },
 
+    /**
+     * @param query
+     * @param type string artist|album|title|genre
+     * @param lastFeedId
+     * @returns {*}
+     */
     generate: function(query, type, lastFeedId) {
         var deferred = new $.Deferred();
 
+        // Подготовим параметры запроса
+
+        console.log(type);
+        type        = (null === type) ? type : type.toLowerCase();
+        var params  = { type: 'default', last_feed: lastFeedId };
+
+        switch (type) {
+
+            case 'artist':
+            case 'album':
+            case 'genre':
+                params.type = type;
+                params[type] = query;
+                break;
+
+            case 'track':
+                params.type = type;
+                params.title = query;
+                break;
+
+            default:
+                break;
+        }
+
+        // Выполним сам запрос
+
         this.get('context_manager').createContext().done(function(context) {
-            this.get('api_client').post('/musicfeed/generate', {
-                q:          query,
-                type:       type,
-                context:    JSON.stringify(context.toJSON()),
-                last_feed:  lastFeedId
-            }).done(function(response) {
+            params.context = JSON.stringify(context.toJSON());
 
-                if (response.error) {
-                    deferred.reject(response.error);
-                } else {
-                    deferred.resolve(response.result);
-                }
+            this.get('api_client')
+                .post('/musicfeed/generate', params)
+                .done(function(response) {
 
-            });
+                    if (response.error) {
+                        deferred.reject(response.error);
+                    } else {
+                        deferred.resolve(response.result);
+                    }
+
+                })
+            ;
         }.bind(this));
 
         return deferred.promise();
@@ -4717,7 +4749,7 @@ App.Views.Player.Layout = Backbone.View.extend({
     },
 
     _onSongSelect: function (song) {
-        this.searchView.generateFeed(song.get('title'), 'song');
+        this.searchView.generateFeed(song.get('artist'), 'artist');
         this.playerView.play(song);
         this.showPlayer();
     },
@@ -5089,9 +5121,9 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
 
         this.$generateBtn.button('loading');
 
-        this.feedManager.generate(this.$searchName.val(), null, this.lastFeedId).done(function (feedId) {
+        this.feedManager.generate(this.$searchName.val(), this.$searchType.val(), this.lastFeedId).done(function (feedId) {
             this.lastFeedId = feedId;
-            this.feedManager.getSongs(feedId).done(function (songs) {
+            this.feedManager.getSongs(feedId, 50).done(function (songs) {
                 this.isGenerating = false;
 
                 // Сообщим о найденных треках

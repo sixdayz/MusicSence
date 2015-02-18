@@ -9,24 +9,56 @@ App.Managers.FeedManager = Backbone.Model.extend({
         this.set('context_manager', options.context_manager);
     },
 
+    /**
+     * @param query
+     * @param type string artist|album|title|genre
+     * @param lastFeedId
+     * @returns {*}
+     */
     generate: function(query, type, lastFeedId) {
         var deferred = new $.Deferred();
 
+        // Подготовим параметры запроса
+
+        console.log(type);
+        type        = (null === type) ? type : type.toLowerCase();
+        var params  = { type: 'default', last_feed: lastFeedId };
+
+        switch (type) {
+
+            case 'artist':
+            case 'album':
+            case 'genre':
+                params.type = type;
+                params[type] = query;
+                break;
+
+            case 'track':
+                params.type = type;
+                params.title = query;
+                break;
+
+            default:
+                break;
+        }
+
+        // Выполним сам запрос
+
         this.get('context_manager').createContext().done(function(context) {
-            this.get('api_client').post('/musicfeed/generate', {
-                q:          query,
-                type:       type,
-                context:    JSON.stringify(context.toJSON()),
-                last_feed:  lastFeedId
-            }).done(function(response) {
+            params.context = JSON.stringify(context.toJSON());
 
-                if (response.error) {
-                    deferred.reject(response.error);
-                } else {
-                    deferred.resolve(response.result);
-                }
+            this.get('api_client')
+                .post('/musicfeed/generate', params)
+                .done(function(response) {
 
-            });
+                    if (response.error) {
+                        deferred.reject(response.error);
+                    } else {
+                        deferred.resolve(response.result);
+                    }
+
+                })
+            ;
         }.bind(this));
 
         return deferred.promise();
