@@ -15,6 +15,7 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
     initialize: function (options) {
         this.app            = options.app;
         this.soundManager   = this.app.soundManager;
+        this.feedManager    = this.app.feedManager;
         this.currentSound   = null;
         this.model          = new App.Models.Song();
         this.collection.on('reset', this._onCollectionReset, this);
@@ -99,6 +100,14 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
 
     _onSkipBtnClick: function () {
         if (this.collection.length > 0) {
+
+            var position = this.currentSound ? Math.ceil(this.currentSound.position / 1000) : -1;
+            this.feedManager.skip(
+                this.model.get('song_id'),
+                position,
+                this.feedManager.getLastFeedId()
+            );
+
             this.play(this.collection.at(0));
         }
     },

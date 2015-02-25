@@ -4175,6 +4175,12 @@ App.Managers.FeedManager = Backbone.Model.extend({
     initialize: function(options) {
         this.set('api_client', options.api_client);
         this.set('context_manager', options.context_manager);
+        this.ajaxOperation = null;
+        this.lastFeedId = null;
+    },
+
+    getLastFeedId: function () {
+        return this.lastFeedId;
     },
 
     /**
@@ -4186,9 +4192,11 @@ App.Managers.FeedManager = Backbone.Model.extend({
     generate: function(query, type, lastFeedId) {
         var deferred = new $.Deferred();
 
+        // Отменим выполнение предыдущих запросов
+        this.abort();
+
         // Подготовим параметры запроса
 
-        console.log(type);
         type        = (null === type) ? type : type.toLowerCase();
         var params  = { type: 'default', last_feed: lastFeedId };
 
@@ -4215,17 +4223,23 @@ App.Managers.FeedManager = Backbone.Model.extend({
         this.get('context_manager').createContext().done(function(context) {
             params.context = JSON.stringify(context.toJSON());
 
-            this.get('api_client')
+            this.ajaxOperation = this.get('api_client')
                 .post('/musicfeed/generate', params)
+
                 .done(function(response) {
 
                     if (response.error) {
                         deferred.reject(response.error);
                     } else {
+                        this.lastFeedId = response.result;
                         deferred.resolve(response.result);
                     }
 
-                })
+                }.bind(this))
+
+                .always(function () {
+                    this.ajaxOperation = null;
+                }.bind(this))
             ;
         }.bind(this));
 
@@ -4235,14 +4249,33 @@ App.Managers.FeedManager = Backbone.Model.extend({
     getSongs: function(feedId, limit) {
         var deferred = new $.Deferred();
 
-        this.get('api_client')
+        // Отменим выполнение предыдущих запросов
+        this.abort();
+
+        // Запустим получение списка треков
+        this.ajaxOperation = this.get('api_client')
             .post('/musicfeed/' + feedId + '/songs', { limit: limit })
             .done(function(response) {
                 var songs = new App.Collections.Songs(response.items);
                 deferred.resolve(songs);
-            });
+            })
+            .always(function () {
+                this.ajaxOperation = null;
+            }.bind(this))
+        ;
 
         return deferred.promise();
+    },
+
+    /**
+     * Прекращение выполнения любой асинхронной
+     * операции feedManager, выполняющейся в текущий
+     * момент и поддерживающей отмену
+     */
+    abort: function () {
+        if (this.ajaxOperation) {
+            this.ajaxOperation.abort();
+        }
     },
 
     like: function() {
@@ -4253,8 +4286,17 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
     },
 
-    skip: function() {
-
+    skip: function(songId, position, feedId) {
+        this.get('context_manager').createContext().done(function(context) {
+            this.ajaxOperation = this.get('api_client')
+                .post('/musicfeed/skip', {
+                    song_id:    songId,
+                    feed_id:    feedId,
+                    context:    JSON.stringify(context.toJSON()),
+                    position:   position
+                })
+            ;
+        }.bind(this));
     },
 
     played: function() {
@@ -4787,6 +4829,7 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
     initialize: function (options) {
         this.app            = options.app;
         this.soundManager   = this.app.soundManager;
+        this.feedManager    = this.app.feedManager;
         this.currentSound   = null;
         this.model          = new App.Models.Song();
         this.collection.on('reset', this._onCollectionReset, this);
@@ -4871,6 +4914,14 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
 
     _onSkipBtnClick: function () {
         if (this.collection.length > 0) {
+
+            var position = this.currentSound ? Math.ceil(this.currentSound.position / 1000) : -1;
+            this.feedManager.skip(
+                this.model.get('song_id'),
+                position,
+                this.feedManager.getLastFeedId()
+            );
+
             this.play(this.collection.at(0));
         }
     },
@@ -5027,7 +5078,6 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.feedManager        = this.app.feedManager;
         this.isGenerating       = false;
         this.currentPercentage  = 0;
-        this.lastFeedId         = null;
         this.pieTimeout         = null;
     },
 
@@ -5125,17 +5175,19 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
 
         this.$generateBtn.button('loading');
 
-        this.feedManager.generate(this.$searchName.val(), this.$searchType.val(), this.lastFeedId).done(function (feedId) {
-            this.lastFeedId = feedId;
-            this.feedManager.getSongs(feedId, 50).done(function (songs) {
-                this.isGenerating = false;
+        this.feedManager
+            .generate(this.$searchName.val(), this.$searchType.val(), this.feedManager.getLastFeedId())
+            .done(function (feedId) {
+                this.feedManager.getSongs(feedId, 50).done(function (songs) {
+                    this.isGenerating = false;
 
-                // Сообщим о найденных треках
-                this.trigger('generate', songs);
-                this.$generateBtn.button('reset');
+                    // Сообщим о найденных треках
+                    this.trigger('generate', songs);
+                    this.$generateBtn.button('reset');
 
-            }.bind(this));
-        }.bind(this));
+                }.bind(this));
+            }.bind(this))
+        ;
     },
 
     _startPieProgress: function (timeout, percentLeft) {

@@ -8,6 +8,11 @@ App.Managers.FeedManager = Backbone.Model.extend({
         this.set('api_client', options.api_client);
         this.set('context_manager', options.context_manager);
         this.ajaxOperation = null;
+        this.lastFeedId = null;
+    },
+
+    getLastFeedId: function () {
+        return this.lastFeedId;
     },
 
     /**
@@ -52,15 +57,18 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
             this.ajaxOperation = this.get('api_client')
                 .post('/musicfeed/generate', params)
+
                 .done(function(response) {
 
                     if (response.error) {
                         deferred.reject(response.error);
                     } else {
+                        this.lastFeedId = response.result;
                         deferred.resolve(response.result);
                     }
 
-                })
+                }.bind(this))
+
                 .always(function () {
                     this.ajaxOperation = null;
                 }.bind(this))
@@ -110,8 +118,17 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
     },
 
-    skip: function() {
-
+    skip: function(songId, position, feedId) {
+        this.get('context_manager').createContext().done(function(context) {
+            this.ajaxOperation = this.get('api_client')
+                .post('/musicfeed/skip', {
+                    song_id:    songId,
+                    feed_id:    feedId,
+                    context:    JSON.stringify(context.toJSON()),
+                    position:   position
+                })
+            ;
+        }.bind(this));
     },
 
     played: function() {

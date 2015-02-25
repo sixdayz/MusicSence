@@ -18,7 +18,6 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.feedManager        = this.app.feedManager;
         this.isGenerating       = false;
         this.currentPercentage  = 0;
-        this.lastFeedId         = null;
         this.pieTimeout         = null;
     },
 
@@ -116,17 +115,19 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
 
         this.$generateBtn.button('loading');
 
-        this.feedManager.generate(this.$searchName.val(), this.$searchType.val(), this.lastFeedId).done(function (feedId) {
-            this.lastFeedId = feedId;
-            this.feedManager.getSongs(feedId, 50).done(function (songs) {
-                this.isGenerating = false;
+        this.feedManager
+            .generate(this.$searchName.val(), this.$searchType.val(), this.feedManager.getLastFeedId())
+            .done(function (feedId) {
+                this.feedManager.getSongs(feedId, 50).done(function (songs) {
+                    this.isGenerating = false;
 
-                // Сообщим о найденных треках
-                this.trigger('generate', songs);
-                this.$generateBtn.button('reset');
+                    // Сообщим о найденных треках
+                    this.trigger('generate', songs);
+                    this.$generateBtn.button('reset');
 
-            }.bind(this));
-        }.bind(this));
+                }.bind(this));
+            }.bind(this))
+        ;
     },
 
     _startPieProgress: function (timeout, percentLeft) {
