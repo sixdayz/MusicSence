@@ -65,7 +65,7 @@ this["jst"]["app/templates/player/player/layout.hbs"] = Handlebars.template({"co
 
 this["jst"]["app/templates/player/playlist/item.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<a class=\"pull-left\" href=\"#\" data-role=\"btn\"><img src=\"/assets/images/icon-list.png\" alt=\"icon\"></a><div class=\"media-body text-left\"><h5 class=\"media-heading \">"
+  return "<a class=\"pull-left\" href=\"#\" data-role=\"btn\"><img src=\"/assets/images/icon-list.png\" alt=\"icon\" width=\"30\" height=\"30\" data-role=\"icon\" /></a><div class=\"media-body text-left\"><h5 class=\"media-heading \">"
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "</h5><p>"
     + escapeExpression(((helper = (helper = helpers.artist || (depth0 != null ? depth0.artist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"artist","hash":{},"data":data}) : helper)))
@@ -4022,6 +4022,7 @@ App.Managers.ContextManager = Backbone.Model.extend({
             type: 'GET',
             dataType: 'jsonp'
         }).done(function(data) {
+
             context.set('ip', data.ip);
 
             if (navigator.geolocation) {
@@ -5136,6 +5137,11 @@ App.Views.Player.Playlist.Item = Backbone.View.extend({
 
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
+
+        if (this.model.get('lastfm_small_artist_image')) {
+            this.$('[data-role=icon]').attr('src', this.model.get('lastfm_small_artist_image'));
+        }
+
         this.delegateEvents();
         return this;
     },
@@ -5159,11 +5165,11 @@ App.Views.Player.Playlist.Layout = Backbone.View.extend({
     render: function() {
         this.$el.empty();
 
-        this.collection.slice(0, 5).forEach(function (model) {
+        this.collection.each(function (model) {
             var itemView = new App.Views.Player.Playlist.Item({ model: model });
             itemView.on('select', this._onItemSelect, this);
             this.$el.append(itemView.render().$el);
-        }.bind(this));
+        }, this);
 
         this.delegateEvents();
         return this;
