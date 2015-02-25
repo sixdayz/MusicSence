@@ -4123,7 +4123,7 @@ App.Managers.FavoritesManager = Backbone.Model.extend({
                 switch (response.error) {
 
                     case 'limit-exceeded':
-                        deferred.reject('Run out of slots for favorites');
+                        deferred.reject('Free slots for favorites is ended');
                         break;
 
                     case 'already-favorite':
@@ -4857,7 +4857,8 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         'click [data-role=play-btn]':       '_onPlayBtnClick',
         'click [data-role=skip-btn]':       '_onSkipBtnClick',
         'click [data-role=like-btn]':       '_onLikeBtnClick',
-        'click [data-role=dislike-btn]':    '_onDisikeBtnClick'
+        'click [data-role=dislike-btn]':    '_onDisikeBtnClick',
+        'click [data-role=favorite-btn]':   '_onFavoriteBtnClick',
     },
 
     initialize: function (options) {
@@ -4886,6 +4887,19 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         this.delegateEvents();
 
         return this;
+    },
+
+    _onFavoriteBtnClick: function (event) {
+        event.preventDefault();
+
+        if (this.model.get('song_id')) {
+            this.favoritesManager
+                .add(this.model)
+                .fail(function (message) {
+                    alert(message);
+                })
+            ;
+        }
     },
 
     _onLikeBtnClick: function (event) {

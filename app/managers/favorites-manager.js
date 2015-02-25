@@ -37,7 +37,7 @@ App.Managers.FavoritesManager = Backbone.Model.extend({
                 switch (response.error) {
 
                     case 'limit-exceeded':
-                        deferred.reject('Run out of slots for favorites');
+                        deferred.reject('Free slots for favorites is ended');
                         break;
 
                     case 'already-favorite':
