@@ -13,10 +13,10 @@
     "handlebars": "~2.0.0",
     "jquery": "~2.1.3",
     "momentjs": "~2.8.2",
-    "soundmanager": "*",
     "backbone.stickit": "~0.8.0",
     "bootstrap": "~3.3.2",
     "typeahead.js": "~0.10.5",
-    "underscore.string": "~3.0.3"
+    "underscore.string": "~3.0.3",
+    "soundmanager2": "*"
   }
 }

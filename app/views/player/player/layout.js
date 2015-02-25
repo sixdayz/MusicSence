@@ -143,8 +143,8 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         // Создадим трек
         this.currentSound = this.soundManager.createSound({
             url: '/api/music/stream/' + song.get('sound_track_id'),
-            autoPlay: true,
-            autoLoad: true,
+            autoPlay: false,
+            autoLoad: false,
             onplay: this._onPlay.bind(this),
             onpause: this._onPause.bind(this),
             onresume: this._onResume.bind(this),
@@ -154,6 +154,9 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
                 alert('Internet connection error :(');
             }
         });
+
+        this.currentSound.load();
+        this.currentSound.play();
 
         // Удалим трек из коллекции
         this.collection.remove(song);

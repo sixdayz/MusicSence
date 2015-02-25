@@ -111,7 +111,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
 
         this._resetPieProgress();
         this.isGenerating       = true;
-        this._startPieProgress(70, 100);
+        this._startPieProgress(100, 100);
 
         this.$generateBtn.button('loading');
 

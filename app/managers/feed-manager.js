@@ -125,7 +125,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
     like: function(songId, position, feedId) {
         this.get('context_manager').createContext().done(function(context) {
-            this.ajaxOperation = this.get('api_client')
+            this.get('api_client')
                 .post('/musicfeed/like', {
                     song_id:    songId,
                     feed_id:    feedId,
@@ -138,7 +138,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
     dislike: function(songId, position, feedId) {
         this.get('context_manager').createContext().done(function(context) {
-            this.ajaxOperation = this.get('api_client')
+            this.get('api_client')
                 .post('/musicfeed/dislike', {
                     song_id:    songId,
                     feed_id:    feedId,
@@ -151,7 +151,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
     skip: function(songId, position, feedId) {
         this.get('context_manager').createContext().done(function(context) {
-            this.ajaxOperation = this.get('api_client')
+            this.get('api_client')
                 .post('/musicfeed/skip', {
                     song_id:    songId,
                     feed_id:    feedId,
@@ -164,7 +164,7 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
     played: function(songId, position, feedId) {
         this.get('context_manager').createContext().done(function(context) {
-            this.ajaxOperation = this.get('api_client')
+            this.get('api_client')
                 .post('/musicfeed/played', {
                     song_id:    songId,
                     feed_id:    feedId,
