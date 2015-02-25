@@ -131,8 +131,17 @@ App.Managers.FeedManager = Backbone.Model.extend({
         }.bind(this));
     },
 
-    played: function() {
-
+    played: function(songId, position, feedId) {
+        this.get('context_manager').createContext().done(function(context) {
+            this.ajaxOperation = this.get('api_client')
+                .post('/musicfeed/played', {
+                    song_id:    songId,
+                    feed_id:    feedId,
+                    context:    JSON.stringify(context.toJSON()),
+                    position:   position
+                })
+            ;
+        }.bind(this));
     }
 
 });

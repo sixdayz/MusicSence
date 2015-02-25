@@ -70,6 +70,14 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         // Если что-то воспроизводится сейчас
         // остановим это и удалим
         if (this.currentSound) {
+
+            // Залогируем, что прервали предыдущий трек
+            this.feedManager.skip(
+                this.model.get('song_id'),
+                Math.ceil(+this.currentSound.position / 1000),
+                this.feedManager.getLastFeedId()
+            );
+
             this.currentSound.stop();
             this.currentSound.destruct();
             this.currentSound = null;
@@ -101,7 +109,7 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
     _onSkipBtnClick: function () {
         if (this.collection.length > 0) {
 
-            var position = this.currentSound ? Math.ceil(this.currentSound.position / 1000) : -1;
+            var position = this.currentSound ? Math.ceil(+this.currentSound.position / 1000) : -1;
             this.feedManager.skip(
                 this.model.get('song_id'),
                 position,
@@ -114,15 +122,32 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
 
     _onPlaying: function () {
 
+        var trackPosition = Math.floor(+this.currentSound.position / 1000);
+        var trackDuration = Math.floor(+this.currentSound.duration / 1000);
+
+        if (true !== this.model.get('is_logged')) {
+
+            // Логировать "прослушивание" только если прослушано больше половины
+            // или более 4 минут трека
+
+            if (trackPosition > (trackDuration * 0.5) || trackPosition > 240) {
+                this.model.set('is_logged', true);
+                this.feedManager.played(
+                    this.model.get('song_id'),
+                    trackPosition,
+                    this.feedManager.getLastFeedId()
+                );
+            }
+        }
+
         // Изменим положение слайдера
         // без генерации события
 
-        this.$slider.slider('setValue', Math.floor(+this.currentSound.position / 1000), false);
+        this.$slider.slider('setValue', trackPosition, false);
 
         // Установим текущее положение в минутах
         // для проигрываемого трека
 
-        var trackPosition   = Math.floor(this.currentSound.position / 1000);
         var trackMinute     = Math.floor(trackPosition / 60);
         var trackSecond     = trackPosition - (trackMinute * 60);
         this.$startTimeLabel.html(_.string.sprintf('%s:%s', trackMinute, _.string.lpad(trackSecond, 2, '0')));
