@@ -15,11 +15,12 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
     },
 
     initialize: function (options) {
-        this.app            = options.app;
-        this.soundManager   = this.app.soundManager;
-        this.feedManager    = this.app.feedManager;
-        this.currentSound   = null;
-        this.model          = new App.Models.Song();
+        this.app                = options.app;
+        this.soundManager       = this.app.soundManager;
+        this.feedManager        = this.app.feedManager;
+        this.favoritesManager   = this.app.favoritesManager;
+        this.currentSound       = null;
+        this.model              = new App.Models.Song();
         this.collection.on('reset', this._onCollectionReset, this);
     },
 
