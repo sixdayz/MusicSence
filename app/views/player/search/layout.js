@@ -118,7 +118,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.feedManager
             .generate(this.$searchName.val(), this.$searchType.val(), this.feedManager.getLastFeedId())
             .done(function (feedId) {
-                this.feedManager.getSongs(feedId, 50).done(function (songs) {
+                this.feedManager.getSongs(feedId).done(function (songs) {
                     this.isGenerating = false;
 
                     // Сообщим о найденных треках

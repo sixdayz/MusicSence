@@ -86,11 +86,24 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
         // Запустим получение списка треков
         this.ajaxOperation = this.get('api_client')
-            .post('/musicfeed/' + feedId + '/songs', { limit: limit })
+            .post('/musicfeed/' + feedId + '/songs', { limit: 1 })
             .done(function(response) {
-                var songs = new App.Collections.Songs(response.items);
-                deferred.resolve(songs);
-            })
+
+                // Повторный вызов но уже для получения полного списка
+                this.ajaxOperation = this.get('api_client')
+                    .post('/musicfeed/' + feedId + '/songs', { limit: response.totalCount })
+                    .done(function(response) {
+
+                        var songs = new App.Collections.Songs(response.items);
+                        deferred.resolve(songs);
+
+                    }.bind(this))
+                    .always(function () {
+                        this.ajaxOperation = null;
+                    }.bind(this))
+                ;
+
+            }.bind(this))
             .always(function () {
                 this.ajaxOperation = null;
             }.bind(this))

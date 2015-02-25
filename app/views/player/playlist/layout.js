@@ -14,11 +14,11 @@ App.Views.Player.Playlist.Layout = Backbone.View.extend({
     render: function() {
         this.$el.empty();
 
-        this.collection.each(function (model) {
+        this.collection.slice(0, 5).forEach(function (model) {
             var itemView = new App.Views.Player.Playlist.Item({ model: model });
             itemView.on('select', this._onItemSelect, this);
             this.$el.append(itemView.render().$el);
-        }, this);
+        }.bind(this));
 
         this.delegateEvents();
         return this;

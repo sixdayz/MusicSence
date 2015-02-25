@@ -4254,11 +4254,24 @@ App.Managers.FeedManager = Backbone.Model.extend({
 
         // Запустим получение списка треков
         this.ajaxOperation = this.get('api_client')
-            .post('/musicfeed/' + feedId + '/songs', { limit: limit })
+            .post('/musicfeed/' + feedId + '/songs', { limit: 1 })
             .done(function(response) {
-                var songs = new App.Collections.Songs(response.items);
-                deferred.resolve(songs);
-            })
+
+                // Повторный вызов но уже для получения полного списка
+                this.ajaxOperation = this.get('api_client')
+                    .post('/musicfeed/' + feedId + '/songs', { limit: response.totalCount })
+                    .done(function(response) {
+
+                        var songs = new App.Collections.Songs(response.items);
+                        deferred.resolve(songs);
+
+                    }.bind(this))
+                    .always(function () {
+                        this.ajaxOperation = null;
+                    }.bind(this))
+                ;
+
+            }.bind(this))
             .always(function () {
                 this.ajaxOperation = null;
             }.bind(this))
@@ -5182,11 +5195,11 @@ App.Views.Player.Playlist.Layout = Backbone.View.extend({
     render: function() {
         this.$el.empty();
 
-        this.collection.each(function (model) {
+        this.collection.slice(0, 5).forEach(function (model) {
             var itemView = new App.Views.Player.Playlist.Item({ model: model });
             itemView.on('select', this._onItemSelect, this);
             this.$el.append(itemView.render().$el);
-        }, this);
+        }.bind(this));
 
         this.delegateEvents();
         return this;
@@ -5315,7 +5328,7 @@ App.Views.Player.Search.Layout = Backbone.View.extend({
         this.feedManager
             .generate(this.$searchName.val(), this.$searchType.val(), this.feedManager.getLastFeedId())
             .done(function (feedId) {
-                this.feedManager.getSongs(feedId, 50).done(function (songs) {
+                this.feedManager.getSongs(feedId).done(function (songs) {
                     this.isGenerating = false;
 
                     // Сообщим о найденных треках
