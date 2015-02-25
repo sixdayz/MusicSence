@@ -110,12 +110,30 @@ App.Managers.FeedManager = Backbone.Model.extend({
         }
     },
 
-    like: function() {
-
+    like: function(songId, position, feedId) {
+        this.get('context_manager').createContext().done(function(context) {
+            this.ajaxOperation = this.get('api_client')
+                .post('/musicfeed/like', {
+                    song_id:    songId,
+                    feed_id:    feedId,
+                    context:    JSON.stringify(context.toJSON()),
+                    position:   position
+                })
+            ;
+        }.bind(this));
     },
 
-    dislike: function() {
-
+    dislike: function(songId, position, feedId) {
+        this.get('context_manager').createContext().done(function(context) {
+            this.ajaxOperation = this.get('api_client')
+                .post('/musicfeed/dislike', {
+                    song_id:    songId,
+                    feed_id:    feedId,
+                    context:    JSON.stringify(context.toJSON()),
+                    position:   position
+                })
+            ;
+        }.bind(this));
     },
 
     skip: function(songId, position, feedId) {

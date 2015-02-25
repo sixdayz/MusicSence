@@ -8,8 +8,10 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
     template: jst['app/templates/player/player/layout.hbs'],
 
     events: {
-        'click [data-role=play-btn]': '_onPlayBtnClick',
-        'click [data-role=skip-btn]': '_onSkipBtnClick'
+        'click [data-role=play-btn]':       '_onPlayBtnClick',
+        'click [data-role=skip-btn]':       '_onSkipBtnClick',
+        'click [data-role=like-btn]':       '_onLikeBtnClick',
+        'click [data-role=dislike-btn]':    '_onDisikeBtnClick'
     },
 
     initialize: function (options) {
@@ -29,6 +31,7 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         this.$startTimeLabel    = this.$('[data-role=start-time-label]').html('0');
         this.$cover             = this.$('[data-role=cover]').attr('src', this.model.get('lastfm_small_album_image'));
         this.$playBtn           = this.$('[data-role=play-btn]');
+        this.$likeBtnsContainer = this.$('[data-role=like-btns-container]');
 
         this.$slider.slider({ max : 100, min : 0, tooltip : 'hide' });
         this.$slider.on('slideStop', this._onSliderPositionChange.bind(this));
@@ -36,6 +39,34 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         this.delegateEvents();
 
         return this;
+    },
+
+    _onLikeBtnClick: function (event) {
+        event.preventDefault();
+        this.$likeBtnsContainer.hide();
+
+        if (this.model.get('song_id')) {
+            var position = this.currentSound ? Math.ceil(+this.currentSound.position / 1000) : -1;
+            this.feedManager.like(
+                this.model.get('song_id'),
+                position,
+                this.feedManager.getLastFeedId()
+            );
+        }
+    },
+
+    _onDisikeBtnClick: function (event) {
+        event.preventDefault();
+        this.$likeBtnsContainer.hide();
+
+        if (this.model.get('song_id')) {
+            var position = this.currentSound ? Math.ceil(+this.currentSound.position / 1000) : -1;
+            this.feedManager.dislike(
+                this.model.get('song_id'),
+                position,
+                this.feedManager.getLastFeedId()
+            );
+        }
     },
 
     _onSliderPositionChange: function (event) {
@@ -51,7 +82,9 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
             .addClass('fa-' + state);
     },
 
-    _onPlayBtnClick: function () {
+    _onPlayBtnClick: function (event) {
+        event.preventDefault();
+
         if (this.currentSound) {
             if (this.currentSound.paused) {
                 this.currentSound.resume();
@@ -106,7 +139,9 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         this.collection.remove(song);
     },
 
-    _onSkipBtnClick: function () {
+    _onSkipBtnClick: function (event) {
+        event.preventDefault();
+
         if (this.collection.length > 0) {
 
             var position = this.currentSound ? Math.ceil(+this.currentSound.position / 1000) : -1;
