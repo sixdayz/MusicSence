@@ -13,6 +13,7 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.playlistSongs = new App.Collections.Songs();
 
         this.playerView = new App.Views.Player.Player.Layout({ app: this.app, collection: this.playlistSongs });
+        this.playerView.on('add:favorite', this._onAddFavorite, this);
 
         this.searchView = new App.Views.Player.Search.Layout({ app: this.app });
         this.searchView.on('generate', this._onGenerateFeed, this);
@@ -34,6 +35,13 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.$('[data-role=favorites]').html(this.favoritesView.render().$el);
 
         return this;
+    },
+
+    // Когда трек добавился в избранное в API,
+    // вручную добавим его в список избранного,
+    // чтобы не делать лишних запросов на сервер
+    _onAddFavorite: function (song) {
+        this.favoritesView.collection.add(song);
     },
 
     _onGenerateFeed: function (songs) {

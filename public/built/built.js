@@ -47,7 +47,7 @@ this["jst"]["app/templates/player/favorites/item.hbs"] = Handlebars.template({"c
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "</h5><p>"
     + escapeExpression(((helper = (helper = helpers.artist || (depth0 != null ? depth0.artist : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"artist","hash":{},"data":data}) : helper)))
-    + "</p></figcaption></figure>";
+    + "</p><p><a href=\"#\" data-role=\"remove-btn\">remove</a></p></figcaption></figure>";
 },"useData":true});
 
 this["jst"]["app/templates/player/layout.hbs"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -4139,13 +4139,8 @@ App.Managers.FavoritesManager = Backbone.Model.extend({
                         break;
 
                     default:
-                        deferred.reject(response.error);
+                        deferred.resolve();
                         break;
-                }
-                if (response.error) {
-
-                } else {
-                    deferred.resolve();
                 }
             }
         );
@@ -4729,7 +4724,8 @@ App.Views.Player.Favorites.Item = Backbone.View.extend({
     template: jst['app/templates/player/favorites/item.hbs'],
 
     events: {
-        'click': '_onClick'
+        'click': '_onClick',
+        'click [data-role=remove-btn]': '_onRemoveBtnClick'
     },
 
     render: function() {
@@ -4740,6 +4736,12 @@ App.Views.Player.Favorites.Item = Backbone.View.extend({
 
     _onClick: function () {
         this.trigger('select', this.model);
+    },
+
+    _onRemoveBtnClick: function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.trigger('click:remove', this.model);
     }
 });;
 /** @namespace App.Views.Player.Favorites */
@@ -4751,7 +4753,7 @@ App.Views.Player.Favorites.Layout = Backbone.View.extend({
 
     initialize: function (options) {
         this.collection = new App.Collections.Songs();
-        this.collection.on('reset remove', this.render, this);
+        this.collection.on('add reset remove', this.render, this);
         this.manager    = options.manager;
         this._loadFavorites();
     },
@@ -4768,6 +4770,7 @@ App.Views.Player.Favorites.Layout = Backbone.View.extend({
         this.collection.each(function (songModel) {
             var songView = new App.Views.Player.Favorites.Item({ model: songModel });
             songView.on('select', this._onItemSelect, this);
+            songView.on('click:remove', this._onItemRemoveClick, this);
             this.$el.append(songView.render().$el);
         }, this);
 
@@ -4777,6 +4780,20 @@ App.Views.Player.Favorites.Layout = Backbone.View.extend({
 
     _onItemSelect: function (song) {
         this.trigger('select:song', song);
+    },
+
+    _onItemRemoveClick: function (song) {
+        this.manager
+            .remove(song)
+
+            .done(function () {
+                this.collection.remove(song);
+            }.bind(this))
+
+            .fail(function () {
+                alert('When you remove the error occurred. Please try again later');
+            })
+        ;
     }
 });;
 /** @namespace App.Views.Player */
@@ -4793,6 +4810,7 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.playlistSongs = new App.Collections.Songs();
 
         this.playerView = new App.Views.Player.Player.Layout({ app: this.app, collection: this.playlistSongs });
+        this.playerView.on('add:favorite', this._onAddFavorite, this);
 
         this.searchView = new App.Views.Player.Search.Layout({ app: this.app });
         this.searchView.on('generate', this._onGenerateFeed, this);
@@ -4814,6 +4832,13 @@ App.Views.Player.Layout = Backbone.View.extend({
         this.$('[data-role=favorites]').html(this.favoritesView.render().$el);
 
         return this;
+    },
+
+    // Когда трек добавился в избранное в API,
+    // вручную добавим его в список избранного,
+    // чтобы не делать лишних запросов на сервер
+    _onAddFavorite: function (song) {
+        this.favoritesView.collection.add(song);
     },
 
     _onGenerateFeed: function (songs) {
@@ -4895,6 +4920,11 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         if (this.model.get('song_id')) {
             this.favoritesManager
                 .add(this.model)
+
+                .done(function () {
+                    this.trigger('add:favorite', this.model);
+                }.bind(this))
+
                 .fail(function (message) {
                     alert(message);
                 })

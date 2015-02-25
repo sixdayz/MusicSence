@@ -53,13 +53,8 @@ App.Managers.FavoritesManager = Backbone.Model.extend({
                         break;
 
                     default:
-                        deferred.reject(response.error);
+                        deferred.resolve();
                         break;
-                }
-                if (response.error) {
-
-                } else {
-                    deferred.resolve();
                 }
             }
         );

@@ -8,7 +8,7 @@ App.Views.Player.Favorites.Layout = Backbone.View.extend({
 
     initialize: function (options) {
         this.collection = new App.Collections.Songs();
-        this.collection.on('reset remove', this.render, this);
+        this.collection.on('add reset remove', this.render, this);
         this.manager    = options.manager;
         this._loadFavorites();
     },
@@ -25,6 +25,7 @@ App.Views.Player.Favorites.Layout = Backbone.View.extend({
         this.collection.each(function (songModel) {
             var songView = new App.Views.Player.Favorites.Item({ model: songModel });
             songView.on('select', this._onItemSelect, this);
+            songView.on('click:remove', this._onItemRemoveClick, this);
             this.$el.append(songView.render().$el);
         }, this);
 
@@ -34,5 +35,19 @@ App.Views.Player.Favorites.Layout = Backbone.View.extend({
 
     _onItemSelect: function (song) {
         this.trigger('select:song', song);
+    },
+
+    _onItemRemoveClick: function (song) {
+        this.manager
+            .remove(song)
+
+            .done(function () {
+                this.collection.remove(song);
+            }.bind(this))
+
+            .fail(function () {
+                alert('When you remove the error occurred. Please try again later');
+            })
+        ;
     }
 });

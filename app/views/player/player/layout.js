@@ -49,6 +49,11 @@ App.Views.Player.Player.Layout = Backbone.View.extend({
         if (this.model.get('song_id')) {
             this.favoritesManager
                 .add(this.model)
+
+                .done(function () {
+                    this.trigger('add:favorite', this.model);
+                }.bind(this))
+
                 .fail(function (message) {
                     alert(message);
                 })
