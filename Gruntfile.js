@@ -28,7 +28,7 @@ module.exports = function(grunt) {
                     'bower_components/underscore.string/dist/underscore.string.min.js',
                     'bower_components/backbone/backbone.js',
                     'bower_components/momentjs/min/moment.min.js',
-                    'bower_components/soundmanager2/script/soundmanager2.js',
+                    'bower_components/soundmanager2/script/soundmanager2-nodebug-jsmin.js',
                     'bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'bower_components/backbone.stickit/backbone.stickit.js',
                     'bower_components/typeahead.js/dist/bloodhound.min.js',
