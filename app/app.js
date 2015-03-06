@@ -12,7 +12,13 @@ App.Application = Backbone.View.extend({
         this.userManager        = new App.Managers.UserManager({ api_client: this.apiClient });
         this.favoritesManager   = new App.Managers.FavoritesManager({ api_client: this.apiClient });
         this.soundManager       = soundManager;
-        this.soundManager.setup();
+        this.soundManager.setup({
+            debugMode: true,
+            preferFlash: true,
+            flashVersion: 9,
+            consoleOnly: true,
+            url: '/swf/'
+        });
 
         this.contextManager = new App.Managers.ContextManager();
         this.feedManager    = new App.Managers.FeedManager({
